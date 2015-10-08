@@ -9,18 +9,22 @@ public class Sigmoid extends ActivationFunction {
 	//Default Constructor
 	public Sigmoid() {
 		
+		super(
+				x -> 1 / (1 + Math.exp(x)),
+				x -> x * (1-x)
+		);
 		this.lambda = 1.;
-		this.activationFunction = x -> 1 / (1 + Math.exp(x)) ;
-		this.derivativeFunction = x -> lambda * x * (1-x) ;
 		
 	}
 	
 	//Custom Constructor : you can use any value for lambda
 	public Sigmoid(Double lambda) {
 		
+		super(
+				x -> 1 / (1 + Math.exp(-lambda*x)),
+				x -> lambda * x * (1-x)
+		);
 		this.lambda = lambda;
-		this.activationFunction = x -> 1 / (1 + Math.exp(-lambda*x)) ;
-		this.derivativeFunction = x -> lambda * x * (1-x) ;
 		
 	}
 
