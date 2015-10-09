@@ -1,10 +1,21 @@
 import java.util.function.UnaryOperator;
 
-public abstract class ActivationFunction {
+public class ActivationFunction {
 	
 	/* Attributes */
 	UnaryOperator <Double> activationFunction;
 	UnaryOperator <Double> derivativeFunction;
+	
+	
+	/* Constructors */
+	//Allows the creation of any kind of activation function
+	public ActivationFunction
+	(UnaryOperator <Double> activationFunction, UnaryOperator <Double> derivativeFunction) {
+		
+		this.activationFunction = activationFunction;
+		this.derivativeFunction = derivativeFunction;
+		
+	}
 	
 	
 	/* Methods */
