@@ -20,18 +20,6 @@ public class Test {
 		/*ActivationFunction f = new ActivationFunction(x->x*x, x->2*x);
 		System.out.println(f.apply(3.));
 		System.out.println(f.applyDerivative(3.));*/
-		
-		
-		/* Test Analytics */
-		Analytics test = new Analytics("C:\\Users\\Fabien\\Desktop\\","essai","csv");
-		LinkedList<Double> d = new LinkedList<Double>();
-		
-		for(int i=0; i<11; i++){
-			d.add((double)i);
-		};
-		
-		test.newLine("bite", d);
-		test.close();
 
 	}
 
