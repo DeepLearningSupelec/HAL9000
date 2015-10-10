@@ -8,11 +8,11 @@ public abstract class AbstractNeuron {
 	
 	private double neuronDiff;
 	
-	private ActivationFunction activationFunction;
+	protected ActivationFunction activationFunction;
 	
-	private ArrayList<Synapse> inputSynapses;
+	protected ArrayList<Synapse> inputSynapses;
 
-	private ArrayList<Synapse> outputSynapses;
+	protected ArrayList<Synapse> outputSynapses;
 	
 	
 	//Constructor

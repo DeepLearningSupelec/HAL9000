@@ -40,7 +40,13 @@ public class IntermediateNeuron extends AbstractNeuron {
 
 	@Override
 	public void fire() {
-		// TODO Auto-generated method stub
+		/*double scalarProduct = -this.bias;
+		for (int i = 0; i < this.inputSynapses.size(); i++) {
+			Synapse s = this.inputSynapses.get(i);
+			s.getInputNeuron().fire();
+			scalarProduct += s.getWeight() * s.getInputNeuron().getOutput();
+			
+		}*/
 		
 	}
 
