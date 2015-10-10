@@ -13,15 +13,15 @@ public class OutputNeuron extends AbstractNeuron {
 	
 	//Constructor
 	
-	public void OutputNeuron(){
-		super.AbstractNeuron();
+	public OutputNeuron(){
+		super();
 		this.bias = 0.1;
 		this.biasDiff = 0;
 		
 	}
 	
-	public void OutputNeuron(ActivationFunction f){
-		super.AbstractNeuron(f);
+	public OutputNeuron(ActivationFunction f){
+		super(f);
 		this.bias = 0.1;
 		this.biasDiff = 0;
 	}

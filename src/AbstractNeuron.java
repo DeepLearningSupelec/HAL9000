@@ -17,7 +17,7 @@ public abstract class AbstractNeuron {
 	
 	//Constructor
 	
-	public void AbstractNeuron(){
+	public AbstractNeuron(){
 		this.output = 0;
 		this.neuronDiff = 0;
 		this.inputSynapses = new ArrayList<Synapse>();
@@ -32,7 +32,7 @@ public abstract class AbstractNeuron {
 		 */
 	}
 	
-	public void AbstractNeuron(ActivationFunction f){
+	public AbstractNeuron(ActivationFunction f){
 		this.output = 0;
 		this.neuronDiff = 0;
 		this.inputSynapses = new ArrayList<Synapse>();

@@ -9,8 +9,8 @@ public class InputNeuron extends AbstractNeuron {
 	
 	
 	//Constructor
-	public void InputNeuron(){
-		super.AbstractNeuron();
+	public InputNeuron(){
+		super();
 		this.input = 0;
 	}
 	

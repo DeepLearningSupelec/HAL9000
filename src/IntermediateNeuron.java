@@ -12,15 +12,15 @@ public class IntermediateNeuron extends AbstractNeuron {
 	
 	//Constructor
 	
-	public void IntermediateNeuron(){
-		super.AbstractNeuron();
+	public IntermediateNeuron(){
+		super();
 		this.bias = 0.1;
 		this.biasDiff = 0;
 		
 	}
 	
-	public void IntermediateNeuron(ActivationFunction f){
-		super.AbstractNeuron(f);
+	public IntermediateNeuron(ActivationFunction f){
+		super(f);
 		this.bias = 0.1;
 		this.biasDiff = 0;
 	}
