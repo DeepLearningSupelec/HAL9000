@@ -14,6 +14,7 @@ public abstract class AbstractNeuron {
 
 	protected ArrayList<Synapse> outputSynapses;
 	
+	protected boolean fired;
 	
 	//Constructor
 	
@@ -23,6 +24,7 @@ public abstract class AbstractNeuron {
 		this.inputSynapses = new ArrayList<Synapse>();
 		this.outputSynapses = new ArrayList<Synapse>();
 		this.activationFunction = Sigmoid.getINSTANCE();
+		this.fired = false;
 	}
 	
 	public AbstractNeuron(ActivationFunction f){
@@ -31,6 +33,7 @@ public abstract class AbstractNeuron {
 		this.inputSynapses = new ArrayList<Synapse>();
 		this.outputSynapses = new ArrayList<Synapse>();
 		this.activationFunction = f;
+		this.fired = false;
 	}
 	
 	
