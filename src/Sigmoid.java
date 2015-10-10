@@ -8,24 +8,22 @@ public class Sigmoid extends ActivationFunction {
 	
 	//Default Constructor
 	public Sigmoid() {
-		
-		super(
-				x -> 1 / (1 + Math.exp(x)),
-				x -> x * (1-x)
-		);
 		this.lambda = 1.;
-		
 	}
 	
 	//Custom Constructor : you can use any value for lambda
 	public Sigmoid(Double lambda) {
-		
-		super(
-				x -> 1 / (1 + Math.exp(-lambda*x)),
-				x -> lambda * x * (1-x)
-		);
 		this.lambda = lambda;
-		
+	}
+
+	@Override
+	public Double apply(Double x) {
+		return 1/(1+Math.exp(lambda*x));
+	}
+
+	@Override
+	public Double applyDerivative(Double x) {
+		return lambda*x*(1-x);
 	}
 
 }
