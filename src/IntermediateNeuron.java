@@ -4,21 +4,31 @@ public class IntermediateNeuron extends AbstractNeuron {
 	//Attributes
 	
 	private double bias;
+	
 	private double biasDiff;
 	
-	private Synapse[] inputSynapses;
-	private Synapse[] outputSynapses;
+	
+	
+	
+	//Constructor
+	
+	public void IntermediateNeuron(){
+		super.AbstractNeuron();
+		this.bias = 0.1;
+		this.biasDiff = 0;
+		
+	}
+	
+	public void IntermediateNeuron(ActivationFunction f){
+		super.AbstractNeuron(f);
+		this.bias = 0.1;
+		this.biasDiff = 0;
+	}
+	
+	
 	
 	
 	//Methods
-	
-	public Synapse[] getInputSynapses(){
-		return this.inputSynapses.clone();
-	}
-	
-	public Synapse[] getOutputSynapses(){
-		return this.outputSynapses.clone();
-	}
 	
 	public void setBias(double x){
 		this.bias = x;
@@ -34,27 +44,5 @@ public class IntermediateNeuron extends AbstractNeuron {
 		
 	}
 
-	@Override
-	public void getOutput() {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void setNeuronDiff() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public double getNeuronDiff() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public ActivationFunction getActivationFunction() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

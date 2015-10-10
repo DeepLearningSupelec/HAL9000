@@ -1,9 +1,28 @@
+import java.util.ArrayList;
 
 public class InputNeuron extends AbstractNeuron {
 
 	//Attributes
 	
 	private double input;
+	
+	
+	
+	//Constructor
+	public void InputNeuron(){
+		super.AbstractNeuron();
+		this.input = 0;
+	}
+	
+	/*
+	public void InputNeuron(ActivationFunction f){
+		super.AbstractNeuron(f);
+		this.input = 0;
+	}
+	
+	Pas utile par déf d'un InputNeuron ?
+	*/
+	
 	
 	//Methods
 	
@@ -13,32 +32,9 @@ public class InputNeuron extends AbstractNeuron {
 
 	@Override
 	public void fire() {
-		// TODO Auto-generated method stub
-		
+		this.output = this.input;
 	}
 
-	@Override
-	public void getOutput() {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void setNeuronDiff() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public double getNeuronDiff() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public ActivationFunction getActivationFunction() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 }
