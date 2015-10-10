@@ -33,7 +33,9 @@ public class Analytics {
 		
 		
 		java.util.ListIterator<Double> iter = data.listIterator();
-		
+		while(iter.hasNext()) {
+			this.file.write(iter.next() + ";");
+		}
 		
 		this.file.write("\n");
 		

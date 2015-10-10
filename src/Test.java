@@ -1,8 +1,8 @@
-import java.io.IOException;;
+import java.io.IOException;
+import java.util.LinkedList;;
 
 public class Test {
 
-	private static Double d[];
 
 	public static void main(String[] args) throws IOException {
 		
@@ -24,9 +24,12 @@ public class Test {
 		
 		/* Test Analytics */
 		Analytics test = new Analytics("C:\\Users\\Fabien\\Desktop\\","essai","csv");
+		LinkedList<Double> d = new LinkedList<Double>();
+		
 		for(int i=0; i<11; i++){
-			d[i] = (double) i;
+			d.add((double)i);
 		};
+		
 		test.newLine("bite", d);
 		test.close();
 
