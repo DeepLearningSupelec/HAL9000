@@ -22,14 +22,7 @@ public abstract class AbstractNeuron {
 		this.neuronDiff = 0;
 		this.inputSynapses = new ArrayList<Synapse>();
 		this.outputSynapses = new ArrayList<Synapse>();
-		this.activationFunction = new Sigmoid();
-		/*
-		 * 
-		 * Attention, remplacer ce constructeur pour garder une seule 
-		 * instance de Sigmoid !!
-		 * 
-		 * 
-		 */
+		this.activationFunction = Sigmoid.getINSTANCE();
 	}
 	
 	public AbstractNeuron(ActivationFunction f){
