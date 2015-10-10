@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.LinkedList;
 
 public class Analytics {
 	
@@ -26,13 +27,14 @@ public class Analytics {
 	}
 	
 	//Ecrire une ligne complete et passer à la ligne
-	public void newLine(java.lang.String name, Double[] data) throws IOException {
+	public void newLine(java.lang.String name, LinkedList<Double> data) throws IOException {
 		
 		this.file.write(name + ";");
 		
-		for(int i=0; i<data.length+1; i++) {
-			this.file.write(data[i] + ";");
-		};
+		
+		java.util.ListIterator<Double> iter = data.listIterator();
+		
+		
 		this.file.write("\n");
 		
 	}	
