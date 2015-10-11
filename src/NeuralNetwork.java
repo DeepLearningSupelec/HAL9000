@@ -7,10 +7,10 @@ public abstract class NeuralNetwork {
 
 	//Attributes
 	
-	private ArrayList<AbstractNeuron> inputNeurons;
-	private ArrayList<AbstractNeuron> intermediateNeurons;
-	private ArrayList<AbstractNeuron> outputNeurons;
-	private ArrayList<Synapse> synapses;
+	protected ArrayList<AbstractNeuron> inputNeurons;
+	protected ArrayList<AbstractNeuron> intermediateNeurons;
+	protected ArrayList<AbstractNeuron> outputNeurons;
+	protected ArrayList<Synapse> synapses;
 	
 	
 	

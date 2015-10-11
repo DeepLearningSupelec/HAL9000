@@ -16,15 +16,22 @@ public class Perceptron extends NeuralNetwork {
 	//Methods
 	
 	public void fire(){
-		/*
-		 * mettre la valeur de l'attribut "fired" à false 
-		 * pour tous les neurones du réseau
-		 * 
-		 * faire l'appel de ma méthode fire() sur chaque neurone
-		 * de la couche d'output
-		 * 
-		 * 
-		 */
+		
+		// Unfire each neuron of the network
+		for (int i = 0; i < this.inputNeurons.size(); i++) {
+			this.inputNeurons.get(i).setUnfired();
+		}
+		for (int i = 0; i < this.intermediateNeurons.size(); i++) {
+			this.intermediateNeurons.get(i).setUnfired();
+		}
+		for (int i = 0; i < this.outputNeurons.size(); i++) {
+			this.outputNeurons.get(i).setUnfired();
+		}
+		
+		//Launch fire() on each OutputNeuron
+		for (int i = 0; i < this.outputNeurons.size(); i++) {
+			this.outputNeurons.get(i).fire();
+		}
 	}
 	public double getOutputs(){
 		
