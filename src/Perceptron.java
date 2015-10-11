@@ -35,7 +35,7 @@ public class Perceptron extends NeuralNetwork {
 		}
 	}
 	public double[] getOutputs(){
-		double[] outputs;
+		double[] outputs = {};
 		int i=0;
 		for (Iterator<AbstractNeuron> it= this.outputNeurons.iterator(); it.hasNext(); i++){
 				outputs[i]=((OutputNeuron)it.next()).getOutput();

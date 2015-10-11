@@ -134,7 +134,7 @@ public abstract class NeuralNetwork {
 	//Methods
 	
 	abstract public void fire();
-	abstract public double getOutputs();
-	abstract public void setInputs(double x);
+	abstract public double[] getOutputs();
+	abstract public void setInputs(double[] x);
 	abstract public void linkNetwork();
 }
