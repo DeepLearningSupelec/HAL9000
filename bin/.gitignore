@@ -1,2 +1,20 @@
+<<<<<<< HEAD
 /Analytics.class
 /NetworkReader.class
+=======
+/AbstractNeuron.class
+/ActivationFunction.class
+/Analytics.class
+/BackPropagation.class
+/Input.class
+/InputNeuron.class
+/IntermediateNeuron.class
+/LearningAlgorithm.class
+/NeuralNetwork.class
+/OutputNeuron.class
+/Perceptron.class
+/Sigmoid.class
+/Step.class
+/Synapse.class
+/Test.class
+>>>>>>> refs/remotes/origin/master
