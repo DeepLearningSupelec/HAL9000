@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.Iterator;
 
 public class Perceptron extends NeuralNetwork {
 	
@@ -33,13 +34,23 @@ public class Perceptron extends NeuralNetwork {
 			this.outputNeurons.get(i).fire();
 		}
 	}
-	public double getOutputs(){
+	public double[] getOutputs(){
+		double[] outputs;
+		int i=0;
+		for (Iterator<AbstractNeuron> it= this.outputNeurons.iterator(); it.hasNext(); i++){
+				outputs[i]=((OutputNeuron)it.next()).getOutput();
+		}
+		return outputs;
 		
-		return 0.0;
 	}
-	public void setInputs(double x){
-		
+	public void setInputs(double[] x){
+		int i = 0;
+		for (Iterator<AbstractNeuron> it= this.inputNeurons.iterator(); it.hasNext();i++){
+			((InputNeuron)it.next()).setInput(x[i]);
+		}		
 	}
+	
+	
 	public void linkNetwork(){
 		
 	}
