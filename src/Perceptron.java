@@ -1,6 +1,21 @@
+import java.io.IOException;
 
 public class Perceptron extends NeuralNetwork {
-	abstract public void fire(){
+	
+	//Constructor
+	
+	public Perceptron(String inputFilePath) throws IOException{
+		super(inputFilePath);
+	}
+	
+	
+	
+	
+	
+	
+	//Methods
+	
+	public void fire(){
 		/*
 		 * mettre la valeur de l'attribut "fired" à false 
 		 * pour tous les neurones du réseau
@@ -11,13 +26,14 @@ public class Perceptron extends NeuralNetwork {
 		 * 
 		 */
 	}
-	abstract public double getOutputs(){
+	public double getOutputs(){
+		
+		return 0.0;
+	}
+	public void setInputs(double x){
 		
 	}
-	abstract public void setInputs(double x){
-		
-	}
-	abstract public void linkNetwork(){
+	public void linkNetwork(){
 		
 	}
 	

@@ -15,7 +15,8 @@ public class Synapse {
 	
 	//Constructor
 	
-	public void Synapse(AbstractNeuron inputNeuron, AbstractNeuron outputNeuron){
+
+	public Synapse(AbstractNeuron inputNeuron, AbstractNeuron outputNeuron){
 		this.weight = 0.1;
 		this.weightDiff = 0;
 		this.inputNeuron = inputNeuron;
@@ -26,7 +27,7 @@ public class Synapse {
 		
 	}
 	
-	public void Synapse(double w, AbstractNeuron inputNeuron, AbstractNeuron outputNeuron){
+	public Synapse(double w, AbstractNeuron inputNeuron, AbstractNeuron outputNeuron){
 		this.weight = w;
 		this.weightDiff = 0;
 		this.inputNeuron = inputNeuron;

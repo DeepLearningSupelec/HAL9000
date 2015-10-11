@@ -44,6 +44,10 @@ public abstract class AbstractNeuron {
 	
 	abstract public void fire();
 	
+	public void setUnfired(){
+		this.fired = false;
+	}
+	
 	public double getOutput(){
 		return this.output;
 	}
