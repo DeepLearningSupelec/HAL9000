@@ -1,28 +1,17 @@
 
-public class IntermediateNeuron extends AbstractNeuron {
+public class IntermediateNeuron extends Neuron {
 
 	//Attributes
-	
-	private double bias;
-	
-	private double biasDiff;
-	
-	
 	
 	
 	//Constructor
 	
 	public IntermediateNeuron(){
-		super();
-		this.bias = 0.1;
-		this.biasDiff = 0;
-		
+		super();	
 	}
 	
 	public IntermediateNeuron(ActivationFunction f){
 		super(f);
-		this.bias = 0.1;
-		this.biasDiff = 0;
 	}
 	
 	
@@ -30,27 +19,7 @@ public class IntermediateNeuron extends AbstractNeuron {
 	
 	//Methods
 	
-	public void setBias(double x){
-		this.bias = x;
-	}
-	
-	public void setBiasDiff(double x){
-		this.biasDiff = x;
-	}
 
-	@Override
-	public void fire() {
-		if(this.fired){return;}
-		double scalarProduct = -this.bias;
-		for (int i = 0; i < this.inputSynapses.size(); i++) {
-			Synapse s = this.inputSynapses.get(i);
-			s.getInputNeuron().fire();
-			scalarProduct += s.getWeight() * s.getInputNeuron().getOutput();
-		}
-		this.output = this.activationFunction.apply(scalarProduct);
-		this.fired = true;
-		return;
-	}
 
 
 }
