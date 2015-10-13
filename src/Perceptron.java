@@ -9,6 +9,45 @@ public class Perceptron extends NeuralNetwork {
 		super(inputFilePath);
 	}
 	
+	public Perceptron(int[] inputData){
+		super();
+		int dataLength = inputData.length;
+		
+		//Adding Input Neurons
+		
+		for(int i = 0; i < inputData[0]; i++){
+			this.inputNeurons.add(new InputNeuron());
+		}
+		
+		//Adding Intermediate Neurons
+		
+		for(int i = 1; i < dataLength - 1; i++){
+			
+			for(int j = 0; j < inputData[i]; j++){
+				IntermediateNeuron neuron = new IntermediateNeuron();
+				this.intermediateNeurons.add(neuron);
+				
+				//Connecting Synapses between Layer i and Layer (i - 1)
+				for(int k = 0; k < inputData[i - 1]; k++){
+					if(i == 1){
+						this.synapses.add(new Synapse(this.inputNeurons.get(k), neuron));
+						
+					} else {
+						this.synapses.add(new Synapse(this.intermediateNeurons.get(k), neuron));
+					}
+				}
+			}	
+		}
+		
+		//Adding and Connecting Output Neurons
+		for(int j = 0; j < inputData[dataLength - 1]; j++){
+			IntermediateNeuron neuron = new IntermediateNeuron();
+			this.outputNeurons.add(neuron);
+			for(int k = 0; k < inputData[dataLength - 2]; k++){
+				this.synapses.add(new Synapse(this.intermediateNeurons.get(k), neuron));
+			}
+		}
+	}
 	
 	
 	

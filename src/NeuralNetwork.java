@@ -17,6 +17,15 @@ public abstract class NeuralNetwork {
 	
 	//Constructor
 	
+	public NeuralNetwork(){
+		
+		this.inputNeurons = new ArrayList<AbstractNeuron>();
+		this.intermediateNeurons = new ArrayList<AbstractNeuron>();
+		this.outputNeurons = new ArrayList<AbstractNeuron>();
+		this.synapses = new ArrayList<Synapse>();
+	}
+	
+	
 	public NeuralNetwork(String inputFilePath) throws IOException{
 		
 		this.inputNeurons = new ArrayList<AbstractNeuron>();
