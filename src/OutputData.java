@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.LinkedList;
 
-public class Analytics {
+public class OutputData {
 	
 	/* Attributes */
 	java.lang.String location;
@@ -12,7 +12,7 @@ public class Analytics {
 	
 	/* Methods */
 	//Initialisation des attributs
-	public Analytics(java.lang.String location, java.lang.String name, java.lang.String extension) throws IOException {
+	public OutputData(java.lang.String location, java.lang.String name, java.lang.String extension) throws IOException {
 		
 		this.location = location;
 		this.name = name;
