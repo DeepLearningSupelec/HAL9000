@@ -1,5 +1,5 @@
 
-public class IntermediateNeuron extends Neuron {
+public class IntermediateNeuron extends AbstractNeuron {
 
 	//Attributes
 	
@@ -12,6 +12,12 @@ public class IntermediateNeuron extends Neuron {
 	
 	public IntermediateNeuron(ActivationFunction f){
 		super(f);
+	}
+
+	@Override
+	public void fire() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

@@ -1,5 +1,5 @@
 
-public class OutputNeuron extends Neuron {
+public class OutputNeuron extends AbstractNeuron {
 
 	
 	//Attributes
@@ -13,6 +13,12 @@ public class OutputNeuron extends Neuron {
 	
 	public OutputNeuron(ActivationFunction f){
 		super(f);
+	}
+
+	@Override
+	public void fire() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	
