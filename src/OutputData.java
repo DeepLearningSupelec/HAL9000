@@ -1,43 +1,46 @@
 import java.io.*;
-import java.util.LinkedList;
+import java.nio.file.Path;
+import java.util.ArrayList;
 
 public class OutputData {
 	
 	/* Attributes */
-	java.lang.String location;
-	java.lang.String name;
-	java.lang.String extension;
-	FileWriter file;
+	ArrayList<Double> quadTest;
+	ArrayList<Double> quadLearning;
+	ArrayList<Double> errTest;
+	ArrayList<Double> errLearning;
+	ArrayList<Integer> nbex;
 	
 	
 	/* Methods */
-	//Initialisation des attributs
-	public OutputData(java.lang.String location, java.lang.String name, java.lang.String extension) throws IOException {
+	public void toCSV(Path p) throws IOException {
+		FileWriter file = new FileWriter(p.toString());
+		java.util.ListIterator<Integer> nbexIter = this.nbex.listIterator();
+		java.util.ListIterator<Double> quadTestIter = this.quadTest.listIterator();
+		java.util.ListIterator<Double> quadLearningIter = this.quadLearning.listIterator();
+		java.util.ListIterator<Double> errTestIter = this.errTest.listIterator();
+		java.util.ListIterator<Double> errLearningIter = this.quadLearning.listIterator();
 		
-		this.location = location;
-		this.name = name;
-		this.extension = extension;
-		this.file = new FileWriter(location + '\\' + name + '.' + extension);
+		file.write("nbex; quadLearning; errLearning; quadTest; errTest;\n");
 		
-	}
-	
-	//Relacher la memoire
-	public void close() throws IOException {
-		this.file.close();
-	}
-	
-	//Ecrire une ligne complete et passer à la ligne
-	public void newLine(java.lang.String name, LinkedList<Double> data) throws IOException {
-		
-		this.file.write(name + ";");
-		
-		
-		java.util.ListIterator<Double> iter = data.listIterator();
-		while(iter.hasNext()) {
-			this.file.write(iter.next() + ";");
+		boolean cont = true;
+		while(cont) {
+			String line =
+					((nbexIter.hasNext()) ? (nbexIter.next()+";") : (";"))
+					+ ((quadLearningIter.hasNext()) ? (quadLearningIter.next()+";") : (";"))
+					+ ((errLearningIter.hasNext()) ? (errLearningIter.next()+";") : (";"))
+					+ ((quadTestIter.hasNext()) ? (quadTestIter.next()+";") : (";"))
+					+ ((errTestIter.hasNext()) ? (errTestIter.next()+";") : (";"))
+					+ "\n";
+			file.write(line);
+			cont =
+					nbexIter.hasNext()
+					|| quadLearningIter.hasNext()
+					|| errLearningIter.hasNext()
+					|| quadTestIter.hasNext()
+					|| errTestIter.hasNext();
 		}
 		
-		this.file.write("\n");
-		
-	}	
+		file.close();
+	}
 }
