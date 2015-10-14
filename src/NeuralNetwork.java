@@ -1,6 +1,6 @@
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 public abstract class NeuralNetwork {
@@ -26,7 +26,7 @@ public abstract class NeuralNetwork {
 	}
 	
 	
-	public NeuralNetwork(String inputFilePath) throws IOException{
+	public NeuralNetwork(Path p) throws IOException{
 		
 		this.inputNeurons = new ArrayList<AbstractNeuron>();
 		this.intermediateNeurons = new ArrayList<AbstractNeuron>();
@@ -70,7 +70,7 @@ public abstract class NeuralNetwork {
 		
 		int lineCpt = 0; // line indicator
 		
-		for (String line : Files.readAllLines(Paths.get(inputFilePath))) {
+		for (String line : Files.readAllLines(p)) {
 		
 			if(lineCpt ==0){
 				int partCpt = 0;
