@@ -1,11 +1,12 @@
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Iterator;
 
 public class Perceptron extends NeuralNetwork {
 	
 	//Constructor
 	
-	public Perceptron(String inputFilePath) throws IOException{
+	public Perceptron(Path inputFilePath) throws IOException{
 		super(inputFilePath);
 	}
 	
