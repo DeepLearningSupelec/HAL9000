@@ -22,6 +22,8 @@ public class Perceptron extends NeuralNetwork {
 		
 		//Adding Intermediate Neurons
 		
+		int interNeuronCpt = 0;
+		
 		for(int i = 1; i < dataLength - 1; i++){
 			
 			//For each Neuron of the Layer i
@@ -35,18 +37,19 @@ public class Perceptron extends NeuralNetwork {
 						this.synapses.add(new Synapse(this.inputNeurons.get(k), neuron));
 						
 					} else {
-						this.synapses.add(new Synapse(this.intermediateNeurons.get(k), neuron));
+						this.synapses.add(new Synapse(this.intermediateNeurons.get(k + interNeuronCpt), neuron));
 					}
 				}
 			}	
+			interNeuronCpt += inputData[i];
 		}
 		
 		//Adding and Connecting Output Neurons
 		for(int j = 0; j < inputData[dataLength - 1]; j++){
-			IntermediateNeuron neuron = new IntermediateNeuron();
+			OutputNeuron neuron = new OutputNeuron();
 			this.outputNeurons.add(neuron);
 			for(int k = 0; k < inputData[dataLength - 2]; k++){
-				this.synapses.add(new Synapse(this.intermediateNeurons.get(k), neuron));
+				this.synapses.add(new Synapse(this.intermediateNeurons.get(k + interNeuronCpt), neuron));
 			}
 		}
 	}
