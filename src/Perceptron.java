@@ -24,11 +24,12 @@ public class Perceptron extends NeuralNetwork {
 		
 		for(int i = 1; i < dataLength - 1; i++){
 			
+			//For each Neuron of the Layer i
 			for(int j = 0; j < inputData[i]; j++){
 				IntermediateNeuron neuron = new IntermediateNeuron();
 				this.intermediateNeurons.add(neuron);
 				
-				//Connecting Synapses between Layer i and Layer (i - 1)
+				//Connecting Synapses between neuron and Layer (i - 1)
 				for(int k = 0; k < inputData[i - 1]; k++){
 					if(i == 1){
 						this.synapses.add(new Synapse(this.inputNeurons.get(k), neuron));
