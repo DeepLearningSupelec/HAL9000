@@ -60,6 +60,10 @@ public class Synapse {
 		return this.weightDiff;
 	}
 	
+	public void getWeightDiff(double d){
+		this.weightDiff = d;
+	}
+	
 	
 	
 }
