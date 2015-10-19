@@ -48,6 +48,10 @@ public class Synapse {
 		this.weight = w;
 	}
 	
+	public void setWeightDiff(double w){
+		this.weightDiff = w;
+	}
+	
 	public AbstractNeuron getInputNeuron(){
 		return this.inputNeuron;
 	}

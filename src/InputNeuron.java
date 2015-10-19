@@ -34,7 +34,10 @@ public class InputNeuron extends AbstractNeuron {
 	public void fire() {
 		this.output = this.input;
 	}
-
+	
+	public double getOutput(){
+		return this.output;
+	}
 
 	
 }
