@@ -1,5 +1,5 @@
 
-public class OutputNeuron extends Neuron {
+public class OutputNeuron extends ActiveNeuron {
 
 	
 	//Attributes

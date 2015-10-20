@@ -1,5 +1,5 @@
 
-public abstract class Neuron extends AbstractNeuron {
+public class ActiveNeuron extends AbstractNeuron {
 
 	
 	//Attributes
@@ -13,14 +13,14 @@ public abstract class Neuron extends AbstractNeuron {
 	
 	//Constructor
 	
-	public Neuron(){
+	public ActiveNeuron(){
 		super();
 		this.bias = 0.1;
 		this.biasDiff = 0;
 		
 	}
 	
-	public Neuron(ActivationFunction f){
+	public ActiveNeuron(ActivationFunction f){
 		super(f);
 		this.bias = 0.1;
 		this.biasDiff = 0;
