@@ -6,30 +6,25 @@ public class BackPropagation extends LearningAlgorithm {
 
 		double gradient;
 
-		//weightedSum is calculated
+		//weightedSum is calculated for the intermediate and output neuron
 		double weightedSum = 0;
-		if(!(n instanceof InputNeuron) ){
+		if(n instanceof Neuron) {
 			for (Synapse s : n.getInputSynapses()) {
 				weightedSum = weightedSum + s.getWeight()*s.getInputNeuron().getOutput() ;
 			}
 			weightedSum = weightedSum - n.bias;
 
 		}
-
-		else{
-			for (Synapse s : n.getInputSynapses()) {
-				weightedSum = weightedSum + s.getWeight()*s.getInputNeuron().getOutput() ;
-			}
-		}
+		
 		// The operations differ whether the neuron is an OutputNeuron or another neuron
 
 		if (n instanceof OutputNeuron ){
-			double error = expectedOutput - n.output;  
+			double error = expectedOutput - n.output;
 			n.setNeuronDiff(n.activationFunction.applyDerivative(weightedSum)*error); // delta = f'(input)*e
 
 		}
 
-		else {
+		if (n instanceof Intermediate) {
 			//weighted sum of the output is calculated
 			double weightedErrorOutput = 0 ;
 			for (Synapse s : n.getOutputSynapses()) {

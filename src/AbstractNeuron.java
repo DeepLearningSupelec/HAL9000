@@ -6,6 +6,8 @@ public abstract class AbstractNeuron {
 	
 	protected double output;
 	
+	protected double bias;
+	
 	private double neuronDiff;
 	
 	protected ActivationFunction activationFunction;
