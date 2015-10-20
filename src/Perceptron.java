@@ -1,8 +1,15 @@
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Perceptron extends NeuralNetwork {
+	
+	//Attributes
+	
+	AbstractNeuron[][] layers;
+	
+	
 	
 	//Constructor
 	
@@ -13,11 +20,14 @@ public class Perceptron extends NeuralNetwork {
 	public Perceptron(int[] inputData){
 		super();
 		int dataLength = inputData.length;
+		this.layers = new AbstractNeuron[dataLength][];
 		
 		//Adding Input Neurons
-		
+		this.layers[0] = new AbstractNeuron[inputData[0]];
 		for(int i = 0; i < inputData[0]; i++){
-			this.inputNeurons.add(new InputNeuron());
+			InputNeuron n = new InputNeuron();
+			this.inputNeurons.add(n);
+			this.layers[0][i] = n;
 		}
 		
 		//Adding Intermediate Neurons
@@ -26,10 +36,12 @@ public class Perceptron extends NeuralNetwork {
 		
 		for(int i = 1; i < dataLength - 1; i++){
 			
+			this.layers[i] = new AbstractNeuron[inputData[i]];
 			//For each Neuron of the Layer i
 			for(int j = 0; j < inputData[i]; j++){
 				IntermediateNeuron neuron = new IntermediateNeuron();
 				this.intermediateNeurons.add(neuron);
+				this.layers[i][j] = neuron;
 				
 				//Connecting Synapses between neuron and Layer (i - 1)
 				for(int k = 0; k < inputData[i - 1]; k++){
@@ -45,9 +57,11 @@ public class Perceptron extends NeuralNetwork {
 		}
 		
 		//Adding and Connecting Output Neurons
+		this.layers[dataLength - 1] = new AbstractNeuron[inputData[dataLength - 1]];
 		for(int j = 0; j < inputData[dataLength - 1]; j++){
 			OutputNeuron neuron = new OutputNeuron();
 			this.outputNeurons.add(neuron);
+			this.layers[dataLength - 1][j] = neuron;
 			for(int k = 0; k < inputData[dataLength - 2]; k++){
 				this.synapses.add(new Synapse(this.intermediateNeurons.get(k + interNeuronCpt), neuron));
 			}
