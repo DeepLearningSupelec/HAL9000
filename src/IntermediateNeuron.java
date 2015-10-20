@@ -1,5 +1,5 @@
 
-public class IntermediateNeuron extends Neuron {
+public class IntermediateNeuron extends ActiveNeuron {
 
 	//Attributes
 	
