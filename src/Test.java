@@ -20,7 +20,11 @@ public class Test {
 			testPerceptron.setInputs(learningDataManager.readImage1D());
 			testPerceptron.fire();
 			algorithm.launch(testPerceptron, learningRate , currentInput);			
-			
+			double[] outputs=testPerceptron.getOutputs();
+			for(int j =0; j<10;j++){
+				System.out.print(outputs[j]+" ");
+			}
+			System.out.println();
 			
 			
 		}

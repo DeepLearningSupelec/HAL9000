@@ -8,7 +8,7 @@ public class Perceptron extends NeuralNetwork {
 	//Attributes
 	
 	AbstractNeuron[][] layers;
-	
+
 	
 	
 	//Constructor
@@ -93,18 +93,20 @@ public class Perceptron extends NeuralNetwork {
 		}
 	}
 	public double[] getOutputs(){
-		double[] outputs = {};
 		int i=0;
-		for (Iterator<AbstractNeuron> it= this.outputNeurons.iterator(); it.hasNext(); i++){
-				outputs[i]=((OutputNeuron)it.next()).getOutput();
+		double outputs[] = new double[outputNeurons.size()];
+		for (AbstractNeuron neuron : outputNeurons ){
+				outputs[i]=((OutputNeuron)neuron).getOutput();
+				i++;
 		}
 		return outputs;
 		
 	}
 	public void setInputs(double[] x){
 		int i = 0;
-		for (Iterator<AbstractNeuron> it= this.inputNeurons.iterator(); it.hasNext();i++){
-			((InputNeuron)it.next()).setInput(x[i]);
+		for (AbstractNeuron neuron : inputNeurons){
+			((InputNeuron)neuron).setInput(x[i]);
+			i++;
 		}		
 	}
 	

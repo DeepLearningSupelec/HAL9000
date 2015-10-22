@@ -43,4 +43,12 @@ public class OutputData {
 		
 		file.close();
 	}
+	
+	public void addData(double quadTest, double quadLearning,double errTest, double errLearning, int nbex){
+		this.quadTest.add(quadTest);
+		this.quadLearning.add(quadLearning);
+		this.errTest.add(errTest);
+		this.errLearning.add(errLearning);
+		this.nbex.add(nbex);
+	}
 }
