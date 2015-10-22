@@ -62,8 +62,9 @@ public class Perceptron extends NeuralNetwork {
 			OutputNeuron neuron = new OutputNeuron();
 			this.outputNeurons.add(neuron);
 			this.layers[dataLength - 1][j] = neuron;
-			for(int k = 0; k < inputData[dataLength - 2]; k++){
-				this.synapses.add(new Synapse(this.intermediateNeurons.get(k + interNeuronCpt), neuron));
+			for(int k = 1; k <= inputData[dataLength - 2]; k++){
+				System.out.println(-k+interNeuronCpt);
+				this.synapses.add(new Synapse(this.intermediateNeurons.get(interNeuronCpt-k), neuron));
 			}
 		}
 	}
