@@ -46,6 +46,23 @@ public class MnistImageFile extends MnistDbFile {
         }
         return dat;
     }
+    
+    
+    /**
+     * Reads the image at the current position.
+     * 
+     * @return tab representing the image
+     * @throws IOException
+     */
+    public double[] readImage1D() throws IOException {
+        double[] dat = new double[getRows()*getCols()];
+        for (int i = 0; i < getCols()*getRows(); i++) {
+        	dat[i] = (double)readUnsignedByte();
+        }
+        
+        return dat;
+    }
+
 
     /**
      * Move the cursor to the next image.

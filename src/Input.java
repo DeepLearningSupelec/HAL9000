@@ -12,7 +12,7 @@ public class Input {
 	//Constructor
 	
 		public Input(int a) throws IOException{
-			MnistManager m = new MnistManager("train-images.idx3-ubyte","train-labels.idx1-ubyte");
+			MnistManager m = new MnistManager("src/train-images.idx3-ubyte","src/train-labels.idx1-ubyte");
 			m.setCurrent(a);
 			this.label = m.readLabel();
 		}

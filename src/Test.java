@@ -14,10 +14,13 @@ public class Test {
 		BackPropagation algorithm = new BackPropagation();
 		Input currentInput;
 		double learningRate = 0.01;
-		for(int i =0; i <100 ; i++){
+		for(int i =1; i <100 ; i++){
 			currentInput = new Input(i);
-			algorithm.launch(testPerceptron, learningRate , currentInput);			
+			learningDataManager.setCurrent(i);
+			testPerceptron.setInputs(learningDataManager.readImage1D());
 			testPerceptron.fire();
+			algorithm.launch(testPerceptron, learningRate , currentInput);			
+			
 			
 			
 		}

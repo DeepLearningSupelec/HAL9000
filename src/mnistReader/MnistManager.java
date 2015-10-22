@@ -77,7 +77,21 @@ public class MnistManager {
         }
         return images.readImage();
     }
+    
+    /**
+     * Reads the current image.
+     * 
+     * @return tab
+     * @throws IOException
+     */
 
+    public double[] readImage1D() throws IOException {
+        if (images == null) {
+            throw new IllegalStateException("Images file not initialized.");
+        }
+        return images.readImage1D();
+    }
+    
     /**
      * Set the position to be read.
      * 
