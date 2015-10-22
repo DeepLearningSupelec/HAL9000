@@ -15,18 +15,5 @@ public class OutputNeuron extends ActiveNeuron {
 		super(f);
 	}
 
-	@Override
-	public void fire() {
-		// TODO Auto-generated method stub
-		
-	}
 	
-	
-	
-	
-	//Methods
-	
-
-
-
 }

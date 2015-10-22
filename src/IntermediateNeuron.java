@@ -14,17 +14,6 @@ public class IntermediateNeuron extends ActiveNeuron {
 		super(f);
 	}
 
-	@Override
-	public void fire() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
-	
-	
-	//Methods
-	
 
 
 
