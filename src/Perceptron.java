@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 
 public class Perceptron extends NeuralNetwork {
 	
@@ -18,9 +19,14 @@ public class Perceptron extends NeuralNetwork {
 	}
 	
 	public Perceptron(int[] inputData){
+		this(inputData, false);
+	}
+	
+	public Perceptron(int[] inputData, boolean randomWeight){
 		super();
 		int dataLength = inputData.length;
 		this.layers = new AbstractNeuron[dataLength][];
+		Random rand = new Random();
 		
 		//Adding Input Neurons
 		this.layers[0] = new AbstractNeuron[inputData[0]];
@@ -45,11 +51,15 @@ public class Perceptron extends NeuralNetwork {
 				
 				//Connecting Synapses between neuron and Layer (i - 1)
 				for(int k = 0; k < inputData[i - 1]; k++){
+					double w = 0;
+					if(randomWeight){
+						w = rand.nextDouble();
+					}
 					if(i == 1){
-						this.synapses.add(new Synapse(this.inputNeurons.get(k), neuron));
+						this.synapses.add(new Synapse(w, this.inputNeurons.get(k), neuron));
 						
 					} else {
-						this.synapses.add(new Synapse(this.intermediateNeurons.get(k + interNeuronCpt), neuron));
+						this.synapses.add(new Synapse(w, this.intermediateNeurons.get(k + interNeuronCpt), neuron));
 					}
 				}
 			}	
@@ -63,7 +73,11 @@ public class Perceptron extends NeuralNetwork {
 			this.outputNeurons.add(neuron);
 			this.layers[dataLength - 1][j] = neuron;
 			for(int k = 1; k <= inputData[dataLength - 2]; k++){
-				this.synapses.add(new Synapse(this.intermediateNeurons.get(interNeuronCpt-k), neuron));
+				double w = 0;
+				if(randomWeight){
+					w = rand.nextDouble();
+				}
+				this.synapses.add(new Synapse(w, this.intermediateNeurons.get(interNeuronCpt-k), neuron));
 			}
 		}
 	}

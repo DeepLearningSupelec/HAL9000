@@ -10,7 +10,7 @@ public class Test {
 		MnistManager learningDataManager = new MnistManager("src/train-images.idx3-ubyte","src/train-labels.idx1-ubyte");
 		MnistManager testDataManager = new MnistManager("src/t10k-images.idx3-ubyte","src/t10k-labels.idx1-ubyte");
 		int[] tabneuron = {784, 90 ,10};
-		Perceptron testPerceptron = new Perceptron(tabneuron);
+		Perceptron testPerceptron = new Perceptron(tabneuron, true);
 		BackPropagation algorithm = new BackPropagation();
 		Input currentInput;
 		double learningRate = 0.01;
