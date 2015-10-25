@@ -116,6 +116,15 @@ public class Perceptron extends NeuralNetwork {
 		return outputs;
 		
 	}
+	
+	public void setNormalizedInputs(double[] x, double max){
+		int i = 0;
+		for (AbstractNeuron neuron : inputNeurons){
+			((InputNeuron)neuron).setInput(((double)x[i]) / (max - 1.0));
+			i++;
+		}	
+	}
+	
 	public void setInputs(double[] x){
 		int i = 0;
 		for (AbstractNeuron neuron : inputNeurons){

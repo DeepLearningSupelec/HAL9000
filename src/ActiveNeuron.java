@@ -47,7 +47,10 @@ public abstract class ActiveNeuron extends AbstractNeuron {
 			s.getInputNeuron().fire();
 			scalarProduct += s.getWeight() * s.getInputNeuron().getOutput();
 		}
+		System.out.println("scalar product: " + scalarProduct);
 		this.output = this.activationFunction.apply(scalarProduct);
+		System.out.println("output: " + this.output);
+
 		this.fired = true;
 		return;
 	}

@@ -17,7 +17,8 @@ public class Test {
 		for(int i =1; i <100 ; i++){
 			currentInput = new Input(i);
 			learningDataManager.setCurrent(i);
-			testPerceptron.setInputs(learningDataManager.readImage1D());
+			//testPerceptron.setInputs(learningDataManager.readImage1D());
+			testPerceptron.setNormalizedInputs(learningDataManager.readImage1D(), 256);
 			testPerceptron.fire();
 			algorithm.launch(testPerceptron, learningRate , currentInput);			
 			double[] outputs=testPerceptron.getOutputs();
