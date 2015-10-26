@@ -77,7 +77,9 @@ public class Perceptron extends NeuralNetwork {
 				if(randomWeight){
 					w = rand.nextDouble();
 				}
-				this.synapses.add(new Synapse(w, this.intermediateNeurons.get(interNeuronCpt-k), neuron));
+				Synapse s = new Synapse(w, this.intermediateNeurons.get(interNeuronCpt-k), neuron);
+				this.synapses.add(s);
+				
 			}
 		}
 	}

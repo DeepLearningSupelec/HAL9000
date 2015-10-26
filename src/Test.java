@@ -20,7 +20,7 @@ public class Test {
 			//testPerceptron.setInputs(learningDataManager.readImage1D());
 			testPerceptron.setNormalizedInputs(learningDataManager.readImage1D(), 256);
 			testPerceptron.fire();
-			algorithm.launch(testPerceptron, learningRate , currentInput);			
+			//algorithm.launch(testPerceptron, learningRate , currentInput);			
 			double[] outputs=testPerceptron.getOutputs();
 			for(int j =0; j<10;j++){
 				System.out.print(outputs[j]+" ");
@@ -32,7 +32,7 @@ public class Test {
 		
 		
 		/* Test Sigmoid */
-		System.out.println("Test Sigmoid");
+		/*System.out.println("Test Sigmoid");
 		Sigmoid f1 = Sigmoid.getINSTANCE();
 		double x = 2.;
 		System.out.println("f(" + x + ") = " + f1.apply(x));
@@ -41,7 +41,7 @@ public class Test {
 		x = 10000; 
 		System.out.println("f(" + x + ") = " + f1.apply(x));
 		double y = 2.;
-		System.out.println("f'(" + y + ") = " + f1.applyDerivative(y));
+		System.out.println("f'(" + y + ") = " + f1.applyDerivative(y));*/
 		
 		
 		/* Test ActivationFunction*/
