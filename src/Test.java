@@ -32,12 +32,16 @@ public class Test {
 		
 		
 		/* Test Sigmoid */
-		/*Sigmoid f1 = new Sigmoid();
-		Sigmoid f2 = new Sigmoid(2.);
-		System.out.println(f1.apply(1.));
-		System.out.println(f2.apply(1.));
-		System.out.println(f1.applyDerivative(2.));
-		System.out.println(f2.applyDerivative(2.));*/
+		System.out.println("Test Sigmoid");
+		Sigmoid f1 = Sigmoid.getINSTANCE();
+		double x = 2.;
+		System.out.println("f(" + x + ") = " + f1.apply(x));
+		x = -10000; 
+		System.out.println("f(" + x + ") = " + f1.apply(x));
+		x = 10000; 
+		System.out.println("f(" + x + ") = " + f1.apply(x));
+		double y = 2.;
+		System.out.println("f'(" + y + ") = " + f1.applyDerivative(y));
 		
 		
 		/* Test ActivationFunction*/
