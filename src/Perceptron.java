@@ -53,7 +53,7 @@ public class Perceptron extends NeuralNetwork {
 				for(int k = 0; k < inputData[i - 1]; k++){
 					double w = 0;
 					if(randomWeight){
-						w = rand.nextDouble();
+						w = rand.nextDouble()*2. - 1.;
 					}
 					if(i == 1){
 						this.synapses.add(new Synapse(w, this.inputNeurons.get(k), neuron));
@@ -75,7 +75,7 @@ public class Perceptron extends NeuralNetwork {
 			for(int k = 1; k <= inputData[dataLength - 2]; k++){
 				double w = 0;
 				if(randomWeight){
-					w = rand.nextDouble();
+					w = rand.nextDouble()*2. - 1.;
 				}
 				Synapse s = new Synapse(w, this.intermediateNeurons.get(interNeuronCpt-k), neuron);
 				this.synapses.add(s);
