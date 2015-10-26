@@ -3,18 +3,6 @@ import java.util.ArrayList;
 public class BackPropagation extends LearningAlgorithm {
 
 
-	public int[] expectedOutput(Input i){
-		int[] expectedOutput = new int[10] ;
-		for (int j=0 ; j<i.getLabel() ; j=j+1 ){
-			expectedOutput[j] = 0;
-		}
-		expectedOutput [i.getLabel()] = 1;
-		for (int j=i.getLabel()+1 ; j<=9 ; j=j+1 ){
-			expectedOutput[j] = 0;
-		}
-		return expectedOutput;
-	}
-	
 	private void calculateNeuronDiff(NeuralNetwork N, AbstractNeuron n, Input i){
 
 		
@@ -33,7 +21,7 @@ public class BackPropagation extends LearningAlgorithm {
 		
 		if (n instanceof OutputNeuron ){
 			;
-			double error = expectedOutput(i)[N.outputNeurons.indexOf(n)] - n.output;
+			double error = i.expectedOutput()[N.outputNeurons.indexOf(n)] - n.output;
 			n.setNeuronDiff(n.activationFunction.applyDerivative(weightedSum)*error); // delta = f'(input)*e
 
 		}
@@ -51,6 +39,10 @@ public class BackPropagation extends LearningAlgorithm {
 
 
 
+	
+	
+	
+	
 	private void incrementWeightsDiff(Synapse s){
 		if(s.getOutputNeuron() instanceof OutputNeuron){
 			s.setWeightDiff(s.getWeightDiff()+s.getInputNeuron().getOutput()*s.getOutputNeuron().getNeuronDiff());
@@ -60,12 +52,16 @@ public class BackPropagation extends LearningAlgorithm {
 		}
 	}
 
+	
+	
 
 
 	private void incrementWeights(Synapse s, double a ){
 		s.setWeight(s.getWeight()+ a*s.getWeightDiff());
 	}
 
+	
+	
 
 	public void launch(NeuralNetwork N, double a, Input I){ //BackPropagation : learning algorithm; a is the learning rate
 
