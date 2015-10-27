@@ -6,7 +6,7 @@ public class BackPropagation extends LearningAlgorithm {
 	private void calculateNeuronDiff(NeuralNetwork N, AbstractNeuron n, Input i){
 
 		
-		/*
+		
 		//weightedSum is calculated for the intermediate and output neuron
 		double weightedSum = 0;
 		if(n instanceof ActiveNeuron) {
@@ -15,9 +15,9 @@ public class BackPropagation extends LearningAlgorithm {
 			}
 			weightedSum = weightedSum - n.bias;
 
-		}*/
+		}
 
-		double weightedSum = n.getOutput();
+		//double weightedSum = n.getOutput();
 		
 		
 		
@@ -50,12 +50,14 @@ public class BackPropagation extends LearningAlgorithm {
 	
 	
 	private void incrementWeightsDiff(Synapse s){
-		if(s.getOutputNeuron() instanceof OutputNeuron){
+		/*if(s.getOutputNeuron() instanceof OutputNeuron){
 			s.setWeightDiff(s.getWeightDiff()+s.getInputNeuron().getOutput()*s.getOutputNeuron().getNeuronDiff());
 		}
 		else{
 			s.setWeightDiff(s.getWeightDiff()+s.getInputNeuron().getOutput()*s.getOutputNeuron().getNeuronDiff());
-		}
+		}*/
+		s.setWeightDiff(s.getInputNeuron().getOutput()*s.getOutputNeuron().getNeuronDiff());
+		
 	}
 
 	

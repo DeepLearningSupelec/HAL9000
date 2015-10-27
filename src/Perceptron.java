@@ -140,6 +140,15 @@ public class Perceptron extends NeuralNetwork {
 		
 	}
 	
+	//Debug Methods
+	
+	public double wideWeight(){
+		double wide = 0;
+		for(Synapse s : this.synapses){
+			if(Math.abs(s.getWeight()) > wide){ wide = Math.abs(s.getWeight());}
+		}
+		return wide;
+	}
 	
 	
 	
