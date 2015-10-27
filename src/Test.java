@@ -23,7 +23,9 @@ public class Test {
 			algorithm.launch(testPerceptron, learningRate , currentInput);			
 			double[] outputs=testPerceptron.getOutputs();
 			for(int j =0; j<10;j++){
-				System.out.print(outputs[j]+" ");
+				String s = outputs[j] + " ";
+				if(outputs[j] < 0.001){ s = "~0 ";}
+				System.out.print(s);
 			}
 			System.out.println();
 			

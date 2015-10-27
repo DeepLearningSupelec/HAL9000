@@ -6,7 +6,7 @@ public class BackPropagation extends LearningAlgorithm {
 	private void calculateNeuronDiff(NeuralNetwork N, AbstractNeuron n, Input i){
 
 		
-		
+		/*
 		//weightedSum is calculated for the intermediate and output neuron
 		double weightedSum = 0;
 		if(n instanceof ActiveNeuron) {
@@ -15,12 +15,18 @@ public class BackPropagation extends LearningAlgorithm {
 			}
 			weightedSum = weightedSum - n.bias;
 
-		}
+		}*/
 
+		double weightedSum = n.getOutput();
+		
+		
+		
+		
+		
 		// The operations differ whether the neuron is an OutputNeuron or another neuron
 		
 		if (n instanceof OutputNeuron ){
-			;
+			
 			double error = i.expectedOutput()[N.outputNeurons.indexOf(n)] - n.output;
 			n.setNeuronDiff(n.activationFunction.applyDerivative(weightedSum)*error); // delta = f'(input)*e
 
