@@ -33,6 +33,7 @@ public class InputNeuron extends AbstractNeuron {
 	@Override
 	public void fire() {
 		this.output = this.input;
+		//if(this.output != 0) {System.out.println(this.output);}
 	}
 	
 	public double getOutput(){

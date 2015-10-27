@@ -9,7 +9,7 @@ public class Sigmoid extends ActivationFunction {
 	/* Methods */
 	@Override
 	public Double apply(Double x) {
-		return 1/(1+Math.exp(x));
+		return 1/(1+Math.exp(-x));
 	}
 
 	@Override

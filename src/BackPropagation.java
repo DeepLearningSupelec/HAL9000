@@ -1,10 +1,12 @@
+import java.util.ArrayList;
 
 public class BackPropagation extends LearningAlgorithm {
 
 
-	private void calculateNeuronDiff(AbstractNeuron n, Input i){
+	private void calculateNeuronDiff(NeuralNetwork N, AbstractNeuron n, Input i){
 
-
+		
+		
 		//weightedSum is calculated for the intermediate and output neuron
 		double weightedSum = 0;
 		if(n instanceof ActiveNeuron) {
@@ -16,9 +18,10 @@ public class BackPropagation extends LearningAlgorithm {
 		}
 
 		// The operations differ whether the neuron is an OutputNeuron or another neuron
-
+		
 		if (n instanceof OutputNeuron ){
-			double error = i.getLabel() - n.output;
+			;
+			double error = i.expectedOutput()[N.outputNeurons.indexOf(n)] - n.output;
 			n.setNeuronDiff(n.activationFunction.applyDerivative(weightedSum)*error); // delta = f'(input)*e
 
 		}
@@ -36,6 +39,10 @@ public class BackPropagation extends LearningAlgorithm {
 
 
 
+	
+	
+	
+	
 	private void incrementWeightsDiff(Synapse s){
 		if(s.getOutputNeuron() instanceof OutputNeuron){
 			s.setWeightDiff(s.getWeightDiff()+s.getInputNeuron().getOutput()*s.getOutputNeuron().getNeuronDiff());
@@ -45,12 +52,16 @@ public class BackPropagation extends LearningAlgorithm {
 		}
 	}
 
+	
+	
 
 
 	private void incrementWeights(Synapse s, double a ){
 		s.setWeight(s.getWeight()+ a*s.getWeightDiff());
 	}
 
+	
+	
 
 	public void launch(NeuralNetwork N, double a, Input I){ //BackPropagation : learning algorithm; a is the learning rate
 
@@ -60,7 +71,7 @@ public class BackPropagation extends LearningAlgorithm {
 
 				if(n instanceof OutputNeuron){  // all NeuronDiff are calculated
 
-					calculateNeuronDiff(n , I);
+					calculateNeuronDiff(N, n , I);
 
 					for(Synapse s : n.getInputSynapses()){ // Weight gradient are updated  between the output layer and the hidden layer
 						incrementWeightsDiff(s);
@@ -70,19 +81,19 @@ public class BackPropagation extends LearningAlgorithm {
 
 
 
-				for(int i=((Perceptron) N).layers.length ; i==1 ; i=i-1){ 	// Layer after layer, from the end to the beginning
-					
-					for(AbstractNeuron n : ((Perceptron) N).layers[i] ){	// inside the layer
-						
-						if(n instanceof IntermediateNeuron ){ //NeuronDiff are calculated
-							calculateNeuronDiff(n, I);
+			for(int i=((Perceptron) N).layers.length ; i==1 ; i=i-1){ 	// Layer after layer, from the end to the beginning
 
-							for(Synapse s : n.getInputSynapses()){ // Weight gradient are updated between the input layers and the hidden layers
-								incrementWeightsDiff(s);
-							}
+				for(AbstractNeuron n : ((Perceptron) N).layers[i] ){	// inside the layer
+
+					if(n instanceof IntermediateNeuron ){ //NeuronDiff are calculated
+						calculateNeuronDiff(N, n, I);
+
+						for(Synapse s : n.getInputSynapses()){ // Weight gradient are updated between the input layers and the hidden layers
+							incrementWeightsDiff(s);
 						}
 					}
 				}
+			}
 
 
 			for(AbstractNeuron n : N.outputNeurons ){   //Synapse's weight are updated

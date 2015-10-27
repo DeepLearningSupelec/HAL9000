@@ -31,6 +31,7 @@ public class Test {
 
 			System.out.println("Label length: " + m.getLabels().getEntryLength());
 			System.out.println("Label Index: " + m.getLabels().getCurrentIndex());
+			
 		}
 
 		//MnistManager.writeImageToPpm(image, "10000.ppm");
