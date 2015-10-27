@@ -65,7 +65,7 @@ public class BackPropagation extends LearningAlgorithm {
 
 
 	private void incrementWeights(Synapse s, double a ){
-		s.setWeight(s.getWeight()+ a*s.getWeightDiff());
+		s.setWeight(s.getWeight()- a*s.getWeightDiff());
 	}
 
 	

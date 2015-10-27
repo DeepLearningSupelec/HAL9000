@@ -14,7 +14,7 @@ public class Test {
 		BackPropagation algorithm = new BackPropagation();
 		Input currentInput;
 		double learningRate = 0.01;
-		for(int i =1; i <10 ; i++){
+		for(int i =1; i <100 ; i++){
 			currentInput = new Input(i);
 			learningDataManager.setCurrent(i);
 			//testPerceptron.setInputs(learningDataManager.readImage1D());
@@ -27,8 +27,9 @@ public class Test {
 				if(outputs[j] < 0.001){ s = "~0 ";}
 				System.out.print(s);
 			}
-			System.out.print("Max absolute Weight : " + testPerceptron.wideWeight());
-			System.out.println();
+			System.out.println("Max absolute Weight : " + testPerceptron.wideWeight());
+			System.out.println("Expected : " + currentInput.getLabel() + " Output : " + testPerceptron.mostProbableAnswer());
+			
 			
 			
 		}

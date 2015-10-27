@@ -150,6 +150,17 @@ public class Perceptron extends NeuralNetwork {
 		return wide;
 	}
 	
+	public int mostProbableAnswer(){
+		double maxProba = 0;
+		int number = -1;
+		for(int i = 0; i < 10; i++){
+			if(this.getOutputs()[i] > maxProba){
+				maxProba = this.getOutputs()[i];
+				number = i;
+			}	
+		}
+		return number;
+	}
 	
 	
 }
