@@ -8,18 +8,15 @@ public class BackPropagation extends LearningAlgorithm {
 		
 		
 		//weightedSum is calculated for the intermediate and output neuron
-		double weightedSum = 0;
+		/*double weightedSum = 0;
 		if(n instanceof ActiveNeuron) {
 			for (Synapse s : n.getInputSynapses()) {
 				weightedSum = weightedSum + s.getWeight()*s.getInputNeuron().getOutput() ;
 			}
 			weightedSum = weightedSum - n.bias;
 
-		}
+		}*/
 
-		//double weightedSum = n.getOutput();
-		
-		
 		
 		
 		
@@ -28,7 +25,7 @@ public class BackPropagation extends LearningAlgorithm {
 		if (n instanceof OutputNeuron ){
 			
 			double error = i.expectedOutput()[N.outputNeurons.indexOf(n)] - n.output;
-			n.setNeuronDiff(n.activationFunction.applyDerivative(weightedSum)*error); // delta = f'(input)*e
+			n.setNeuronDiff(n.activationFunction.applyDerivative(((ActiveNeuron)n).getIntermediateValue())*error); // delta = f'(input)*e
 
 		}
 
@@ -38,7 +35,7 @@ public class BackPropagation extends LearningAlgorithm {
 			for (Synapse s : n.getOutputSynapses()) {
 				weightedErrorOutput = weightedErrorOutput +s.getWeight()*s.getOutputNeuron().getNeuronDiff() ;
 			}
-			n.setNeuronDiff (n.activationFunction.applyDerivative(weightedSum)*weightedErrorOutput); // delta = f'(input)* sum ( gradient next Neuron * weight linked synapse) 
+			n.setNeuronDiff (n.activationFunction.applyDerivative(((ActiveNeuron)n).getIntermediateValue())*weightedErrorOutput); // delta = f'(input)* sum ( gradient next Neuron * weight linked synapse) 
 		}
 
 	}
@@ -50,22 +47,20 @@ public class BackPropagation extends LearningAlgorithm {
 	
 	
 	private void incrementWeightsDiff(Synapse s){
-		/*if(s.getOutputNeuron() instanceof OutputNeuron){
-			s.setWeightDiff(s.getWeightDiff()+s.getInputNeuron().getOutput()*s.getOutputNeuron().getNeuronDiff());
-		}
-		else{
-			s.setWeightDiff(s.getWeightDiff()+s.getInputNeuron().getOutput()*s.getOutputNeuron().getNeuronDiff());
-		}*/
-		s.setWeightDiff(s.getInputNeuron().getOutput()*s.getOutputNeuron().getNeuronDiff());
+		s.setWeightDiff(s.getWeightDiff()+s.getInputNeuron().getOutput()*s.getOutputNeuron().getNeuronDiff());
 		
 	}
 
+	private void incrementBiasDiff(ActiveNeuron n){
+		n.setBiasDiff(n.getBiasDiff() + n.getNeuronDiff());
+	}
 	
-	
-
+	private void incrementBias(ActiveNeuron n, double a){
+		n.setBias(n.getBias() + a*n.getBiasDiff());
+	}
 
 	private void incrementWeights(Synapse s, double a ){
-		s.setWeight(s.getWeight()- a*s.getWeightDiff());
+		s.setWeight(s.getWeight() + a*s.getWeightDiff());
 	}
 
 	
@@ -80,7 +75,8 @@ public class BackPropagation extends LearningAlgorithm {
 				if(n instanceof OutputNeuron){  // all NeuronDiff are calculated
 
 					calculateNeuronDiff(N, n , I);
-
+					incrementBiasDiff((ActiveNeuron) n);
+					
 					for(Synapse s : n.getInputSynapses()){ // Weight gradient are updated  between the output layer and the hidden layer
 						incrementWeightsDiff(s);
 					}
@@ -95,6 +91,7 @@ public class BackPropagation extends LearningAlgorithm {
 
 					if(n instanceof IntermediateNeuron ){ //NeuronDiff are calculated
 						calculateNeuronDiff(N, n, I);
+						incrementBiasDiff((ActiveNeuron) n);
 
 						for(Synapse s : n.getInputSynapses()){ // Weight gradient are updated between the input layers and the hidden layers
 							incrementWeightsDiff(s);
@@ -105,12 +102,14 @@ public class BackPropagation extends LearningAlgorithm {
 
 
 			for(AbstractNeuron n : N.outputNeurons ){   //Synapse's weight are updated
+				incrementBias((ActiveNeuron) n, a);
 				for(Synapse s : n.getInputSynapses()){
 					incrementWeights(s,a);
 				}
 			}
 
 			for(AbstractNeuron n : N.intermediateNeurons ){ //Synapse's weight are updated
+				incrementBias((ActiveNeuron) n, a);
 				for(Synapse s : n.getInputSynapses()){
 					incrementWeights(s,a);
 				}

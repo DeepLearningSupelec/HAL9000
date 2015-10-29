@@ -44,7 +44,7 @@ public class Test {
 		System.out.println("f(" + x + ") = " + f1.apply(x));
 		x = 10000; 
 		System.out.println("f(" + x + ") = " + f1.apply(x));
-		double y = 2.;
+		double y = 10000;
 		System.out.println("f'(" + y + ") = " + f1.applyDerivative(y));*/
 		
 		
