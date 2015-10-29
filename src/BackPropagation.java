@@ -85,11 +85,11 @@ public class BackPropagation extends LearningAlgorithm {
 
 
 
-			for(int i=((Perceptron) N).layers.length ; i==1 ; i=i-1){ 	// Layer after layer, from the end to the beginning
+			for(int i=((Perceptron) N).layers.length - 1  ; i==0 ; i=i-1){ 	// Layer after layer, from the end to the beginning
 
 				for(AbstractNeuron n : ((Perceptron) N).layers[i] ){	// inside the layer
 
-					if(n instanceof IntermediateNeuron ){ //NeuronDiff are calculated
+					if(n instanceof ActiveNeuron ){ //NeuronDiff are calculated
 						calculateNeuronDiff(N, n, I);
 						incrementBiasDiff((ActiveNeuron) n);
 

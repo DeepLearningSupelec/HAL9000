@@ -13,7 +13,7 @@ public class Test {
 		Perceptron testPerceptron = new Perceptron(tabneuron, true);
 		BackPropagation algorithm = new BackPropagation();
 		Input currentInput;
-		double learningRate = 0.01;
+		double learningRate = 0.1;
 		for(int i =1; i <100 ; i++){
 			currentInput = new Input(i);
 			learningDataManager.setCurrent(i);
@@ -33,7 +33,7 @@ public class Test {
 			
 			
 		}
-		
+		//System.out.println(testPerceptron.layers[6][1]);
 		
 		/* Test Sigmoid */
 		/*System.out.println("Test Sigmoid");
