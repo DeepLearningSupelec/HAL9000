@@ -14,7 +14,7 @@ public class Test {
 		BackPropagation algorithm = new BackPropagation();
 		Input currentInput;
 		double learningRate = 0.1;
-		for(int i =1; i <100 ; i++){
+		for(int i =1; i <5000 ; i++){
 			currentInput = new Input(i);
 			learningDataManager.setCurrent(i);
 			//testPerceptron.setInputs(learningDataManager.readImage1D());
