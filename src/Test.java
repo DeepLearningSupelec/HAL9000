@@ -33,7 +33,6 @@ public class Test {
 			
 			
 		}
-		//System.out.println(testPerceptron.layers[6][1]);
 		
 		/* Test Sigmoid */
 		/*System.out.println("Test Sigmoid");

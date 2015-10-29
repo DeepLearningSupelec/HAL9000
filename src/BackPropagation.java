@@ -2,6 +2,9 @@ import java.util.ArrayList;
 
 public class BackPropagation extends LearningAlgorithm {
 
+	final double momentumFactor = 0.1;
+	
+	
 
 	private void calculateNeuronDiff(NeuralNetwork N, AbstractNeuron n, Input i){
 
@@ -47,12 +50,12 @@ public class BackPropagation extends LearningAlgorithm {
 	
 	
 	private void incrementWeightsDiff(Synapse s){
-		s.setWeightDiff(s.getInputNeuron().getOutput()*s.getOutputNeuron().getNeuronDiff());
+		s.setWeightDiff(s.getWeightDiff()*momentumFactor + s.getInputNeuron().getOutput()*s.getOutputNeuron().getNeuronDiff());
 		
 	}
 
 	private void incrementBiasDiff(ActiveNeuron n){
-		n.setBiasDiff(n.getNeuronDiff());
+		n.setBiasDiff(n.getBiasDiff()*momentumFactor + n.getNeuronDiff());
 	}
 	
 	private void incrementBias(ActiveNeuron n, double a){
