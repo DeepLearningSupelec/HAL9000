@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class BackPropagation extends LearningAlgorithm {
 
-	final double momentumFactor = 0.1;
+	final double momentumFactor = 0.00;
 	
 	
 
