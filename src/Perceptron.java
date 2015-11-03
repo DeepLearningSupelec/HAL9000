@@ -51,7 +51,7 @@ public class Perceptron extends NeuralNetwork {
 				
 				//Connecting Synapses between neuron and Layer (i - 1)
 				for(int k = 0; k < inputData[i - 1]; k++){
-					double w = 1;
+					double w = 1.;
 					if(randomWeight){
 						w = rand.nextDouble()*2. - 1.;
 					}
@@ -73,7 +73,7 @@ public class Perceptron extends NeuralNetwork {
 			this.outputNeurons.add(neuron);
 			this.layers[dataLength - 1][j] = neuron;
 			for(int k = 1; k <= inputData[dataLength - 2]; k++){
-				double w = 1;
+				double w = 1.;
 				if(randomWeight){
 					w = rand.nextDouble()*2. - 1.;
 				}

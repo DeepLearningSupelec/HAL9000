@@ -14,7 +14,7 @@ public class Test {
 		MnistManager learningDataManager = new MnistManager("src/train-images.idx3-ubyte","src/train-labels.idx1-ubyte");
 		MnistManager testDataManager = new MnistManager("src/t10k-images.idx3-ubyte","src/t10k-labels.idx1-ubyte");
 		int[] tabneuron = {784, 90 ,10};
-		Perceptron testPerceptron = new Perceptron(tabneuron, true);
+		Perceptron testPerceptron = new Perceptron(tabneuron, false);
 		BackPropagation algorithm = new BackPropagation();
 		Input currentInput;
 		double learningRate = 0.1;
@@ -27,7 +27,7 @@ public class Test {
 		Double errorRate = 1.;
 		ArrayList<Integer> nbex = new ArrayList<Integer>();
 		
-		
+		double sumQuadErr = 0;
 		int i = 1;
 		int imod = 1;
 		do{
@@ -36,12 +36,14 @@ public class Test {
 			//testPerceptron.setInputs(learningDataManager.readImage1D());
 			testPerceptron.setNormalizedInputs(learningDataManager.readImage1D(), 256);
 			testPerceptron.fire();
-			algorithm.launch(testPerceptron, learningRate , currentInput);			
+			//algorithm.launch(testPerceptron, learningRate , currentInput);			
 			double[] outputs=testPerceptron.getOutputs();
 			for(int j =0; j<10;j++){
 				String s = outputs[j] + " ";
 				if(outputs[j] < 0.001){ s = "~0 ";}
 				System.out.print(s);
+				sumQuadErr = (currentInput.expectedOutput()[j]-outputs[j])*(currentInput.expectedOutput()[j]-outputs[j]); //A voir si c'est reset pour chaque exemple puis faire la somme de ces erreurs quadratiques.
+				
 			}
 			System.out.println("Max absolute Weight : " + testPerceptron.wideWeight());
 			System.out.println("Expected : " + currentInput.getLabel() + " Output : " + testPerceptron.mostProbableAnswer());
@@ -58,6 +60,7 @@ public class Test {
 				error = 0.;
 				errorRate = 1.;
 				imod = 1;
+				quadLearning.add(sumQuadErr);
 			}
 			
 			i++;

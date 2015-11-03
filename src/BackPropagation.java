@@ -82,6 +82,7 @@ public class BackPropagation extends LearningAlgorithm {
 					
 					for(Synapse s : n.getInputSynapses()){ // Weight gradient are updated  between the output layer and the hidden layer
 						incrementWeightsDiff(s);
+						//System.out.println(" Weightdiff :" + s.getWeightDiff());
 					}
 				}
 			}
