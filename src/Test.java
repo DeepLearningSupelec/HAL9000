@@ -68,9 +68,9 @@ public class Test {
 			accuError += instantError;
 			instantError = 0.;
 			
-<<<<<<< HEAD
+
 		} while (accuError < 0.01) ;
-		
+		/*
 		OutputData output = new OutputData(
 				nbex,
 				quadTest,
@@ -79,9 +79,9 @@ public class Test {
 				errLearning);
 		Path p = Paths.get(System.getProperty("user.home"),"desktop", "perceptron.csv");
 		output.toCSV(p);
-=======
-		} while (accuError > 0.001) ;
->>>>>>> refs/remotes/origin/master
+
+		//} while (accuError > 0.001) ;*/
+
 
 	}
 
