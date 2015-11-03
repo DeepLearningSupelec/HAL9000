@@ -26,12 +26,11 @@ public class Test {
 		Double error = 0.;
 		ArrayList<Integer> nbex = new ArrayList<Integer>();
 		
-		/////////
 		
 		int i =1;
 		do{
 			currentInput = new Input(Math.abs(i%600001));
-			learningDataManager.setCurrent(i);
+			learningDataManager.setCurrent(Math.abs(i%600001));
 			//testPerceptron.setInputs(learningDataManager.readImage1D());
 			testPerceptron.setNormalizedInputs(learningDataManager.readImage1D(), 256);
 			testPerceptron.fire();
