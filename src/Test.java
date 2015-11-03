@@ -36,7 +36,7 @@ public class Test {
 			//testPerceptron.setInputs(learningDataManager.readImage1D());
 			testPerceptron.setNormalizedInputs(learningDataManager.readImage1D(), 256);
 			testPerceptron.fire();
-			//algorithm.launch(testPerceptron, learningRate , currentInput);			
+			algorithm.launch(testPerceptron, learningRate , currentInput);			
 			double[] outputs=testPerceptron.getOutputs();
 			for(int j =0; j<10;j++){
 				String s = outputs[j] + " ";
