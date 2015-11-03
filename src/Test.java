@@ -27,7 +27,7 @@ public class Test {
 		ArrayList<Integer> nbex = new ArrayList<Integer>();
 		
 		
-		int i =0;
+		int i =1;
 		do{
 			currentInput = new Input(Math.abs(i%60001));
 			learningDataManager.setCurrent(Math.abs(i%60001));
@@ -52,7 +52,6 @@ public class Test {
 			if (i%1000 == 0) {
 				nbex.add(i);
 				errLearning.add(error/i);
-				error = 0.;
 			}
 			
 			i++;
