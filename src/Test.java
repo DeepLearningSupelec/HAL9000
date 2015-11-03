@@ -14,7 +14,7 @@ public class Test {
 		MnistManager learningDataManager = new MnistManager("src/train-images.idx3-ubyte","src/train-labels.idx1-ubyte");
 		MnistManager testDataManager = new MnistManager("src/t10k-images.idx3-ubyte","src/t10k-labels.idx1-ubyte");
 		int[] tabneuron = {784, 90 ,10};
-		Perceptron testPerceptron = new Perceptron(tabneuron, false);
+		Perceptron testPerceptron = new Perceptron(tabneuron, true);
 		BackPropagation algorithm = new BackPropagation();
 		Input currentInput;
 		double learningRate = 0.1;
@@ -23,13 +23,14 @@ public class Test {
 		ArrayList<Double> quadLearning = new ArrayList<Double>();
 		ArrayList<Double> errTest = new ArrayList<Double>();
 		ArrayList<Double> errLearning = new ArrayList<Double>();
-		Double error = 0.;
-		Double errorRate = 1.;
+		
+		Double instantError = 0.;
+		Double accuError = 0.;
+		
 		ArrayList<Integer> nbex = new ArrayList<Integer>();
 		
-		double sumQuadErr = 0;
 		int i = 1;
-		int imod = 1;
+		
 		do{
 			currentInput = new Input(Math.abs(i%60001));
 			learningDataManager.setCurrent(Math.abs(i%60001));
@@ -42,30 +43,28 @@ public class Test {
 				String s = outputs[j] + " ";
 				if(outputs[j] < 0.001){ s = "~0 ";}
 				System.out.print(s);
-				sumQuadErr = (currentInput.expectedOutput()[j]-outputs[j])*(currentInput.expectedOutput()[j]-outputs[j]); //A voir si c'est reset pour chaque exemple puis faire la somme de ces erreurs quadratiques.
-				
+				instantError += Math.abs(currentInput.expectedOutput()[j]-outputs[j])/10;
 			}
 			System.out.println("Max absolute Weight : " + testPerceptron.wideWeight());
 			System.out.println("Expected : " + currentInput.getLabel() + " Output : " + testPerceptron.mostProbableAnswer());
-			if (currentInput.getLabel() != testPerceptron.mostProbableAnswer()) {
-				error++;
-				errorRate = error/imod;
-			}
 			
-			System.out.println("Taux d'erreur : " + errorRate);
+			System.out.println("Erreur : " + instantError);
 			
-			if (i%1000 == 0) {
+			accuError += instantError;
+			instantError = 0.;
+			
+			if (i%1000 == 1) {
 				nbex.add(i);
-				errLearning.add(errorRate);
-				error = 0.;
-				errorRate = 1.;
-				imod = 1;
-				quadLearning.add(sumQuadErr);
+				if (i==1){
+					errLearning.add(accuError);
+				} else {
+					errLearning.add(accuError/1000);
+				}
+				accuError = 0.;
 			}
 			
 			i++;
-			imod++;
-		} while (errorRate>0.1) ;
+		} while (i<2001) ;
 		
 		OutputData output = new OutputData(
 				nbex,
