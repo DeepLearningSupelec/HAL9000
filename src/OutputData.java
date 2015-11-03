@@ -33,7 +33,7 @@ public class OutputData {
 		java.util.ListIterator<Double> quadTestIter = this.quadTest.listIterator();
 		java.util.ListIterator<Double> quadLearningIter = this.quadLearning.listIterator();
 		java.util.ListIterator<Double> errTestIter = this.errTest.listIterator();
-		java.util.ListIterator<Double> errLearningIter = this.quadLearning.listIterator();
+		java.util.ListIterator<Double> errLearningIter = this.errLearning.listIterator();
 		
 		file.write("nbex; quadLearning; errLearning; quadTest; errTest;\n");
 		

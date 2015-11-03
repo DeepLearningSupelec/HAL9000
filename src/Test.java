@@ -24,10 +24,12 @@ public class Test {
 		ArrayList<Double> errTest = new ArrayList<Double>();
 		ArrayList<Double> errLearning = new ArrayList<Double>();
 		Double error = 0.;
+		Double errorRate = 1.;
 		ArrayList<Integer> nbex = new ArrayList<Integer>();
 		
 		
-		int i =1;
+		int i = 1;
+		int imod = 1;
 		do{
 			currentInput = new Input(Math.abs(i%60001));
 			learningDataManager.setCurrent(Math.abs(i%60001));
@@ -45,18 +47,22 @@ public class Test {
 			System.out.println("Expected : " + currentInput.getLabel() + " Output : " + testPerceptron.mostProbableAnswer());
 			if (currentInput.getLabel() != testPerceptron.mostProbableAnswer()) {
 				error++;
+				errorRate = error/imod;
 			}
 			
-			System.out.println("Taux d'erreur : " + error/i);
+			System.out.println("Taux d'erreur : " + errorRate);
 			
 			if (i%1000 == 0) {
 				nbex.add(i);
-				errLearning.add(error/i);
+				errLearning.add(errorRate);
 				error = 0.;
+				errorRate = 1.;
+				imod = 1;
 			}
 			
 			i++;
-		} while (error/i>0.1) ;
+			imod++;
+		} while (errorRate>0.1) ;
 		
 		OutputData output = new OutputData(
 				nbex,
