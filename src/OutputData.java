@@ -13,6 +13,20 @@ public class OutputData {
 	
 	
 	/* Methods */
+	public OutputData(
+			ArrayList<Integer> nbex,
+			ArrayList<Double> quadTest,
+			ArrayList<Double> quadLearning,
+			ArrayList<Double> errTest,
+			ArrayList<Double> errLearning) {
+		this.nbex = nbex;
+		this.quadTest = quadTest;
+		this.quadLearning = quadLearning;
+		this.errTest = errTest;
+		this.errLearning = errLearning;
+	}
+	
+	
 	public void toCSV(Path p) throws IOException {
 		FileWriter file = new FileWriter(p.toString());
 		java.util.ListIterator<Integer> nbexIter = this.nbex.listIterator();

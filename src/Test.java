@@ -1,5 +1,9 @@
 
+
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 
 import mnistReader.MnistManager;
 
@@ -14,8 +18,19 @@ public class Test {
 		BackPropagation algorithm = new BackPropagation();
 		Input currentInput;
 		double learningRate = 0.1;
-		for(int i =1; i <5000 ; i++){
-			currentInput = new Input(i);
+		
+		ArrayList<Double> quadTest = new ArrayList<Double>();
+		ArrayList<Double> quadLearning = new ArrayList<Double>();
+		ArrayList<Double> errTest = new ArrayList<Double>();
+		ArrayList<Double> errLearning = new ArrayList<Double>();
+		Double error = 0.;
+		ArrayList<Integer> nbex = new ArrayList<Integer>();
+		
+		/////////
+		
+		int i =1;
+		do{
+			currentInput = new Input(Math.abs(i%600001));
 			learningDataManager.setCurrent(i);
 			//testPerceptron.setInputs(learningDataManager.readImage1D());
 			testPerceptron.setNormalizedInputs(learningDataManager.readImage1D(), 256);
@@ -29,28 +44,28 @@ public class Test {
 			}
 			System.out.println("Max absolute Weight : " + testPerceptron.wideWeight());
 			System.out.println("Expected : " + currentInput.getLabel() + " Output : " + testPerceptron.mostProbableAnswer());
+			if (currentInput.getLabel() != testPerceptron.mostProbableAnswer()) {
+				error++;
+			}
 			
+			System.out.println("Taux d'erreur : " + error/i);
 			
+			if (i%1000 == 0) {
+				nbex.add(i);
+				errLearning.add(error/i);
+			}
 			
-		}
+			i++;
+		} while (error/i>0.1) ;
 		
-		/* Test Sigmoid */
-		/*System.out.println("Test Sigmoid");
-		Sigmoid f1 = Sigmoid.getINSTANCE();
-		double x = 2.;
-		System.out.println("f(" + x + ") = " + f1.apply(x));
-		x = -10000; 
-		System.out.println("f(" + x + ") = " + f1.apply(x));
-		x = 10000; 
-		System.out.println("f(" + x + ") = " + f1.apply(x));
-		double y = 10000;
-		System.out.println("f'(" + y + ") = " + f1.applyDerivative(y));*/
-		
-		
-		/* Test ActivationFunction*/
-		/*ActivationFunction f = new ActivationFunction(x->x*x, x->2*x);
-		System.out.println(f.apply(3.));
-		System.out.println(f.applyDerivative(3.));*/
+		OutputData output = new OutputData(
+				nbex,
+				quadTest,
+				quadLearning,
+				errTest,
+				errLearning);
+		Path p = Paths.get(System.getProperty("user.home"),"desktop", "perceptron.csv");
+		output.toCSV(p);
 
 	}
 
