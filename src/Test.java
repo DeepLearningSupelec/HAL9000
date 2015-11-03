@@ -29,9 +29,22 @@ public class Test {
 		
 		ArrayList<Integer> nbex = new ArrayList<Integer>();
 		
-		int i = 1;
+		int i = 0;
 		
 		do{
+			
+			if (i%1000 == 1) {
+				nbex.add(i);
+				if (i==1){
+					errLearning.add(accuError);
+				} else {
+					errLearning.add(accuError/1000);
+				}
+				accuError = 0.;
+			}
+			
+			i++;
+			
 			currentInput = new Input(Math.abs(i%60001));
 			learningDataManager.setCurrent(Math.abs(i%60001));
 			//testPerceptron.setInputs(learningDataManager.readImage1D());
@@ -53,18 +66,7 @@ public class Test {
 			accuError += instantError;
 			instantError = 0.;
 			
-			if (i%1000 == 1) {
-				nbex.add(i);
-				if (i==1){
-					errLearning.add(accuError);
-				} else {
-					errLearning.add(accuError/1000);
-				}
-				accuError = 0.;
-			}
-			
-			i++;
-		} while (i<2001) ;
+		} while (accuError < 0.01) ;
 		
 		OutputData output = new OutputData(
 				nbex,
