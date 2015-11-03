@@ -52,6 +52,7 @@ public class Test {
 			if (i%1000 == 0) {
 				nbex.add(i);
 				errLearning.add(error/i);
+				error = 0.;
 			}
 			
 			i++;
