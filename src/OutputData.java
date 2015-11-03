@@ -27,8 +27,9 @@ public class OutputData {
 	}
 	
 	
-	public void toCSV(Path p) throws IOException {
+	public FileWriter toCSV(Path p) throws IOException {
 		FileWriter file = new FileWriter(p.toString());
+		
 		java.util.ListIterator<Integer> nbexIter = this.nbex.listIterator();
 		java.util.ListIterator<Double> quadTestIter = this.quadTest.listIterator();
 		java.util.ListIterator<Double> quadLearningIter = this.quadLearning.listIterator();
@@ -54,8 +55,8 @@ public class OutputData {
 					|| quadTestIter.hasNext()
 					|| errTestIter.hasNext();
 		}
-		
 		file.close();
+		return file;
 	}
 	
 	public void addData(double quadTest, double quadLearning,double errTest, double errLearning, int nbex){
@@ -64,5 +65,26 @@ public class OutputData {
 		this.errTest.add(errTest);
 		this.errLearning.add(errLearning);
 		this.nbex.add(nbex);
+	}
+	
+	public void addData(double quadTest, double quadLearning,double errTest, double errLearning, int nbex, Path p) throws IOException{
+		
+		FileWriter file = new FileWriter(p.toString());
+		
+		this.quadTest.add(quadTest);
+		this.quadLearning.add(quadLearning);
+		this.errTest.add(errTest);
+		this.errLearning.add(errLearning);
+		this.nbex.add(nbex);
+		
+		String line =
+				nbex +";"
+				+ quadLearning+";"
+				+ errLearning+";"
+				+ quadTest+";"
+				+ errTest+";"
+				+ "\n";
+		file.write(line);
+		file.close();
 	}
 }

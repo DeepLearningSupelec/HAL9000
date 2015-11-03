@@ -1,5 +1,6 @@
 
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -19,26 +20,27 @@ public class Test {
 		Input currentInput;
 		double learningRate = 0.1;
 		
-		ArrayList<Double> quadTest = new ArrayList<Double>();
-		ArrayList<Double> quadLearning = new ArrayList<Double>();
-		ArrayList<Double> errTest = new ArrayList<Double>();
-		ArrayList<Double> errLearning = new ArrayList<Double>();
+		OutputData output = new OutputData(
+				new ArrayList<Integer>(),
+				new ArrayList<Double>(),
+				new ArrayList<Double>(),
+				new ArrayList<Double>(),
+				new ArrayList<Double>());
+		Path p = Paths.get(System.getProperty("user.home"),"desktop", "perceptron.csv");
+		FileWriter file = output.toCSV(p);
 		
 		Double instantError = 0.;
 		Double accuError = 0.;
-		
-		ArrayList<Integer> nbex = new ArrayList<Integer>();
 		
 		int i = 0;
 		
 		do{
 			
 			if (i%1000 == 1) {
-				nbex.add(i);
 				if (i==1){
-					errLearning.add(accuError);
+					output.addData(0., 0., 0., accuError, i, p);
 				} else {
-					errLearning.add(accuError/1000);
+					output.addData(0., 0., 0., accuError/1000, i, p);
 				}
 				accuError = 0.;
 			}
@@ -66,16 +68,7 @@ public class Test {
 			accuError += instantError;
 			instantError = 0.;
 			
-		} while (accuError > 0.01) ;
-		
-		OutputData output = new OutputData(
-				nbex,
-				quadTest,
-				quadLearning,
-				errTest,
-				errLearning);
-		Path p = Paths.get(System.getProperty("user.home"),"desktop", "perceptron.csv");
-		output.toCSV(p);
+		} while (accuError > 0.001) ;
 
 	}
 
