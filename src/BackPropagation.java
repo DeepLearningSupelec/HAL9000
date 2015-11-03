@@ -81,11 +81,8 @@ public class BackPropagation extends LearningAlgorithm {
 			}*/
 
 
-			System.out.println("layers : " + ((Perceptron) N).layers.length);
 			for(int i=((Perceptron) N).layers.length - 1  ; i>=0 ; i=i-1){ 	// Layer after layer, from the end to the beginning
 
-				System.out.println("neuron per layer : " + ((Perceptron) N).layers[i].length);
-				
 				
 				for(AbstractNeuron n : ((Perceptron) N).layers[i] ){	// inside the layer
 
