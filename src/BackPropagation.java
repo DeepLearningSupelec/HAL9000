@@ -10,19 +10,7 @@ public class BackPropagation extends LearningAlgorithm {
 
 		
 		
-		//weightedSum is calculated for the intermediate and output neuron
-		/*double weightedSum = 0;
-		if(n instanceof ActiveNeuron) {
-			for (Synapse s : n.getInputSynapses()) {
-				weightedSum = weightedSum + s.getWeight()*s.getInputNeuron().getOutput() ;
-			}
-			weightedSum = weightedSum - n.bias;
-
-		}*/
-
-		
-		
-		
+	
 		// The operations differ whether the neuron is an OutputNeuron or another neuron
 		
 		if (n instanceof OutputNeuron ){
@@ -38,9 +26,14 @@ public class BackPropagation extends LearningAlgorithm {
 			for (Synapse s : n.getOutputSynapses()) {
 				weightedErrorOutput = weightedErrorOutput +s.getWeight()*s.getOutputNeuron().getNeuronDiff() ;
 			}
+			
 			n.setNeuronDiff (n.activationFunction.applyDerivative(((ActiveNeuron)n).getIntermediateValue())*weightedErrorOutput); // delta = f'(input)* sum ( gradient next Neuron * weight linked synapse) 
+			//System.out.println("weightederroroutput: " + weightedErrorOutput);
 		}
+		
 
+		//System.out.println("neuron diff: " + ((ActiveNeuron)n).getNeuronDiff());
+		//System.out.println("intermediate value: " + ((ActiveNeuron)n).getIntermediateValue());
 	}
 
 
@@ -73,7 +66,7 @@ public class BackPropagation extends LearningAlgorithm {
 
 		if (N instanceof Perceptron){
 
-			for (AbstractNeuron n : N.outputNeurons ){ //Beginning with the end of the Neural Network
+			/*for (AbstractNeuron n : N.outputNeurons ){ //Beginning with the end of the Neural Network
 
 				if(n instanceof OutputNeuron){  // all NeuronDiff are calculated
 
@@ -85,12 +78,15 @@ public class BackPropagation extends LearningAlgorithm {
 						//System.out.println(" Weightdiff :" + s.getWeightDiff());
 					}
 				}
-			}
+			}*/
 
 
+			System.out.println("layers : " + ((Perceptron) N).layers.length);
+			for(int i=((Perceptron) N).layers.length - 1  ; i>=0 ; i=i-1){ 	// Layer after layer, from the end to the beginning
 
-			for(int i=((Perceptron) N).layers.length - 1  ; i==0 ; i=i-1){ 	// Layer after layer, from the end to the beginning
-
+				System.out.println("neuron per layer : " + ((Perceptron) N).layers[i].length);
+				
+				
 				for(AbstractNeuron n : ((Perceptron) N).layers[i] ){	// inside the layer
 
 					if(n instanceof ActiveNeuron ){ //NeuronDiff are calculated

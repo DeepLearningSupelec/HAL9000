@@ -14,7 +14,7 @@ public class Test {
 		MnistManager learningDataManager = new MnistManager("src/train-images.idx3-ubyte","src/train-labels.idx1-ubyte");
 		MnistManager testDataManager = new MnistManager("src/t10k-images.idx3-ubyte","src/t10k-labels.idx1-ubyte");
 		int[] tabneuron = {784, 90 ,10};
-		Perceptron testPerceptron = new Perceptron(tabneuron, false);
+		Perceptron testPerceptron = new Perceptron(tabneuron, true);
 		BackPropagation algorithm = new BackPropagation();
 		Input currentInput;
 		double learningRate = 0.1;
@@ -30,6 +30,16 @@ public class Test {
 		double sumQuadErr = 0;
 		int i = 1;
 		int imod = 1;
+		/*System.out.println("Synapses : 0" + testPerceptron.synapses.size());
+		double temp = 1;
+		for(int j = 0; j < testPerceptron.synapses.size(); j++){
+			
+			if(testPerceptron.synapses.get(j).getWeight() != temp){
+				System.out.println("Synapse != 0 : " + testPerceptron.synapses.get(j).getWeight());
+			}
+		}*/
+		
+		
 		do{
 			currentInput = new Input(Math.abs(i%60001));
 			learningDataManager.setCurrent(Math.abs(i%60001));
