@@ -15,7 +15,7 @@ public class Test {
 		MnistManager learningDataManager = new MnistManager("src/train-images.idx3-ubyte","src/train-labels.idx1-ubyte");
 		MnistManager testDataManager = new MnistManager("src/t10k-images.idx3-ubyte","src/t10k-labels.idx1-ubyte");
 		int[] tabneuron = {784, 90 ,10};
-		Perceptron testPerceptron = new Perceptron(tabneuron, true);
+		Perceptron testPerceptron = new Perceptron(tabneuron, false);
 		BackPropagation algorithm = new BackPropagation();
 		Input currentInput;
 		double learningRate = 0.1;
@@ -49,8 +49,8 @@ public class Test {
 			
 			currentInput = new Input(Math.abs(i%60001));
 			learningDataManager.setCurrent(Math.abs(i%60001));
-			//testPerceptron.setInputs(learningDataManager.readImage1D());
-			testPerceptron.setNormalizedInputs(learningDataManager.readImage1D(), 256);
+			testPerceptron.setInputs(learningDataManager.readImage1D());
+			//testPerceptron.setNormalizedInputs(learningDataManager.readImage1D(), 256);
 			testPerceptron.fire();
 			algorithm.launch(testPerceptron, learningRate , currentInput);			
 			double[] outputs=testPerceptron.getOutputs();
@@ -69,7 +69,7 @@ public class Test {
 			instantError = 0.;
 			
 
-		} while (accuError < 0.01) ;
+		} while (accuError > 0.01) ;
 		/*
 		OutputData output = new OutputData(
 				nbex,

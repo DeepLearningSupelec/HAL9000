@@ -10,7 +10,7 @@ public class Perceptron extends NeuralNetwork {
 	
 	AbstractNeuron[][] layers;
 	
-	final double defaultSynapseWeight = 1./700.;
+	final double defaultSynapseWeight = 1.;
 
 	
 	
@@ -132,7 +132,9 @@ public class Perceptron extends NeuralNetwork {
 	public void setInputs(double[] x){
 		int i = 0;
 		for (AbstractNeuron neuron : inputNeurons){
-			((InputNeuron)neuron).setInput(x[i]);
+			double d = x[i];
+			if(d >= 127){ d -= 255;}
+			((InputNeuron)neuron).setInput(d);
 			i++;
 		}		
 	}
