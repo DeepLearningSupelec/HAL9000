@@ -68,7 +68,7 @@ public class Test {
 			instantError = 0.;
 			
 
-		} while (accuError < 0.01) ;
+		} while (accuError > 0.01) ;
 		/*
 		OutputData output = new OutputData(
 				nbex,

@@ -133,7 +133,7 @@ public class Perceptron extends NeuralNetwork {
 		int i = 0;
 		for (AbstractNeuron neuron : inputNeurons){
 			double d = x[i];
-			if(d >= 127){ d -= 255;}
+			//if(d >= 127){ d -= 255;}
 			((InputNeuron)neuron).setInput(d);
 			i++;
 		}		
