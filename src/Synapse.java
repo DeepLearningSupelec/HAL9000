@@ -17,7 +17,7 @@ public class Synapse {
 	
 
 	public Synapse(AbstractNeuron inputNeuron, AbstractNeuron outputNeuron){
-		this.weight = 1.;
+		this.weight = 0.01;
 		this.weightDiff = 0;
 		this.inputNeuron = inputNeuron;
 		this.outputNeuron = outputNeuron;

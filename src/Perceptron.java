@@ -10,7 +10,7 @@ public class Perceptron extends NeuralNetwork {
 	
 	AbstractNeuron[][] layers;
 	
-	final double defaultSynapseWeight = 1.;
+	final double defaultSynapseWeight = 0.03;
 
 	
 	
