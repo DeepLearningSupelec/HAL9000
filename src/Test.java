@@ -64,7 +64,7 @@ public class Test {
 				}
 			}
 			if(!learn){
-				for(int j = i - epoch; j<=i ;j++){
+				for(int j = i%50000 - epoch; j<=i%50000 ;j++){
 					currentInput = new Input(Math.abs((j%50000)+1));
 					learningDataManager.setCurrent(Math.abs((j%50000)+1));
 					testPerceptron.setNormalizedInputs(learningDataManager.readImage1D(), 256);

@@ -76,15 +76,6 @@ public class OutputData {
 		this.errTest.add(errTest);
 		this.errLearning.add(errLearning);
 		this.nbex.add(nbex);
-		
-		String line =
-				nbex +";"
-				+ quadLearning+";"
-				+ errLearning+";"
-				+ quadTest+";"
-				+ errTest+";"
-				+ "\n";
-		file.write(line);
-		file.close();
+		this.toCSV(p);
 	}
 }
