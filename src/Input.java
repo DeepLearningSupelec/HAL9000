@@ -44,6 +44,12 @@ public class Input {
 		return this.label;
 	}
 	
+	public int[] getInputValues(){
+		return this.inputValues;
+	}
+	
+	
+	
 	//Creates a list of value that are the expected output of the Perceptron for MNIST
 		public int[] expectedOutput(){
 			int[] expectedOutput = new int[10];

@@ -16,7 +16,7 @@ public class BackPropagation extends LearningAlgorithm {
 		if (n instanceof OutputNeuron ){
 			
 			double error = i.expectedOutput()[N.outputNeurons.indexOf(n)] - n.output;
-			System.out.println(error);
+			//System.out.println(error);
 			n.setNeuronDiff(n.activationFunction.applyDerivative(((ActiveNeuron)n).getIntermediateValue())*error); // delta = f'(input)*e
 			//System.out.println(n.activationFunction.applyDerivative(((ActiveNeuron)n).getIntermediateValue())*error);
 		}

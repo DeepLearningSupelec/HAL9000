@@ -24,7 +24,8 @@ public class TestXOR {
 		
 		Input[] inputs = {a, b, c, d};
 		
-
+		
+		
 		
 	
 	}
