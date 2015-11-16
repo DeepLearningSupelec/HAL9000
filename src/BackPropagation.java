@@ -16,8 +16,9 @@ public class BackPropagation extends LearningAlgorithm {
 		if (n instanceof OutputNeuron ){
 			
 			double error = i.expectedOutput()[N.outputNeurons.indexOf(n)] - n.output;
+			System.out.println(error);
 			n.setNeuronDiff(n.activationFunction.applyDerivative(((ActiveNeuron)n).getIntermediateValue())*error); // delta = f'(input)*e
-
+			//System.out.println(n.activationFunction.applyDerivative(((ActiveNeuron)n).getIntermediateValue())*error);
 		}
 
 		if (n instanceof IntermediateNeuron) {
@@ -26,7 +27,7 @@ public class BackPropagation extends LearningAlgorithm {
 			for (Synapse s : n.getOutputSynapses()) {
 				weightedErrorOutput = weightedErrorOutput +s.getWeight()*s.getOutputNeuron().getNeuronDiff() ;
 			}
-			
+			//System.out.println(weightedErrorOutput);
 			n.setNeuronDiff (n.activationFunction.applyDerivative(((ActiveNeuron)n).getIntermediateValue())*weightedErrorOutput); // delta = f'(input)* sum ( gradient next Neuron * weight linked synapse) 
 			//System.out.println("weightederroroutput: " + weightedErrorOutput);
 		}

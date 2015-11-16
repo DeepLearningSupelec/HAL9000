@@ -14,7 +14,7 @@ public class Test {
 		MnistManager learningDataManager = new MnistManager("src/train-images.idx3-ubyte","src/train-labels.idx1-ubyte");
 		MnistManager testDataManager = new MnistManager("src/t10k-images.idx3-ubyte","src/t10k-labels.idx1-ubyte");
 		int[] tabneuron = {784, 90 ,10};
-		Perceptron testPerceptron = new Perceptron(tabneuron, true);
+		Perceptron testPerceptron = new Perceptron(tabneuron, false);
 		BackPropagation algorithm = new BackPropagation();
 		Input currentInput;
 		double learningRate = 0.1;
@@ -45,7 +45,7 @@ public class Test {
 				} else {
 					output.addData(errorQuadTest/10000, errorQuad/epoch, pErrorTest/10000, pError/epoch, i, p);
 				}
-				System.out.println(errorQuadTest/10000 +"  "+    errorQuad/1000      + "  "+ pError/epoch +"   " + pErrorTest/10000);
+				System.out.println(i+ "     " +errorQuadTest/10000 +"  "+    errorQuad/1000      + "  "+ pError/epoch +"   " + pErrorTest/10000);
 				pError = 0.;
 				pErrorTest =0.;
 				errorQuad = 0.;
@@ -64,7 +64,7 @@ public class Test {
 				}
 			}
 			if(!learn){
-				for(int j = i%50000 - epoch; j<=i%50000 ;j++){
+				for(int j = i - epoch; j<i ;j++){
 					currentInput = new Input(Math.abs((j%50000)+1));
 					learningDataManager.setCurrent(Math.abs((j%50000)+1));
 					testPerceptron.setNormalizedInputs(learningDataManager.readImage1D(), 256);
@@ -77,7 +77,7 @@ public class Test {
 						pError +=  1.;
 					}
 				}
-				for(int k = 50001 ; k<=60000; k++){
+				/*for(int k = 50001 ; k<=60000; k++){
 					currentInput = new Input(Math.abs(k));
 					learningDataManager.setCurrent(Math.abs(k));
 					testPerceptron.setNormalizedInputs(learningDataManager.readImage1D(), 256);
@@ -89,7 +89,7 @@ public class Test {
 					if(currentInput.getLabel() != testPerceptron.mostProbableAnswer()){
 						pErrorTest +=  1.;
 					}
-				}
+				}*/
 				learn=!learn;
 			}
 		/*	for(int j =0; j<10;j++){
