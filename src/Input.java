@@ -9,7 +9,17 @@ public class Input {
 	//Attributes
 	private int label;
 	
+	private int[] inputValues;
+	
 	//Constructor
+	
+	public Input(int[] inputValues, int label){
+		this.inputValues = inputValues;
+		this.label = label;
+		
+	}
+	
+	
 	
 	// this input is necessary a training input
 	public Input(int a) throws IOException{
