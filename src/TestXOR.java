@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class TestXOR {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		
 		
 		//Input DataBase creation
@@ -24,7 +24,18 @@ public class TestXOR {
 		
 		Input[] inputs = {a, b, c, d};
 		
+		//Learning
 		
+		/*Path p1 = Paths.get(System.getProperty("user.home"),"desktop", "XORPerceptron.txt");
+		
+		Perceptron test = new Perceptron(p1);
+		System.out.println("pouet");*/
+		int[] tabneuron = {2, 2, 1};
+		Perceptron testPerceptron = new Perceptron(tabneuron, false);
+		testPerceptron.synapses.get(0).setWeight(0);
+		BackPropagation algorithm = new BackPropagation();
+		Input currentInput;
+		double learningRate = 0.1;
 		
 		
 	

@@ -62,8 +62,8 @@ public class Perceptron extends NeuralNetwork {
 						
 					} else {
 						int a = k + interNeuronCpt;
-						System.out.println("i: " + i + " j: " +j);
-						System.out.println("taille: " + this.intermediateNeurons.size() + " case : " + a + " k: " + k );
+						//System.out.println("i: " + i + " j: " +j);
+						//System.out.println("taille: " + this.intermediateNeurons.size() + " case : " + a + " k: " + k );
 						this.synapses.add(new Synapse(w, this.intermediateNeurons.get(k + interNeuronCpt), neuron));
 					}
 				}

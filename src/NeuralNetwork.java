@@ -93,43 +93,59 @@ public abstract class NeuralNetwork {
 				}
 				
 				
-			}
-			
-			int partCpt = 0;
-			int[] connectedNeurons = new int[2];
-			
-		    for (String part : line.split("\\s+")) {
-		    	if(partCpt < 2){
-			        Integer i = Integer.valueOf(part);
-			        connectedNeurons[partCpt] = i;
-			        
+			} else {
+				
+				
+				
+				int partCpt = 0;
+				double weight = 0;
+				boolean setWeight = false;
+				
+				int[] connectedNeurons = new int[2];
+				
+			    for (String part : line.split("\\s+")) {
+			    	if(partCpt < 2){
+				        Integer i = Integer.valueOf(part);
+				        connectedNeurons[partCpt] = i;
+				        
+			    	}
+			    	if(partCpt == 3){
+			    		setWeight = true;
+			    		Integer i = Integer.valueOf(part);
+				        weight = i;
+			    	}
+			    	partCpt++;
+			    }
+			    
+			    //Synapse creation
+			    
+			    AbstractNeuron beginNeuron;
+			    AbstractNeuron endNeuron;
+			    
+		    	if(connectedNeurons[0] < informations[1]){ 												// InputNeuron case
+		    		beginNeuron = this.inputNeurons.get(connectedNeurons[0]);
+		    	} else if(connectedNeurons[0] - informations[1] < informations[2]){ 					// IntermediateNeuron case
+		    		beginNeuron = this.intermediateNeurons.get(connectedNeurons[0] - informations[1]);
+		    	} else { 																				// OutputNeuron case
+		    		System.out.println("ligne : " + lineCpt);
+		    		beginNeuron = this.outputNeurons.get(connectedNeurons[0] - informations[2] - informations[1]);
 		    	}
-		    }
-		    
-		    //Synapse creation
-		    
-		    AbstractNeuron beginNeuron;
-		    AbstractNeuron endNeuron;
-		    
-	    	if(connectedNeurons[0] < informations[1]){ 												// InputNeuron case
-	    		beginNeuron = this.inputNeurons.get(connectedNeurons[0]);
-	    	} else if(connectedNeurons[0] - informations[1] < informations[2]){ 					// IntermediateNeuron case
-	    		beginNeuron = this.intermediateNeurons.get(connectedNeurons[0] - informations[1]);
-	    	} else { 																				// OutputNeuron case
-	    		beginNeuron = this.outputNeurons.get(connectedNeurons[0] - informations[2]);
-	    	}
-
-	    	if(connectedNeurons[1] < informations[1]){ 												// InputNeuron case
-	    		endNeuron = this.inputNeurons.get(connectedNeurons[1]);
-	    	} else if(connectedNeurons[1] - informations[1] < informations[2]){ 					// IntermediateNeuron case
-	    		endNeuron = this.intermediateNeurons.get(connectedNeurons[1] - informations[1]);
-	    	} else {																				// OutputNeuron case
-	    		endNeuron = this.outputNeurons.get(connectedNeurons[1] - informations[2]);
-	    	}
-		    
-	    	
-		    this.synapses.add(new Synapse(beginNeuron, endNeuron));
-		    
+	
+		    	if(connectedNeurons[1] < informations[1]){ 												// InputNeuron case
+		    		endNeuron = this.inputNeurons.get(connectedNeurons[1]);
+		    	} else if(connectedNeurons[1] - informations[1] < informations[2]){ 					// IntermediateNeuron case
+		    		endNeuron = this.intermediateNeurons.get(connectedNeurons[1] - informations[1]);
+		    	} else {																				// OutputNeuron case
+		    		endNeuron = this.outputNeurons.get(connectedNeurons[1] - informations[2] - informations[1]);
+		    	}
+			    
+		    	if(setWeight){
+		    		this.synapses.add(new Synapse(weight, beginNeuron, endNeuron));
+		    	} else {
+		    		this.synapses.add(new Synapse(beginNeuron, endNeuron));
+		    	}
+		    	
+			}
 		    lineCpt++;
 		}
 		
