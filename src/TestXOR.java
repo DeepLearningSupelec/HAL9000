@@ -32,7 +32,13 @@ public class TestXOR {
 		System.out.println("pouet");*/
 		int[] tabneuron = {2, 2, 1};
 		Perceptron testPerceptron = new Perceptron(tabneuron, false);
-		testPerceptron.synapses.get(0).setWeight(0);
+		testPerceptron.synapses.get(0).setWeight(0.8);
+		testPerceptron.synapses.get(1).setWeight(-0.3);
+		testPerceptron.synapses.get(2).setWeight(0.5);
+		testPerceptron.synapses.get(3).setWeight(0.2);
+		testPerceptron.synapses.get(4).setWeight(-0.5);
+		testPerceptron.synapses.get(5).setWeight(0.6);
+		
 		BackPropagation algorithm = new BackPropagation();
 		Input currentInput;
 		double learningRate = 0.1;
