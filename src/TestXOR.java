@@ -13,13 +13,13 @@ public class TestXOR {
 		
 		//Input DataBase creation
 		
-		int[] valuesA = {1, 1};
+		double[] valuesA = {1, 1};
 		Input a = new Input(valuesA, 0);
-		int[] valuesB = {1, 0};
+		double[] valuesB = {1, 0};
 		Input b = new Input(valuesB, 1);
-		int[] valuesC = {0, 1};
+		double[] valuesC = {0, 1};
 		Input c = new Input(valuesC, 1);
-		int[] valuesD = {0, 0};
+		double[] valuesD = {0, 0};
 		Input d = new Input(valuesD, 0);
 		
 		Input[] inputs = {a, b, c, d};
@@ -43,6 +43,34 @@ public class TestXOR {
 		Input currentInput;
 		double learningRate = 0.1;
 		
+		OutputData output = new OutputData(
+				new ArrayList<Integer>(),
+				new ArrayList<Double>(),
+				new ArrayList<Double>(),
+				new ArrayList<Double>(),
+				new ArrayList<Double>());
+		Path p = Paths.get(System.getProperty("user.home"),"desktop", "perceptron.csv");
+		FileWriter file = output.toCSV(p);
+		Double instantError = 0.;
+		Double accuError = 0.;
+		Double pError = 0.;
+		Double pErrorTest = 0.;
+		Double errorQuad = 0.;
+		Double errorQuadTest = 0.;
+		boolean learn = true;
+		double[] outputs;
+		int i = 0;
+		
+		
+		int k = 0;
+		
+		currentInput = inputs[k];
+		//testPerceptron.setNormalizedInputs(learningDataManager.readImage1D(), 256);
+		testPerceptron.setInputs(currentInput.getInputValues());
+		testPerceptron.fire();
+		System.out.println("Expected : " + currentInput.getLabel() + " Output : "+ testPerceptron.outputNeurons.get(0).getOutput());
+		algorithm.launch(testPerceptron, learningRate , currentInput);
+		i++;
 		
 	
 	}

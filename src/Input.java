@@ -9,11 +9,11 @@ public class Input {
 	//Attributes
 	private int label;
 	
-	private int[] inputValues;
+	private double[] inputValues;
 	
 	//Constructor
 	
-	public Input(int[] inputValues, int label){
+	public Input(double[] inputValues, int label){
 		this.inputValues = inputValues;
 		this.label = label;
 		
@@ -44,7 +44,7 @@ public class Input {
 		return this.label;
 	}
 	
-	public int[] getInputValues(){
+	public double[] getInputValues(){
 		return this.inputValues;
 	}
 	
