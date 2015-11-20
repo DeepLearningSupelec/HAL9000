@@ -2,9 +2,13 @@ import java.util.ArrayList;
 
 public class BackPropagation extends LearningAlgorithm {
 
-	final double momentumFactor = 0.00;
+	final double momentumFactor = 0.0;
 	
+	private boolean mnist;
 	
+	public BackPropagation(boolean mnist){
+		this.mnist = mnist;
+	}
 
 	private void calculateNeuronDiff(NeuralNetwork N, AbstractNeuron n, Input i){
 
@@ -15,7 +19,7 @@ public class BackPropagation extends LearningAlgorithm {
 		
 		if (n instanceof OutputNeuron ){
 			
-			double error = i.expectedOutput()[N.outputNeurons.indexOf(n)] - n.output;
+			double error = i.expectedOutput(mnist)[N.outputNeurons.indexOf(n)] - n.output;
 			//System.out.println(error);
 			n.setNeuronDiff(n.activationFunction.applyDerivative(((ActiveNeuron)n).getIntermediateValue())*error); // delta = f'(input)*e
 			//System.out.println(n.activationFunction.applyDerivative(((ActiveNeuron)n).getIntermediateValue())*error);
@@ -27,9 +31,10 @@ public class BackPropagation extends LearningAlgorithm {
 			for (Synapse s : n.getOutputSynapses()) {
 				weightedErrorOutput = weightedErrorOutput +s.getWeight()*s.getOutputNeuron().getNeuronDiff() ;
 			}
-			//System.out.println(weightedErrorOutput);
-			n.setNeuronDiff (n.activationFunction.applyDerivative(((ActiveNeuron)n).getIntermediateValue())*weightedErrorOutput); // delta = f'(input)* sum ( gradient next Neuron * weight linked synapse) 
 			//System.out.println("weightederroroutput: " + weightedErrorOutput);
+			n.setNeuronDiff (n.activationFunction.applyDerivative(((ActiveNeuron)n).getIntermediateValue())*weightedErrorOutput); // delta = f'(input)* sum ( gradient next Neuron * weight linked synapse) 
+			//System.out.println(n.activationFunction.applyDerivative(((ActiveNeuron)n).getIntermediateValue())*weightedErrorOutput);
+		
 		}
 		
 
@@ -44,19 +49,26 @@ public class BackPropagation extends LearningAlgorithm {
 	
 	
 	private void incrementWeightsDiff(Synapse s){
+		//System.out.println(s.getWeightDiff()*momentumFactor + s.getInputNeuron().getOutput()*s.getOutputNeuron().getNeuronDiff());
 		s.setWeightDiff(s.getWeightDiff()*momentumFactor + s.getInputNeuron().getOutput()*s.getOutputNeuron().getNeuronDiff());
 		
 	}
 
 	private void incrementBiasDiff(ActiveNeuron n){
+		//System.out.println(n.getBiasDiff()*momentumFactor + n.getNeuronDiff());
 		n.setBiasDiff(n.getBiasDiff()*momentumFactor + n.getNeuronDiff());
+		
+		
 	}
 	
 	private void incrementBias(ActiveNeuron n, double a){
+		//System.out.println(n.getBias() + a*n.getBiasDiff());
 		n.setBias(n.getBias() + a*n.getBiasDiff());
+		
 	}
 
 	private void incrementWeights(Synapse s, double a ){
+		//System.out.println(s.getWeight() + a*s.getWeightDiff());
 		s.setWeight(s.getWeight() + a*s.getWeightDiff());
 	}
 

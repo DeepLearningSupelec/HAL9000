@@ -33,13 +33,14 @@ public class TestXOR {
 		int[] tabneuron = {2, 2, 1};
 		Perceptron testPerceptron = new Perceptron(tabneuron, false);
 		testPerceptron.synapses.get(0).setWeight(0.8);
-		testPerceptron.synapses.get(1).setWeight(-0.3);
-		testPerceptron.synapses.get(2).setWeight(0.5);
+		testPerceptron.synapses.get(1).setWeight(0.5);
+		testPerceptron.synapses.get(2).setWeight(-0.3);
 		testPerceptron.synapses.get(3).setWeight(0.2);
-		testPerceptron.synapses.get(4).setWeight(-0.5);
-		testPerceptron.synapses.get(5).setWeight(0.6);
+		testPerceptron.synapses.get(4).setWeight(0.6);
+		testPerceptron.synapses.get(5).setWeight(-0.5);
 		
-		BackPropagation algorithm = new BackPropagation();
+		boolean isMnist = false;
+		BackPropagation algorithm = new BackPropagation(isMnist);
 		Input currentInput;
 		double learningRate = 0.1;
 		
@@ -111,14 +112,15 @@ public class TestXOR {
 		
 		//int k = 0;
 		System.out.println("begin");
-		for(int k =0; k < 10000; k++){
-			currentInput = inputs[3];
-			//testPerceptron.setNormalizedInputs(learningDataManager.readImage1D(), 256);
+		for(int k =0; k < 1; k++){
+			currentInput = inputs[k%4];
 			testPerceptron.setInputs(currentInput.getInputValues());
 			testPerceptron.fire();
-			System.out.println("Expected : " + currentInput.getLabel() + " Output : "+ testPerceptron.outputNeurons.get(0).getOutput());
+			//System.out.println("Expected : " + currentInput.getLabel() + " Output : "+ testPerceptron.outputNeurons.get(0).getOutput());
+			//System.out.println(testPerceptron.wideWeight());
 			algorithm.launch(testPerceptron, learningRate , currentInput);
 			i++;
+			//System.out.println(currentInput.getLabel());
 		}
 		
 		

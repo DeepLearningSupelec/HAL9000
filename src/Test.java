@@ -14,8 +14,9 @@ public class Test {
 		MnistManager learningDataManager = new MnistManager("src/train-images.idx3-ubyte","src/train-labels.idx1-ubyte");
 		MnistManager testDataManager = new MnistManager("src/t10k-images.idx3-ubyte","src/t10k-labels.idx1-ubyte");
 		int[] tabneuron = {784, 90 ,10};
-		Perceptron testPerceptron = new Perceptron(tabneuron, false);
-		BackPropagation algorithm = new BackPropagation();
+		Perceptron testPerceptron = new Perceptron(tabneuron, true);
+		boolean isMnist = true;
+		BackPropagation algorithm = new BackPropagation(isMnist);
 		Input currentInput;
 		double learningRate = 0.1;
 		
@@ -71,7 +72,7 @@ public class Test {
 					testPerceptron.fire();				
 					outputs=testPerceptron.getOutputs();
 					for (int index =0 ; index<10; index++){
-						errorQuad += Math.pow(outputs[index]- currentInput.expectedOutput()[index], 2)/2;
+						errorQuad += Math.pow(outputs[index]- currentInput.expectedOutput(isMnist)[index], 2)/2;
 					}
 					if(currentInput.getLabel() != testPerceptron.mostProbableAnswer()){
 						pError +=  1.;

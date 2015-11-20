@@ -51,13 +51,18 @@ public class Input {
 	
 	
 	//Creates a list of value that are the expected output of the Perceptron for MNIST
-		public int[] expectedOutput(){
+	public int[] expectedOutput(boolean mnist){
+		if(mnist){
 			int[] expectedOutput = new int[10];
 			for (int j=0 ; j<10 ; j=j+1 ){
 				expectedOutput[j] = 0;
 			}
 			expectedOutput [this.getLabel()] = 1;
 			return expectedOutput;
+		} else {
+			int[] a = {this.getLabel()};
+			return a;
 		}
-		
+	}
+	
 }

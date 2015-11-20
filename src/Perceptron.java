@@ -12,7 +12,7 @@ public class Perceptron extends NeuralNetwork {
 	
 	final double defaultSynapseWeight = 0.01;
 
-	
+	private double weightWide = 0;
 	
 	//Constructor
 	
@@ -29,6 +29,11 @@ public class Perceptron extends NeuralNetwork {
 		int dataLength = inputData.length;
 		this.layers = new AbstractNeuron[dataLength][];
 		Random rand = new Random();
+		double neuronQuantity = 0;
+		for(int i = 0; i < dataLength; i++){
+			neuronQuantity += inputData[i];
+		}
+		this.weightWide = 2.38*2./(Math.sqrt(neuronQuantity));
 		
 		//Adding Input Neurons
 		this.layers[0] = new AbstractNeuron[inputData[0]];
@@ -55,7 +60,7 @@ public class Perceptron extends NeuralNetwork {
 				for(int k = 0; k < inputData[i - 1]; k++){
 					double w = defaultSynapseWeight;
 					if(randomWeight){
-						w = rand.nextDouble()*2. - 1.;
+						w = (rand.nextDouble()- 0.5)*this.weightWide;
 					}
 					if(i == 1){
 						this.synapses.add(new Synapse(w, this.inputNeurons.get(k), neuron));
@@ -84,7 +89,7 @@ public class Perceptron extends NeuralNetwork {
 			for(int k = 1; k <= inputData[dataLength - 2]; k++){
 				double w = defaultSynapseWeight;
 				if(randomWeight){
-					w = rand.nextDouble()*2. - 1.;
+					w = (rand.nextDouble()- 0.5)*this.weightWide;
 				}
 				//Synapse s = new Synapse(w, this.intermediateNeurons.get(interNeuronCpt-k), neuron);
 				this.synapses.add(new Synapse(w, this.intermediateNeurons.get(interNeuronCpt-k), neuron));
@@ -156,7 +161,7 @@ public class Perceptron extends NeuralNetwork {
 	public double wideWeight(){
 		double wide = 0;
 		for(Synapse s : this.synapses){
-			if(Math.abs(s.getWeight()) > wide){ wide = Math.abs(s.getWeight());}
+			if(Math.abs(s.getWeight()) > Math.abs(wide)){ wide = s.getWeight();}
 		}
 		return wide;
 	}

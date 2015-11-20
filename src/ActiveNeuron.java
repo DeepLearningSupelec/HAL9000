@@ -15,14 +15,14 @@ public abstract class ActiveNeuron extends AbstractNeuron {
 	
 	public ActiveNeuron(){
 		super();
-		this.bias = 0.1;
+		this.bias = 0;
 		this.biasDiff = 0;
 		
 	}
 	
 	public ActiveNeuron(ActivationFunction f){
 		super(f);
-		this.bias = 0.1;
+		this.bias = 0;
 		this.biasDiff = 0;
 	}
 	
