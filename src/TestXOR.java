@@ -49,7 +49,7 @@ public class TestXOR {
 				new ArrayList<Double>(),
 				new ArrayList<Double>(),
 				new ArrayList<Double>());
-		Path p = Paths.get(System.getProperty("user.home"),"desktop", "perceptron.csv");
+		Path p = Paths.get(System.getProperty("user.home"),"desktop", "perceptronXOR.csv");
 		FileWriter file = output.toCSV(p);
 		Double instantError = 0.;
 		Double accuError = 0.;
@@ -60,9 +60,56 @@ public class TestXOR {
 		boolean learn = true;
 		double[] outputs;
 		int i = 0;
+
+		
+
 		
 		
-		int k = 0;
+		int epoch = 1000;
+		do{
+			
+			if (i%epoch == 0) {
+				if (i==0){
+					output.addData(0., 0., 0., 0., 0,p);
+				} else {
+					output.addData(errorQuadTest/10000, errorQuad/epoch, pErrorTest/10000, pError/epoch, i, p);
+				}
+				System.out.println(i+ "     " +errorQuadTest/10000 +"  "+    errorQuad/1000      + "  "+ pError/epoch +"   " + pErrorTest/10000);
+				pError = 0.;
+				pErrorTest =0.;
+				errorQuad = 0.;
+				errorQuadTest =0.;  
+			}
+			
+			if (learn){
+				currentInput = inputs[i%4];
+				//learningDataManager.setCurrent(Math.abs((i%50000)+1));
+				testPerceptron.setInputs(currentInput.getInputValues());
+				testPerceptron.fire();
+				algorithm.launch(testPerceptron, learningRate , currentInput);
+				i++;
+				if (i%1000 == 0){
+					learn=!learn;
+				}
+			}
+			if(!learn){
+				for(int j = i - epoch; j<i ;j++){
+					currentInput = inputs[j%4];
+					testPerceptron.setInputs(currentInput.getInputValues());
+					testPerceptron.fire();				
+					outputs=testPerceptron.getOutputs();
+					errorQuad += Math.pow(outputs[0]- currentInput.expectedOutput()[0], 2)/2;
+					if(currentInput.getLabel() != testPerceptron.mostProbableAnswer()){
+						pError +=  1.;
+					}
+				}
+				learn=!learn;
+			}
+		
+
+		} while(true) ;
+		
+		/*int k = 0;
 		
 		currentInput = inputs[k];
 		//testPerceptron.setNormalizedInputs(learningDataManager.readImage1D(), 256);
@@ -71,7 +118,7 @@ public class TestXOR {
 		System.out.println("Expected : " + currentInput.getLabel() + " Output : "+ testPerceptron.outputNeurons.get(0).getOutput());
 		algorithm.launch(testPerceptron, learningRate , currentInput);
 		i++;
-		
+		*/
 	
 	}
 }
