@@ -64,7 +64,7 @@ public class TestXOR {
 		
 
 		
-		
+		/*
 		int epoch = 1000;
 		do{
 			
@@ -96,10 +96,10 @@ public class TestXOR {
 				for(int j = i - epoch; j<i ;j++){
 					currentInput = inputs[j%4];
 					testPerceptron.setInputs(currentInput.getInputValues());
-					testPerceptron.fire();				
+					testPerceptron.fire();
 					outputs=testPerceptron.getOutputs();
 					errorQuad += Math.pow(outputs[0]- currentInput.expectedOutput()[0], 2)/2;
-					if(currentInput.getLabel() != testPerceptron.mostProbableAnswer()){
+					if(currentInput.getLabel() != Math.round(testPerceptron.getOutputs()[0])){
 						pError +=  1.;
 					}
 				}
@@ -107,18 +107,22 @@ public class TestXOR {
 			}
 		
 
-		} while(true) ;
+		} while(true) ;*/
 		
-		/*int k = 0;
+		//int k = 0;
+		System.out.println("begin");
+		for(int k =0; k < 10000; k++){
+			currentInput = inputs[3];
+			//testPerceptron.setNormalizedInputs(learningDataManager.readImage1D(), 256);
+			testPerceptron.setInputs(currentInput.getInputValues());
+			testPerceptron.fire();
+			System.out.println("Expected : " + currentInput.getLabel() + " Output : "+ testPerceptron.outputNeurons.get(0).getOutput());
+			algorithm.launch(testPerceptron, learningRate , currentInput);
+			i++;
+		}
 		
-		currentInput = inputs[k];
-		//testPerceptron.setNormalizedInputs(learningDataManager.readImage1D(), 256);
-		testPerceptron.setInputs(currentInput.getInputValues());
-		testPerceptron.fire();
-		System.out.println("Expected : " + currentInput.getLabel() + " Output : "+ testPerceptron.outputNeurons.get(0).getOutput());
-		algorithm.launch(testPerceptron, learningRate , currentInput);
-		i++;
-		*/
+		
+		
 	
 	}
 }
