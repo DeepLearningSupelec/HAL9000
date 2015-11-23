@@ -78,19 +78,19 @@ public class Test {
 						pError +=  1.;
 					}
 				}
-				/*for(int k = 50001 ; k<=60000; k++){
+				for(int k = 50001 ; k<=60000; k++){
 					currentInput = new Input(Math.abs(k));
 					learningDataManager.setCurrent(Math.abs(k));
 					testPerceptron.setNormalizedInputs(learningDataManager.readImage1D(), 256);
 					testPerceptron.fire();
 					outputs=testPerceptron.getOutputs();
 					for (int index =0 ; index<10; index++){
-						errorQuadTest += Math.pow(outputs[index]- currentInput.expectedOutput()[index], 2)/2;
+						errorQuadTest += Math.pow(outputs[index]- currentInput.expectedOutput(isMnist)[index], 2)/2;
 					}
 					if(currentInput.getLabel() != testPerceptron.mostProbableAnswer()){
 						pErrorTest +=  1.;
 					}
-				}*/
+				}
 				learn=!learn;
 			}
 		/*	for(int j =0; j<10;j++){
