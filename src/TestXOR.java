@@ -113,7 +113,7 @@ public class TestXOR {
 		//int k = 0;
 		System.out.println("begin");
 		System.out.println(((ActiveNeuron)testPerceptron.outputNeurons.get(0)).getBias());
-		for(int k =0; k < 100; k++){
+		for(int k =0; k < 400; k++){
 			currentInput = inputs[k%4];
 			testPerceptron.setInputs(currentInput.getInputValues());
 			testPerceptron.fire();
@@ -121,8 +121,11 @@ public class TestXOR {
 			//System.out.println(testPerceptron.wideWeight());
 			algorithm.launch(testPerceptron, learningRate , currentInput);
 			i++;
-			System.out.println(k + " " + testPerceptron.outputNeurons.get(0).getNeuronDiff());
+			if(k%4 == 3){
+			System.out.println(((k + 1)/4) + " " + ((ActiveNeuron)testPerceptron.outputNeurons.get(0)).getBias());		
+			}
 		}
+			
 		
 		
 		
