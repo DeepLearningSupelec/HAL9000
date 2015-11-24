@@ -122,7 +122,8 @@ public class TestXOR {
 			algorithm.launch(testPerceptron, learningRate , currentInput);
 			i++;
 			if(k%4 == 3){
-			System.out.println(((k + 1)/4) + " " + ((ActiveNeuron)testPerceptron.outputNeurons.get(0)).getBias());		
+			//System.out.println(((k + 1)/4) + " " + ((ActiveNeuron)testPerceptron.outputNeurons.get(0)).getBias());		
+			System.out.println(((ActiveNeuron)testPerceptron.outputNeurons.get(0)).getBias());
 			}
 		}
 			
