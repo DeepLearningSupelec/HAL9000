@@ -26,7 +26,7 @@ public class Test {
 				new ArrayList<Double>(),
 				new ArrayList<Double>(),
 				new ArrayList<Double>());
-		Path p = Paths.get(System.getProperty("user.home"),"desktop", "perceptron.csv");
+		Path p = Paths.get(System.getProperty("user.home"),"desktop", "perceptron3.csv");
 		FileWriter file = output.toCSV(p);
 		Double instantError = 0.;
 		Double accuError = 0.;
@@ -39,23 +39,9 @@ public class Test {
 		int i = 0;
 		int epoch = 1000;
 		do{
-			
-			if (i%epoch == 0) {
-				if (i==0){
-					output.addData(0., 0., 0., 0., 0,p);
-				} else {
-					output.addData(errorQuadTest/10000, errorQuad/epoch, pErrorTest/10000, pError/epoch, i, p);
-				}
-				System.out.println(i+ "     " +errorQuadTest/10000 +"  "+    errorQuad/1000      + "  "+ pError/epoch +"   " + pErrorTest/10000);
-				pError = 0.;
-				pErrorTest =0.;
-				errorQuad = 0.;
-				errorQuadTest =0.;  
-			}
-			
 			if (learn){
-				currentInput = new Input(Math.abs((i%50000)+1));
-				learningDataManager.setCurrent(Math.abs((i%50000)+1));
+				currentInput = new Input(Math.abs((i%60000)+1),learningDataManager);
+				learningDataManager.setCurrent(Math.abs((i%60000)+1));
 				testPerceptron.setNormalizedInputs(learningDataManager.readImage1D(), 256);
 				testPerceptron.fire();
 				algorithm.launch(testPerceptron, learningRate , currentInput);
@@ -65,9 +51,9 @@ public class Test {
 				}
 			}
 			if(!learn){
-				for(int j = i - epoch; j<i ;j++){
-					currentInput = new Input(Math.abs((j%50000)+1));
-					learningDataManager.setCurrent(Math.abs((j%50000)+1));
+				for(int j = 1; j<=60000 ;j++){
+					currentInput = new Input(j,learningDataManager);
+					learningDataManager.setCurrent(j);
 					testPerceptron.setNormalizedInputs(learningDataManager.readImage1D(), 256);
 					testPerceptron.fire();				
 					outputs=testPerceptron.getOutputs();
@@ -78,10 +64,10 @@ public class Test {
 						pError +=  1.;
 					}
 				}
-				for(int k = 50001 ; k<=60000; k++){
-					currentInput = new Input(Math.abs(k));
-					learningDataManager.setCurrent(Math.abs(k));
-					testPerceptron.setNormalizedInputs(learningDataManager.readImage1D(), 256);
+				for(int k = 1 ; k<=10000; k++){
+					currentInput = new Input(Math.abs(k), testDataManager);
+					testDataManager.setCurrent(Math.abs(k));
+					testPerceptron.setNormalizedInputs(testDataManager.readImage1D(), 256);
 					testPerceptron.fire();
 					outputs=testPerceptron.getOutputs();
 					for (int index =0 ; index<10; index++){
@@ -93,22 +79,15 @@ public class Test {
 				}
 				learn=!learn;
 			}
-		/*	for(int j =0; j<10;j++){
-				String s = outputs[j] + " ";
-				if(outputs[j] < 0.001){ s = "~0 ";}
-				System.out.print(s);
-				instantError += Math.abs(currentInput.expectedOutput()[j]-outputs[j])/10;
+			if (i%epoch == 0) {
+				output.addData(errorQuadTest/10000, errorQuad/60000, pErrorTest/10000, pError/60000, i, p);
+				System.out.println(i+ "     " +errorQuadTest/10000 +"  "+    errorQuad/60000      + "  "+ pError/60000 +"   " + pErrorTest/10000);
+				pError = 0.;
+				pErrorTest =0.;
+				errorQuad = 0.;
+				errorQuadTest =0.;  
 			}
-			System.out.println("Max absolute Weight : " + testPerceptron.wideWeight());
-			System.out.println("Expected : " + currentInput.getLabel() + " Output : " + testPerceptron.mostProbableAnswer());
-			
-			System.out.println("Erreur : " + instantError);
-			*/
-		/*	accuError += instantError;
-			instantError = 0.;
-			*/
-
-		} while(true) ;
+		} while(i<300000) ;
 
 
 	}

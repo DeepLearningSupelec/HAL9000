@@ -28,6 +28,12 @@ public class Input {
 		this.label = m.readLabel();
 	}
 	
+	
+	public Input(int a, MnistManager m) throws IOException{
+		m.setCurrent(a);
+		this.label = m.readLabel();
+	}
+	
 	// input for whether training or testing
 	public Input(int a, boolean isTraining) throws IOException{
 		
