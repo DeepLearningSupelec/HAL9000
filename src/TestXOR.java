@@ -43,7 +43,7 @@ public class TestXOR {
 		BackPropagation algorithm = new BackPropagation(isMnist);
 		Input currentInput;
 		double learningRate = 0.1;
-		
+		/*
 		OutputData output = new OutputData(
 				new ArrayList<Integer>(),
 				new ArrayList<Double>(),
@@ -51,7 +51,7 @@ public class TestXOR {
 				new ArrayList<Double>(),
 				new ArrayList<Double>());
 		Path p = Paths.get(System.getProperty("user.home"),"desktop", "perceptronXOR.csv");
-		FileWriter file = output.toCSV(p);
+		FileWriter file = output.toCSV(p);*/
 		Double instantError = 0.;
 		Double accuError = 0.;
 		Double pError = 0.;
@@ -113,7 +113,7 @@ public class TestXOR {
 		//int k = 0;
 		System.out.println("begin");
 		System.out.println(((ActiveNeuron)testPerceptron.outputNeurons.get(0)).getBias());
-		for(int k =0; k < 100; k++){
+		for(int k =0; k < 400; k++){
 			currentInput = inputs[k%4];
 			testPerceptron.setInputs(currentInput.getInputValues());
 			testPerceptron.fire();
@@ -121,8 +121,12 @@ public class TestXOR {
 			//System.out.println(testPerceptron.wideWeight());
 			algorithm.launch(testPerceptron, learningRate , currentInput);
 			i++;
-			System.out.println(k + " " + testPerceptron.outputNeurons.get(0).getNeuronDiff());
+			if(k%4 == 3){
+			System.out.println(((k + 1)/4) + " " + ((ActiveNeuron)testPerceptron.outputNeurons.get(0)).getBias());		
+			//System.out.println(((ActiveNeuron)testPerceptron.outputNeurons.get(0)).getBias());
+			}
 		}
+			
 		
 		
 		
