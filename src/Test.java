@@ -27,7 +27,7 @@ public class Test {
 				new ArrayList<Double>(),
 				new ArrayList<Double>());
 		Path p = Paths.get(System.getProperty("user.home"),"desktop", "perceptron3.csv");
-		FileWriter file = output.toCSV(p);
+		output.toCSV(p);
 		Double instantError = 0.;
 		Double accuError = 0.;
 		Double pError = 0.;
