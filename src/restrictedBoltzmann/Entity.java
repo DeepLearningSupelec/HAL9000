@@ -7,7 +7,7 @@ public class Entity {
 
 	//Attributes
 	
-	protected double output;
+	protected int state;
 	
 	//private double neuronDiff;
 	
@@ -17,16 +17,27 @@ public class Entity {
 	
 	protected boolean fired;
 	
+	private int id;
+	
+	
 	//Constructor
 	
-	public Entity(){
-		this.output = 0;
+	public Entity(int id){
+		this.state = 0;
+		this.bias = 0;
+		this.id = id;
 		//this.neuronDiff = 0;
 		//this.activationFunction = Sigmoid.getINSTANCE();
-		this.fired = false;
+		//this.fired = false;
 	}
 	
-	public Entity(double bias){
+	public Entity(int id, double bias){
+		this.state = 0;
+		this.bias = bias;
+		this.id = id;
+		//this.neuronDiff = 0;
+		//this.activationFunction = Sigmoid.getINSTANCE();
+		//this.fired = false;
 		
 	}
 	
@@ -41,8 +52,16 @@ public class Entity {
 		this.fired = false;
 	}*/
 	
-	public double getOutput(){
-		return this.output;
+	public int getState(){
+		return this.state;
+	}
+	
+	public void setState(int s){
+		this.state = s;
+	}
+	
+	public int getId(){
+		return this.id;
 	}
 	
 	public void setBias(double b){

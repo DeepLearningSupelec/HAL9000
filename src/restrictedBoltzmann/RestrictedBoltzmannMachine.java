@@ -33,7 +33,7 @@ public class RestrictedBoltzmannMachine {
 		for(int i = 0; i < 2; i++){
 			this.layers[i] = new Entity[inputData[i]];
 			for(int j = 0; j < inputData[i]; j++){
-				this.layers[i][j] = new Entity((rand.nextDouble()- 0.5)*this.biasWide);
+				this.layers[i][j] = new Entity(j, (rand.nextDouble()- 0.5)*this.biasWide);
 			}
 		}
 		this.connections = new double[inputData[0]][inputData[1]];
@@ -138,7 +138,7 @@ public class RestrictedBoltzmannMachine {
 			    	layer = 1;
 			    	entityNumber -= informations[1];
 			    }
-			    this.layers[layer][entityNumber] = new Entity(bias);		
+			    this.layers[layer][entityNumber] = new Entity(entityNumber, bias);		
 				
 			} else {	
 				int partCpt = 0;
@@ -188,6 +188,49 @@ public class RestrictedBoltzmannMachine {
 	
 	
 	//Methods
+	
+	public void updateEnergy(){
+		double e = 0;
+		
+		for(int i = 0; i < 2; i++){
+			for(int j = 0; j < this.layers[i].length; j++){
+				e -= this.layers[i][j].getState()*this.layers[i][j].getBias();
+			}
+		}
+		
+		for(int i = 0; i < this.connections.length; i++){
+			for(int j = 0; j < this.connections[0].length; j++){
+				e -= this.layers[0][i].getState()*this.layers[1][j].getState()
+						*this.connections[i][j];
+			}
+		}
+		
+		this.energy = e;
+	}
+	
+	public void layerUpdate(int layerToBeUpdated ){
+		Random rand = new Random();
+		
+		for(int i = 0; i < this.layers[layerToBeUpdated].length; i++){
+			double x = this.layers[layerToBeUpdated][i].getBias();
+			for(int j = 0; j < this.layers[(layerToBeUpdated + 1) % 2].length; j++){
+				
+				if(layerToBeUpdated == 0){
+					x += this.connections[i][j]*this.layers[1][j].getState();
+				} else {
+					x += this.connections[j][i]*this.layers[0][j].getState();
+				}
+			}
+			
+			if(Sigmoid.getINSTANCE().apply(x) >= rand.nextDouble()){
+				this.layers[layerToBeUpdated][i].setState(1);
+			} else {
+				this.layers[layerToBeUpdated][i].setState(0);
+			}
+			
+		}
+	}
+	
 	
 	public void fire(){
 		
