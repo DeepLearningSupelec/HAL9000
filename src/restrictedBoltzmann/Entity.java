@@ -9,7 +9,9 @@ public class Entity {
 	
 	protected double output;
 	
-	private double neuronDiff;
+	//private double neuronDiff;
+	
+	private double bias;
 	
 	//protected ActivationFunction activationFunction;
 	
@@ -19,25 +21,36 @@ public class Entity {
 	
 	public Entity(){
 		this.output = 0;
-		this.neuronDiff = 0;
+		//this.neuronDiff = 0;
 		//this.activationFunction = Sigmoid.getINSTANCE();
 		this.fired = false;
 	}
 	
+	public Entity(double bias){
+		
+	}
 	
 	
 	//Methods
 	
-	public void fire(){
+	/*public void fire(){
 		
 	};
 	
 	public void setUnfired(){
 		this.fired = false;
-	}
+	}*/
 	
 	public double getOutput(){
 		return this.output;
+	}
+	
+	public void setBias(double b){
+		this.bias = b;
+	}
+	
+	public double getBias(){
+		return this.bias;
 	}
 	
 	/*
