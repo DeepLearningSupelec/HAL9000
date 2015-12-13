@@ -237,12 +237,18 @@ public class RestrictedBoltzmannMachine {
 	}
 	
 	
-	public double[] getOutputs(){
-		return null;
+	public int[] getBinaryOutputs(){
+		int[] outputs = new int[this.layers[1].length];
+		for(int i = 0; i < this.layers[1].length; i++){
+			outputs[i] = this.layers[1][i].getState();
+		}
+		return outputs;
 	}
 	
-	public void setInputs (double[]x){
-		
+	public void setBinaryInputs(int[] x){
+		for(int i = 0; i < this.layers[0].length; i++){
+			this.layers[0][i].setState(x[i]);
+		}
 	}
 
 	
