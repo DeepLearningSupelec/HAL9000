@@ -231,16 +231,80 @@ public class RestrictedBoltzmannMachine {
 		}
 	}
 	
+	public void reachEquilibrium(){
+		
+		boolean[] Equilibriums = {false, false};
+		int iterCpt = 0;
+		int[][] states =  new int[2][];
+		states[0] = this.getLayerState(0);
+		states[1] = this.getLayerState(1);
+	
+		while((!Equilibriums[0])||(!Equilibriums[1])){
+			
+			int layerToUpdate = (iterCpt + 1) % 2;
+			states[layerToUpdate] = this.getLayerState(layerToUpdate);
+			this.layerUpdate(layerToUpdate);
+			Equilibriums[layerToUpdate] = this.isLayerConstant(layerToUpdate, states[layerToUpdate]);
+			iterCpt++;
+		}
+	}
+	
+	public void constrastiveDivergence(int iterations){
+		
+		int iterCpt = 0;
+		int[][] states =  new int[2][];
+		states[0] = this.getLayerState(0);
+		states[1] = this.getLayerState(1);
+	
+		while(iterCpt < iterations){
+			
+			int layerToUpdate = (iterCpt + 1) % 2;
+			states[layerToUpdate] = this.getLayerState(layerToUpdate);
+			this.layerUpdate(layerToUpdate);
+			iterCpt++;
+		}
+		
+	}
+	
+	
+	
+	public boolean isLayerConstant(int l, int[] previousLayerState){
+		boolean bool = true;
+		for(int i = 0; i < previousLayerState.length; i++){
+			bool = bool && (previousLayerState[i] == this.layers[l][i].getState());
+		}
+		return bool;
+	}
 	
 	public void fire(){
 		
 	}
 	
+	public int[] getLayerState(int l){
+		int[] states = new int[this.layers[l].length];
+		for(int i = 0; i < states.length; i++){
+			states[i] = this.layers[l][i].getState();
+		}
+		return states;
+	}
 	
 	public int[] getBinaryOutputs(){
 		int[] outputs = new int[this.layers[1].length];
 		for(int i = 0; i < this.layers[1].length; i++){
 			outputs[i] = this.layers[1][i].getState();
+		}
+		return outputs;
+	}
+	
+	public double[] getProbabilityOutputs(){
+		double[] outputs = new double[this.layers[1].length];
+		for(int i = 0; i < this.layers[1].length; i++){
+			
+			double x = this.layers[1][i].getBias();
+			for(int j = 0; j < this.layers[0].length; j++){
+				x += this.connections[j][i]*this.layers[0][j].getState();
+			}
+			outputs[i] = Sigmoid.getINSTANCE().apply(x);
 		}
 		return outputs;
 	}
