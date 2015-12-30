@@ -25,7 +25,26 @@ public class RestrictedBoltzmannMachine {
 	//Constructor
 	
 	
+	public RestrictedBoltzmannMachine(Entity[] visibleEntities, Entity[] hiddenEntities, double weightWide){
+		this.weightWide = weightWide;
+		Random rand = new Random();
+		this.layers = new Entity[2][];
+		this.layers[0] = visibleEntities;
+		this.layers[1] = hiddenEntities;
+		this.connections = new double[visibleEntities.length][hiddenEntities.length];
+		for(int i = 0; i < this.connections.length; i++){
+			for(int j = 0; j < this.connections[0].length; j++){
+				this.connections[i][j] = (rand.nextDouble()- 0.5)*this.weightWide;
+			}
+		}
+	}
+	
 	public RestrictedBoltzmannMachine(int[] inputData, double weightWide, double biasWide){
+		/*
+		 * inputData : {visibleUnitsNumber, hiddenunitsNumber}
+		 * 
+		 * 
+		 */
 		this.weightWide = weightWide;
 		this.biasWide = biasWide;
 		Random rand = new Random();
