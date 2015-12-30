@@ -295,9 +295,6 @@ public class RestrictedBoltzmannMachine {
 		return bool;
 	}
 	
-	public void fire(){
-		
-	}
 	
 	public int[] getLayerState(int l){
 		int[] states = new int[this.layers[l].length];
