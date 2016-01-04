@@ -22,11 +22,14 @@ public class RestrictedBoltzmannMachine {
 	
 	double[][] connections;
 	
+	double learningRate;
+	
 	//Constructor
 	
 	
-	public RestrictedBoltzmannMachine(Entity[] visibleEntities, Entity[] hiddenEntities, double weightWide){
+	public RestrictedBoltzmannMachine(Entity[] visibleEntities, Entity[] hiddenEntities, double weightWide, double learningRate){
 		this.weightWide = weightWide;
+		this.learningRate = learningRate;
 		Random rand = new Random();
 		this.layers = new Entity[2][];
 		this.layers[0] = visibleEntities;
@@ -269,6 +272,7 @@ public class RestrictedBoltzmannMachine {
 	}
 	
 	public void constrastiveDivergence(int iterations){
+		//the iterations start from visible to hidden (layers[1] -> layers [2])
 		
 		int iterCpt = 0;
 		int[][] states =  new int[2][];
@@ -282,9 +286,62 @@ public class RestrictedBoltzmannMachine {
 			this.layerUpdate(layerToUpdate);
 			iterCpt++;
 		}
-		
 	}
 	
+	public void unsupervisedLearning(int cdIterations, int[] exemple){
+		
+		double[][] logProbabilityDerivatives = new double[this.connections.length][this.connections[0].length];
+		/*
+		 * logProbabilityDerivative of weight w(i,j) is given by
+		 * <v(i)*h(j)>(data) - <v(i)*h(j)>(model)
+		 * where the first term is obtained by a single iteration of contrastive divergence
+		 * and the second one by a full step contrastive divergence
+		 */
+		double[][] biasModificationAttributes = new double[2][];
+		biasModificationAttributes[0] = new double[this.layers[0].length];
+		biasModificationAttributes[1] = new double[this.layers[1].length];
+		
+		// data informations
+		
+		this.setBinaryInputs(exemple);
+		this.constrastiveDivergence(1);
+		for(int i = 0; i < this.layers[0].length; i++){
+			for(int j = 0; j < this.layers[1].length; j++){
+				logProbabilityDerivatives[i][j] = this.layers[0][i].getState()*this.layers[1][j].getState();
+				biasModificationAttributes[0][i] = this.layers[0][i].getState();
+				biasModificationAttributes[1][j] = this.layers[1][j].getState();
+			}
+		}
+		
+		// model informations
+		
+		this.setBinaryInputs(exemple);
+		this.constrastiveDivergence(cdIterations);
+		for(int i = 0; i < this.layers[0].length; i++){
+			for(int j = 0; j < this.layers[1].length; j++){
+				logProbabilityDerivatives[i][j] -= this.layers[0][i].getState()*this.layers[1][j].getState();
+				biasModificationAttributes[0][i] -= this.layers[0][i].getState();
+				biasModificationAttributes[1][j] -= this.layers[1][j].getState();
+			}
+		}
+		
+		// applying weight modifications
+		
+		for(int i = 0; i < this.layers[0].length; i++){
+			for(int j = 0; j < this.layers[1].length; j++){
+				this.connections[i][j] += this.learningRate*logProbabilityDerivatives[i][j];
+			}
+		}
+		
+		// applying bias modifications
+		
+		for(int i = 0; i < 2; i++){
+			for(int j = 0; j < this.layers[i].length; j++){
+				this.layers[i][j].setBias(this.layers[i][j].getBias() + this.learningRate*biasModificationAttributes[i][j]);
+			}
+		}
+		
+	}
 	
 	
 	public boolean isLayerConstant(int l, int[] previousLayerState){
