@@ -1,5 +1,6 @@
 package restrictedBoltzmann;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class DeepBeliefNetwork {
@@ -26,7 +27,14 @@ public class DeepBeliefNetwork {
 	
 	double learningRate;
 	
+	// BackPropagation Attributes
 	
+	final double momentumFactor = 0.0;
+	
+	double[][] EntityDiffs;
+		
+	double[][] EntityWeightedSums;
+		
 	//Constructor
 	
 	public DeepBeliefNetwork(int[] inputData, double weightWide, double biasWide, double learningRate){
@@ -40,10 +48,17 @@ public class DeepBeliefNetwork {
 		Random rand = new Random();
 		this.layerNumber = inputData.length;
 		this.layers = new Entity[this.layerNumber][];
+		this.EntityDiffs = new double[this.layerNumber][];
+		this.EntityWeightedSums = new double[this.layerNumber][];
 		for(int i = 0; i < this.layerNumber; i++){
 			this.layers[i] = new Entity[inputData[i]];
+			this.EntityDiffs[i] = new double[inputData[i]];
+			this.EntityWeightedSums[i] = new double[inputData[i]];
+			
 			for(int j = 0; j < inputData[i]; j++){
 				this.layers[i][j] = new Entity(j, (rand.nextDouble()- 0.5)*this.biasWide);
+				this.EntityDiffs[i][j] = 0;
+				this.EntityWeightedSums[i][j] = 0;
 			}
 		}
 		
@@ -82,6 +97,7 @@ public class DeepBeliefNetwork {
 	}
 	
 	
+	
 	public void singleUnsupervisedLearning(int cdIterations, int[] exemple){
 		
 		int[] currentExemple = exemple;
@@ -95,7 +111,10 @@ public class DeepBeliefNetwork {
 		}
 	}
 	
+//	public void singleBackPropagation(int[] exemple, int[] expectedOutput){
+
 	
+	//}
 	
 	
 	

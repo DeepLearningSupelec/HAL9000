@@ -9,11 +9,9 @@ public class Entity {
 	
 	protected int state;
 	
-	//private double neuronDiff;
+	protected double entityDiff;
 	
 	private double bias;
-	
-	//protected ActivationFunction activationFunction;
 	
 	protected boolean fired;
 	
@@ -26,13 +24,14 @@ public class Entity {
 		this.state = 0;
 		this.bias = 0;
 		this.id = id;
+		this.entityDiff = 0;
 	}
 	
 	public Entity(int id, double bias){
 		this.state = 0;
 		this.bias = bias;
 		this.id = id;
-		
+		this.entityDiff = 0;
 	}
 	
 	
@@ -58,6 +57,13 @@ public class Entity {
 		return this.bias;
 	}
 	
+	public void setEntityDiff(double e){
+		this.entityDiff = e;
+	}
+	
+	public double getEntityDiff(){
+		return this.entityDiff;
+	}
 	
 	
 }
