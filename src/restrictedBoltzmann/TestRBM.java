@@ -16,25 +16,22 @@ public class TestRBM {
 		RestrictedBoltzmannMachine rbm = new RestrictedBoltzmannMachine(inputData, weightWide, biasWide);
 		
 		MnistManager m = new MnistManager("src/train-images.idx3-ubyte","src/train-labels.idx1-ubyte");
-		m.setCurrent(2);
+		m.setCurrent(1);
 		double[] image1D = m.readImage1D();
 		
 		
 		
-		//rbm.setBinaryInputs(exemple);
+		rbm.setBinaryInputs(image1D);
+		int[] input1D = rbm.getBinaryInputs();
+		for(int i = 0; i < 784; i++){
+			System.out.println(input1D[i]);
+		}
+		
 		//rbm.reachEquilibrium();
 		//rbm.displayBinaryOutputs();
 		
 		//rbm.displayProbabilityOutputs();
 		
-		rbm.unsupervisedLearning(2, image1D);
-		
-		// //rbm.displayBinaryOutputs();
-		
-		int[] input1D = rbm.getBinaryInputs();
-		for(int i = 0; i < 784; i++){
-			System.out.println(input1D[i]);
-		}
 		
 		
 		String date = "_" + LocalDateTime.now();
@@ -43,10 +40,40 @@ public class TestRBM {
 		System.out.println(date);
 		String adress = "Images_ppm//";
 		String extension = ".ppm";
-		int[][] image2D = Tools.image1Dto2D(rbm.getBinaryInputs(), 28, 28);
+		int[][] image2D = Tools.image1Dto2D(input1D, 28, 28);
 		MnistManager.writeImageToPpm(image2D, adress + "image1" + date + extension);
-		int[][] image2Dexit = Tools.image1Dto2D(rbm.getBinaryOutputs(), 28, 28);
-		MnistManager.writeImageToPpm(image2Dexit, adress + "image1ExitRBM" + date + extension);
+		
+		for(int i = 1; i < 50000; i++){
+			m.setCurrent(i);
+			image1D = m.readImage1D();
+			rbm.unsupervisedLearning(2, image1D);
+			System.out.println(i);
+			
+			if(i%1000 == 0){
+				m.setCurrent(1);
+				image1D = m.readImage1D();
+				rbm.unsupervisedLearning(2, image1D);
+				int[][] image2Dexit = Tools.image1Dto2D(rbm.getBinaryOutputs(), 28, 28);
+				MnistManager.writeImageToPpm(image2Dexit, adress + "imageExitRBMAfter" + (i/1000) + "Epochs" + date + extension);
+			}
+			
+			
+			
+			
+			
+			
+		}
+		m.setCurrent(1);
+		rbm.unsupervisedLearning(2, image1D);
+		
+		// //rbm.displayBinaryOutputs();
+		
+		
+		
+		
+		
+		/*int[][] image2Dexit = Tools.image1Dto2D(rbm.getBinaryOutputs(), 28, 28);
+		MnistManager.writeImageToPpm(image2Dexit, adress + "image1ExitRBM" + date + extension);*/
 		
 		//rbm.displayProbabilityOutputs();
 		

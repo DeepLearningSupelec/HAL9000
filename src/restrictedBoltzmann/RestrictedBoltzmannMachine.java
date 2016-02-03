@@ -466,13 +466,23 @@ public void unsupervisedLearning(int cdIterations, double[] exemple){
 	
 	public void setBinaryInputs(int[] x){
 		for(int i = 0; i < this.layers[0].length; i++){
-			this.layers[0][i].setState(Math.max(1, x[i]));
+			if(x[i] - 130 > 1){
+				this.layers[0][i].setState(1);
+			} else {
+				this.layers[0][i].setState(Math.min(1, x[i]));
+			}
+			
 		}
 	}
 	
 	public void setBinaryInputs(double[] x){
 		for(int i = 0; i < this.layers[0].length; i++){
-			this.layers[0][i].setState(Math.max(1, (int)x[i]));
+			if(x[i] - 130 > 1){
+				this.layers[0][i].setState(1);
+			} else {
+				this.layers[0][i].setState(Math.min(1, (int)Math.floor(x[i])));
+			}
+			
 		}
 	}
 	
