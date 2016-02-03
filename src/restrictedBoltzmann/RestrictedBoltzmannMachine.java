@@ -24,6 +24,8 @@ public class RestrictedBoltzmannMachine {
 	
 	double learningRate;
 	
+	static String image_adress = "Images_ppm//";
+	
 	//Constructor
 	
 	
@@ -406,6 +408,7 @@ public class RestrictedBoltzmannMachine {
 		}
 	}
 
+	public void 
 	
 	
 }
