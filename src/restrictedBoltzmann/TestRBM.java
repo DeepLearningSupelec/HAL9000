@@ -1,6 +1,7 @@
 package restrictedBoltzmann;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 import mnistReader.MnistManager;
 
@@ -32,10 +33,17 @@ public class TestRBM {
 		MnistManager m = new MnistManager("src/train-images.idx3-ubyte","src/train-labels.idx1-ubyte");
 		m.setCurrent(1);
 		int[][] image = m.readImage();
+		m.setCurrent(1);
+		double[] image1D = m.readImage1D();
+		String date = "_" + LocalDateTime.now();
+		date = date.substring(0, 20);
+		date = date.replace(':', '-');
+		System.out.println(date);
 		String adress = "Images_ppm//";
-		MnistManager.writeImageToPpm(image, adress + "image3.ppm");
-		
-		
+		String extension = ".ppm";
+		MnistManager.writeImageToPpm(image, adress + "image0" + date + extension);
+		int[][] image2D = Tools.image1Dto2D(image1D, 28, 28);
+		MnistManager.writeImageToPpm(image2D, adress + "imageto2D" + date + extension);
 		
 	}
 

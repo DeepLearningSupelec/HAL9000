@@ -408,7 +408,6 @@ public class RestrictedBoltzmannMachine {
 		}
 	}
 
-	public void 
 	
 	
 }
