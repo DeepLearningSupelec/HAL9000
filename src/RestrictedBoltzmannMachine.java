@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class RestrictedBoltzmannMachine extends NeuralNetwork {
 
-	public RestrictedBoltzmannMachine
+	
 	
 	//Attributes
 	
@@ -31,7 +31,7 @@ public class RestrictedBoltzmannMachine extends NeuralNetwork {
 		for(int i = 0; i < dataLength; i++){
 			neuronQuantity += inputData[i];
 		}
-		this.weightWide = 2.38*2./(Math.sqrt(neuronQuantity));
+		//this.weightWide = 2.38*2./(Math.sqrt(neuronQuantity));
 		
 		//must add the neurons
 	}
@@ -48,7 +48,7 @@ public class RestrictedBoltzmannMachine extends NeuralNetwork {
 	}
 	
 	public double[] getOutputs(){
-		
+		return null;
 	}
 	
 	public void setInputs (double[]x){
