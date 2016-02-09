@@ -10,8 +10,8 @@ public class TestRBM {
 	public static void main(String[] args) throws IOException {
 		
 		int[] inputData = {784, 784};
-		double biasWide = 1;
-		double weightWide = 0.7;
+		double biasWide = 0;
+		double weightWide = 0.02;
 		
 		RestrictedBoltzmannMachine rbm = new RestrictedBoltzmannMachine(inputData, weightWide, biasWide);
 		
