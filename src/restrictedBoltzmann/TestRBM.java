@@ -1,7 +1,10 @@
 package restrictedBoltzmann;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import mnistReader.MnistManager;
 
@@ -17,6 +20,9 @@ public class TestRBM {
 		
 		MnistManager m = new MnistManager("src/train-images.idx3-ubyte","src/train-labels.idx1-ubyte");
 		m.setCurrent(1);
+		OutputsProb output = new OutputsProb(new ArrayList<Double>(), new ArrayList<Integer>());
+		Path p = Paths.get(System.getProperty("user.home"),"desktop", "boltzmann.csv");
+		output.toCSV(p);
 		double[] image1D = m.readImage1D();
 		
 		
@@ -42,19 +48,26 @@ public class TestRBM {
 		String extension = ".ppm";
 		int[][] image2D = Tools.image1Dto2D(input1D, 28, 28);
 		MnistManager.writeImageToPpm(image2D, adress + "image1" + date + extension);
-		
+		double[] probabilityOutputs;
+		double sumProbability = 0.0;
 		for(int i = 1; i < 50000; i++){
 			m.setCurrent(i);
 			image1D = m.readImage1D();
 			rbm.unsupervisedLearning(2, image1D);
+			probabilityOutputs=rbm.getProbabilityOutputs();
+			for(int j=0;j<probabilityOutputs.length;j++){
+				sumProbability += probabilityOutputs[j];
+			}
 			System.out.println(i);
 			
 			if(i%1000 == 0){
 				m.setCurrent(1);
-				image1D = m.readImage1D();
+				image1D = m.readImage1D(); 
 				rbm.unsupervisedLearning(2, image1D);
 				int[][] image2Dexit = Tools.image1Dto2D(rbm.getBinaryOutputs(), 28, 28);
 				MnistManager.writeImageToPpm(image2Dexit, adress + "imageExitRBMAfter" + (i/1000) + "Epochs" + date + extension);
+				output.addData(sumProbability,i/1000, p);
+				sumProbability = 0.0;
 			}
 			
 			
