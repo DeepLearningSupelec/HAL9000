@@ -50,6 +50,7 @@ public class RestrictedBoltzmannMachine {
 		 * 
 		 * 
 		 */
+		this.learningRate = 0.01;
 		this.weightWide = weightWide;
 		this.biasWide = biasWide;
 		Random rand = new Random();
@@ -232,6 +233,21 @@ public class RestrictedBoltzmannMachine {
 		this.energy = e;
 	}
 	
+	public double getLogProbabilityDerivativeSum(double[][] logProbabilityDerivatives){
+		
+		int xLength = logProbabilityDerivatives.length;
+		int yLength = logProbabilityDerivatives[0].length;
+		double sum = 0.0;
+		for(int i = 0; i < xLength; i++){
+			for(int j = 0; j < yLength; j++){
+				sum += logProbabilityDerivatives[i][j];
+			}
+		}
+		
+		return sum;
+	}
+	
+	
 	public void layerUpdate(int layerToBeUpdated ){
 		Random rand = new Random();
 		
@@ -290,7 +306,7 @@ public class RestrictedBoltzmannMachine {
 		}
 	}
 	
-	public void unsupervisedLearning(int cdIterations, int[] exemple){
+	public double[][] unsupervisedLearning(int cdIterations, int[] exemple){
 		
 		double[][] logProbabilityDerivatives = new double[this.connections.length][this.connections[0].length];
 		/*
@@ -307,23 +323,43 @@ public class RestrictedBoltzmannMachine {
 		
 		this.setBinaryInputs(exemple);
 		this.constrastiveDivergence(1);
-		for(int i = 0; i < this.layers[0].length; i++){
+		/*for(int i = 0; i < this.layers[0].length; i++){
 			for(int j = 0; j < this.layers[1].length; j++){
 				logProbabilityDerivatives[i][j] = this.layers[0][i].getState()*this.layers[1][j].getState();
 				biasModificationAttributes[0][i] = this.layers[0][i].getState();
 				biasModificationAttributes[1][j] = this.layers[1][j].getState();
 			}
+		}*/
+		double[] probabilityInputs = this.getProbabilityInputs();
+		double[] probabilityOutputs = this.getProbabilityOutputs();
+		for(int i = 0; i < this.layers[0].length; i++){
+			for(int j = 0; j < this.layers[1].length; j++){
+				logProbabilityDerivatives[i][j] = probabilityInputs[i]*probabilityOutputs[j];
+				biasModificationAttributes[0][i] = probabilityInputs[i];
+				biasModificationAttributes[1][j] = probabilityOutputs[j];
+			}
 		}
+		
+		
 		
 		// model informations
 		
 		this.setBinaryInputs(exemple);
 		this.constrastiveDivergence(cdIterations);
-		for(int i = 0; i < this.layers[0].length; i++){
+		/*for(int i = 0; i < this.layers[0].length; i++){
 			for(int j = 0; j < this.layers[1].length; j++){
 				logProbabilityDerivatives[i][j] -= this.layers[0][i].getState()*this.layers[1][j].getState();
 				biasModificationAttributes[0][i] -= this.layers[0][i].getState();
 				biasModificationAttributes[1][j] -= this.layers[1][j].getState();
+			}
+		}*/
+		probabilityInputs = this.getProbabilityInputs();
+		probabilityOutputs = this.getProbabilityOutputs();
+		for(int i = 0; i < this.layers[0].length; i++){
+			for(int j = 0; j < this.layers[1].length; j++){
+				logProbabilityDerivatives[i][j] = probabilityInputs[i]*probabilityOutputs[j];
+				biasModificationAttributes[0][i] = probabilityInputs[i];
+				biasModificationAttributes[1][j] = probabilityOutputs[j];
 			}
 		}
 		
@@ -342,10 +378,10 @@ public class RestrictedBoltzmannMachine {
 				this.layers[i][j].setBias(this.layers[i][j].getBias() + this.learningRate*biasModificationAttributes[i][j]);
 			}
 		}
-		
+		return logProbabilityDerivatives;
 	}
 	
-public void unsupervisedLearning(int cdIterations, double[] exemple){
+	public double[][] unsupervisedLearning(int cdIterations, double[] exemple){
 		
 		double[][] logProbabilityDerivatives = new double[this.connections.length][this.connections[0].length];
 		/*
@@ -362,23 +398,43 @@ public void unsupervisedLearning(int cdIterations, double[] exemple){
 		
 		this.setBinaryInputs(exemple);
 		this.constrastiveDivergence(1);
-		for(int i = 0; i < this.layers[0].length; i++){
+		/*for(int i = 0; i < this.layers[0].length; i++){
 			for(int j = 0; j < this.layers[1].length; j++){
 				logProbabilityDerivatives[i][j] = this.layers[0][i].getState()*this.layers[1][j].getState();
 				biasModificationAttributes[0][i] = this.layers[0][i].getState();
 				biasModificationAttributes[1][j] = this.layers[1][j].getState();
 			}
+		}*/
+		double[] probabilityInputs = this.getProbabilityInputs();
+		double[] probabilityOutputs = this.getProbabilityOutputs();
+		for(int i = 0; i < this.layers[0].length; i++){
+			for(int j = 0; j < this.layers[1].length; j++){
+				logProbabilityDerivatives[i][j] = probabilityInputs[i]*probabilityOutputs[j];
+				biasModificationAttributes[0][i] = probabilityInputs[i];
+				biasModificationAttributes[1][j] = probabilityOutputs[j];
+			}
 		}
+		
+		
 		
 		// model informations
 		
 		this.setBinaryInputs(exemple);
 		this.constrastiveDivergence(cdIterations);
-		for(int i = 0; i < this.layers[0].length; i++){
+		/*for(int i = 0; i < this.layers[0].length; i++){
 			for(int j = 0; j < this.layers[1].length; j++){
 				logProbabilityDerivatives[i][j] -= this.layers[0][i].getState()*this.layers[1][j].getState();
 				biasModificationAttributes[0][i] -= this.layers[0][i].getState();
 				biasModificationAttributes[1][j] -= this.layers[1][j].getState();
+			}
+		}*/
+		probabilityInputs = this.getProbabilityInputs();
+		probabilityOutputs = this.getProbabilityOutputs();
+		for(int i = 0; i < this.layers[0].length; i++){
+			for(int j = 0; j < this.layers[1].length; j++){
+				logProbabilityDerivatives[i][j] = probabilityInputs[i]*probabilityOutputs[j];
+				biasModificationAttributes[0][i] = probabilityInputs[i];
+				biasModificationAttributes[1][j] = probabilityOutputs[j];
 			}
 		}
 		
@@ -397,7 +453,8 @@ public void unsupervisedLearning(int cdIterations, double[] exemple){
 				this.layers[i][j].setBias(this.layers[i][j].getBias() + this.learningRate*biasModificationAttributes[i][j]);
 			}
 		}
-		
+	
+		return logProbabilityDerivatives;
 	}
 	
 	public boolean isLayerConstant(int l, int[] previousLayerState){
@@ -450,6 +507,19 @@ public void unsupervisedLearning(int cdIterations, double[] exemple){
 			outputs[i] = Sigmoid.getINSTANCE().apply(x);
 		}
 		return outputs;
+	}
+	
+	public double[] getProbabilityInputs(){
+		double[] inputs = new double[this.layers[0].length];
+		for(int i = 0; i < this.layers[0].length; i++){
+			
+			double x = this.layers[0][i].getBias();
+			for(int j = 0; j < this.layers[1].length; j++){
+				x += this.connections[i][j]*this.layers[1][j].getState();
+			}
+			inputs[i] = Sigmoid.getINSTANCE().apply(x);
+		}
+		return inputs;
 	}
 	
 	public void displayProbabilityOutputs(){

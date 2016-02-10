@@ -13,12 +13,14 @@ public class TestRBM {
 	public static void main(String[] args) throws IOException {
 		
 		int[] inputData = {784, 784};
-		double biasWide = 1;
-		double weightWide = 0.7;
+		double biasWide = 0;
+		double weightWide = 0.02;
 		
 		RestrictedBoltzmannMachine rbm = new RestrictedBoltzmannMachine(inputData, weightWide, biasWide);
 		
 		MnistManager m = new MnistManager("src/train-images.idx3-ubyte","src/train-labels.idx1-ubyte");
+		MnistManager testManager = new MnistManager("src/t10k-images.idx3-ubyte","src/t10k-labels.idx1-ubyte");
+		
 		m.setCurrent(1);
 		OutputsProb output = new OutputsProb(new ArrayList<Double>(), new ArrayList<Integer>());
 		Path p = Paths.get(System.getProperty("user.home"),"desktop", "boltzmann.csv");
@@ -55,15 +57,14 @@ public class TestRBM {
 			image1D = m.readImage1D();
 			rbm.unsupervisedLearning(2, image1D);
 			probabilityOutputs=rbm.getProbabilityOutputs();
-			for(int j=0;j<probabilityOutputs.length;j++){
-				sumProbability += probabilityOutputs[j];
-			}
+			sumProbability += rbm.getLogProbabilityDerivativeSum(rbm.unsupervisedLearning(2, image1D));
+			
 			System.out.println(i);
 			
 			if(i%1000 == 0){
 				m.setCurrent(1);
 				image1D = m.readImage1D(); 
-				rbm.unsupervisedLearning(2, image1D);
+				double sum = rbm.getLogProbabilityDerivativeSum(rbm.unsupervisedLearning(2, image1D));
 				int[][] image2Dexit = Tools.image1Dto2D(rbm.getBinaryOutputs(), 28, 28);
 				MnistManager.writeImageToPpm(image2Dexit, adress + "imageExitRBMAfter" + (i/1000) + "Epochs" + date + extension);
 				output.addData(sumProbability,i/1000, p);
@@ -77,7 +78,9 @@ public class TestRBM {
 			
 		}
 		m.setCurrent(1);
-		rbm.unsupervisedLearning(2, image1D);
+		image1D = m.readImage1D();
+		rbm.setBinaryInputs(image1D);
+		rbm.constrastiveDivergence(2);
 		
 		// //rbm.displayBinaryOutputs();
 		
