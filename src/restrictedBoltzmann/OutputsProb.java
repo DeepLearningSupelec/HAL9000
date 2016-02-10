@@ -25,7 +25,7 @@ public class OutputsProb {
 		java.util.ListIterator<Integer> nbexIter = this.nbex.listIterator();
 		java.util.ListIterator<Double> logProbIter = this.logProbabilities.listIterator();
 
-		file.write("nbex; quadLearning; errLearning; quadTest; errTest;\n");
+		file.write("nbex; logProbabilities;\n");
 		
 		boolean cont = true;
 		while(cont) {
