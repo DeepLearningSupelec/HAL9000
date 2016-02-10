@@ -16,6 +16,8 @@ public class TestRBM {
 		RestrictedBoltzmannMachine rbm = new RestrictedBoltzmannMachine(inputData, weightWide, biasWide);
 		
 		MnistManager m = new MnistManager("src/train-images.idx3-ubyte","src/train-labels.idx1-ubyte");
+		MnistManager testManager = new MnistManager("src/t10k-images.idx3-ubyte","src/t10k-labels.idx1-ubyte");
+		
 		m.setCurrent(1);
 		double[] image1D = m.readImage1D();
 		
@@ -52,7 +54,7 @@ public class TestRBM {
 			if(i%1000 == 0){
 				m.setCurrent(1);
 				image1D = m.readImage1D();
-				rbm.unsupervisedLearning(2, image1D);
+				double sum = rbm.getLogProbabilityDerivativeSum(rbm.unsupervisedLearning(2, image1D));
 				int[][] image2Dexit = Tools.image1Dto2D(rbm.getBinaryOutputs(), 28, 28);
 				MnistManager.writeImageToPpm(image2Dexit, adress + "imageExitRBMAfter" + (i/1000) + "Epochs" + date + extension);
 			}
@@ -64,7 +66,9 @@ public class TestRBM {
 			
 		}
 		m.setCurrent(1);
-		rbm.unsupervisedLearning(2, image1D);
+		image1D = m.readImage1D();
+		rbm.setBinaryInputs(image1D);
+		rbm.constrastiveDivergence(2);
 		
 		// //rbm.displayBinaryOutputs();
 		

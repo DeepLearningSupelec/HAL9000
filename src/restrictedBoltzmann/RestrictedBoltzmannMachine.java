@@ -50,7 +50,7 @@ public class RestrictedBoltzmannMachine {
 		 * 
 		 * 
 		 */
-		this.learningRate = 0.001;
+		this.learningRate = 0.01;
 		this.weightWide = weightWide;
 		this.biasWide = biasWide;
 		Random rand = new Random();
@@ -306,7 +306,7 @@ public class RestrictedBoltzmannMachine {
 		}
 	}
 	
-	public void unsupervisedLearning(int cdIterations, int[] exemple){
+	public double[][] unsupervisedLearning(int cdIterations, int[] exemple){
 		
 		double[][] logProbabilityDerivatives = new double[this.connections.length][this.connections[0].length];
 		/*
@@ -378,10 +378,10 @@ public class RestrictedBoltzmannMachine {
 				this.layers[i][j].setBias(this.layers[i][j].getBias() + this.learningRate*biasModificationAttributes[i][j]);
 			}
 		}
-		
+		return logProbabilityDerivatives;
 	}
 	
-public void unsupervisedLearning(int cdIterations, double[] exemple){
+	public double[][] unsupervisedLearning(int cdIterations, double[] exemple){
 		
 		double[][] logProbabilityDerivatives = new double[this.connections.length][this.connections[0].length];
 		/*
@@ -454,7 +454,7 @@ public void unsupervisedLearning(int cdIterations, double[] exemple){
 			}
 		}
 	
-		
+		return logProbabilityDerivatives;
 	}
 	
 	public boolean isLayerConstant(int l, int[] previousLayerState){
