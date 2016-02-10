@@ -50,6 +50,7 @@ public class RestrictedBoltzmannMachine {
 		 * 
 		 * 
 		 */
+		this.learningRate = 0.001;
 		this.weightWide = weightWide;
 		this.biasWide = biasWide;
 		Random rand = new Random();
@@ -231,6 +232,21 @@ public class RestrictedBoltzmannMachine {
 		
 		this.energy = e;
 	}
+	
+	public double getLogProbabilityDerivativeSum(double[][] logProbabilityDerivatives){
+		
+		int xLength = logProbabilityDerivatives.length;
+		int yLength = logProbabilityDerivatives[0].length;
+		double sum = 0.0;
+		for(int i = 0; i < xLength; i++){
+			for(int j = 0; j < yLength; i++){
+				sum += logProbabilityDerivatives[i][j];
+			}
+		}
+		
+		return sum;
+	}
+	
 	
 	public void layerUpdate(int layerToBeUpdated ){
 		Random rand = new Random();
