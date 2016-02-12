@@ -57,7 +57,7 @@ public class TestRBM {
 			image1D = m.readImage1D();
 	//		rbm.unsupervisedLearning(2, image1D);
 			probabilityOutputs=rbm.getProbabilityOutputs();
-			sumProbability += rbm.getLogProbabilityDerivativeSum(rbm.unsupervisedLearning(2, image1D));
+			sumProbability += Math.pow(rbm.getLogProbabilityDerivativeSum(rbm.unsupervisedLearning(2, image1D)), 2);
 			
 			System.out.println(i);
 			
