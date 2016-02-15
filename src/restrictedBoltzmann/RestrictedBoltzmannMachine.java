@@ -483,7 +483,7 @@ public class RestrictedBoltzmannMachine {
 	}
 	
 	public int[] getBinaryInputs(){
-		int[] outputs = new int[this.layers[1].length];
+		int[] outputs = new int[this.layers[0].length];
 		for(int i = 0; i < this.layers[0].length; i++){
 			outputs[i] = this.layers[0][i].getState();
 		}
@@ -520,6 +520,11 @@ public class RestrictedBoltzmannMachine {
 			inputs[i] = Sigmoid.getINSTANCE().apply(x);
 		}
 		return inputs;
+	}
+	
+	public double  getEnergy(){
+		this.updateEnergy();
+		return this.energy;
 	}
 	
 	public void displayProbabilityOutputs(){

@@ -12,7 +12,7 @@ public class TestRBM {
 
 	public static void main(String[] args) throws IOException {
 		
-		int[] inputData = {784, 784};
+		int[] inputData = {784, 36};
 		double biasWide = 0;
 		double weightWide = 0.02;
 		
@@ -62,13 +62,28 @@ public class TestRBM {
 			System.out.println(i);
 			
 			if(i%1000 == 0){
+				// Somme sur l'ensemble test
+				double testEnergy = 0.;
+				
+				for(int j = 1; j < 1000; j++){
+					testManager.setCurrent(j);
+					image1D = testManager.readImage1D();
+					rbm.setBinaryInputs(image1D);
+					rbm.constrastiveDivergence(2);
+					testEnergy += rbm.getEnergy();
+					
+				}
 				m.setCurrent(1);
 				image1D = m.readImage1D(); 
 				double sum = rbm.getLogProbabilityDerivativeSum(rbm.unsupervisedLearning(2, image1D));
-				int[][] image2Dexit = Tools.image1Dto2D(rbm.getBinaryOutputs(), 28, 28);
-				MnistManager.writeImageToPpm(image2Dexit, adress + "imageExitRBMAfter" + (i/1000) + "Epochs" + date + extension);
-				output.addData(sumProbability,i/1000, p);
+				/* 
+				 * 
+				 * 
+				 * int[][] image2Dexit = Tools.image1Dto2D(rbm.getBinaryOutputs(), 6, 6);
+				 * MnistManager.writeImageToPpm(image2Dexit, adress + "imageExitRBMAfter" + (i/1000) + "Epochs" + date + extension);*/
+				//output.addData(sumProbability,i/1000, p);
 				sumProbability = 0.0;
+				output.addData(testEnergy, i/1000, p);
 			}
 			
 			
