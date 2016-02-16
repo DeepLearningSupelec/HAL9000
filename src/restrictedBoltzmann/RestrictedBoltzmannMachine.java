@@ -27,8 +27,22 @@ public class RestrictedBoltzmannMachine {
 	static String image_adress = "Images_ppm//";
 	
 	//Constructor
-	
-	
+
+	/**
+	 * <p>Restricted Boltzmann Machine COnstructor</p>
+	 * <p>
+	 *  Connections between each entity of each table are made. Learning rate and Weight Wide are set.
+	 *  </p>
+	 *  
+	 * @param visibleEntities
+	 * 			Table of entity which correspond to the visible units.
+	 * @param hiddenEntities
+	 * 			Table of entity which correspond to the hidden units.
+	 * @param weightWide
+	 * 			Range of the weight.
+	 * @param learningRate
+	 * 			The learning rate of the network is set.
+	 */
 	public RestrictedBoltzmannMachine(Entity[] visibleEntities, Entity[] hiddenEntities, double weightWide, double learningRate){
 		this.weightWide = weightWide;
 		this.learningRate = learningRate;
@@ -43,6 +57,21 @@ public class RestrictedBoltzmannMachine {
 			}
 		}
 	}
+	
+	/**
+	 * <p>Restricted Boltzmann Machine COnstructor</p>
+	 * <p>
+	 *  Connections between each entity of each table are made. Learning rate and Weight Wide are set.
+	 *  </p>
+	 *  
+	 * @param inputData
+	 * 			Table of two integers, the first one is the nulber of visible unit, the second one is the numbr of hidden units.
+	 * @param weightWide
+	 * 			Range of the weight.
+	 * @param biasWide
+	 * 			Range of the bias.
+	 * 
+	 */
 	
 	public RestrictedBoltzmannMachine(int[] inputData, double weightWide, double biasWide){
 		/*
@@ -69,6 +98,44 @@ public class RestrictedBoltzmannMachine {
 		}
 		
 	}
+	
+	/**
+	 * <p>Restricted Boltzmann Machine COnstructor</p>
+	 * <p>
+	 *  Connections between each entity of each table are made. Learning rate and Weight Wide are set.
+	 *  </p>
+	 *  
+	 * @param p
+	 * 			Path to the file in which the paramaters of the RBM are.
+	 * <p>inputFile format:
+	 * [
+	 * A B C D
+	 * x b1
+	 * y b2
+	 * .
+	 * .
+	 * .
+	 * x0 y0 w0
+	 * x1 y1 w1
+	 * x2 y2 w2
+	 * .
+	 * .
+	 * .
+	 * ]
+	 *
+	 * A : entitiesNumber;
+	 * B : visibleEntitiesNumber;
+	 * C : hiddenEntitiesNumber;
+	 * D : connectionsDescribed
+     *
+	 * x bi : bias bi on entity x
+	 * 	
+	 * xi yi wi : connection between visible entity xi and hidden entity yi weighted by wi
+	 * </p>
+	 * 
+	 * @throws IOException
+	 * 			If the file at the path p does not exist.
+	 */
 	
 	public RestrictedBoltzmannMachine(Path p) throws IOException{
 		
@@ -213,7 +280,12 @@ public class RestrictedBoltzmannMachine {
 	
 	
 	//Methods
-	
+	/**
+	 * <p>Update Energy</p>
+	 * 
+	 * <p>The energy of the network is updated after the Gibbs' samplig is done.</p>
+	 * 
+	 */
 	public void updateEnergy(){
 		double e = 0;
 		
@@ -232,7 +304,15 @@ public class RestrictedBoltzmannMachine {
 		
 		this.energy = e;
 	}
-	
+	/**
+	 * <p>Sum of the Log Likelihood of the network</p>
+	 * 
+	 * @param logProbabilityDerivatives
+	 * 			Table with the derivative of the log pribability of the unit. First column is visible units. Second one is hidden units.
+	 * 
+	 * @return
+	 * 			Sum of the network's log likelyhood.
+	 */
 	public double getLogProbabilityDerivativeSum(double[][] logProbabilityDerivatives){
 		
 		int xLength = logProbabilityDerivatives.length;
@@ -247,7 +327,13 @@ public class RestrictedBoltzmannMachine {
 		return sum;
 	}
 	
-	
+	/**
+	 * <p>Update of the state of the layer</p>
+	 * <p>Each unit state is set according to it's probability p of being activated. A random number A between 0 and 1 is generated according to a uniform distribution. If p > A unit's state is set to 1</p>
+	 *  
+	 * @param layerToBeUpdated
+	 * 			0 for the visible layer, 1 for the hidden layer.
+	 */
 	public void layerUpdate(int layerToBeUpdated ){
 		Random rand = new Random();
 		
@@ -271,6 +357,11 @@ public class RestrictedBoltzmannMachine {
 		}
 	}
 	
+	/**<p>Reach Equilibrium</p>
+	 * 
+	 * <p>Each layer are updated as long as they don't reach a stable state</p>
+	 * 
+	 */
 	public void reachEquilibrium(){
 		
 		boolean[] Equilibriums = {false, false};
@@ -289,6 +380,13 @@ public class RestrictedBoltzmannMachine {
 		}
 	}
 	
+	/**<p> Constrative Divergence</p>
+	 * 
+	 * <p>The equilibrium is not reached, the higher the number of iterations the better the approximation. Usually iteration = 2.</p>
+	 *  
+	 * @param iterations
+	 * 			Integer, must be an even number if Gibb's sampling is wanted.
+	 */
 	public void constrastiveDivergence(int iterations){
 		//the iterations start from visible to hidden (layers[1] -> layers [2])
 		
@@ -306,6 +404,13 @@ public class RestrictedBoltzmannMachine {
 		}
 	}
 	
+	
+	/**
+	 * 
+	 * @param cdIterations
+	 * @param exemple
+	 * @return
+	 */
 	public double[][] unsupervisedLearning(int cdIterations, int[] exemple){
 		
 		double[][] logProbabilityDerivatives = new double[this.connections.length][this.connections[0].length];
