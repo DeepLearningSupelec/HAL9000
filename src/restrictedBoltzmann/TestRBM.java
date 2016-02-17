@@ -16,14 +16,19 @@ public class TestRBM {
 		double biasWide = 0;
 		double weightWide = 0.02;
 		
+		String date = "_" + LocalDateTime.now();
+		date = date.substring(0, 20);
+		date = date.replace(':', '-');
+		System.out.println(date);
+		
 		RestrictedBoltzmannMachine rbm = new RestrictedBoltzmannMachine(inputData, weightWide, biasWide);
 		
 		MnistManager m = new MnistManager("src/train-images.idx3-ubyte","src/train-labels.idx1-ubyte");
 		MnistManager testManager = new MnistManager("src/t10k-images.idx3-ubyte","src/t10k-labels.idx1-ubyte");
 		
 		m.setCurrent(1);
-		OutputsProb output = new OutputsProb(new ArrayList<Double>(), new ArrayList<Integer>());
-		Path p = Paths.get(System.getProperty("user.home"),"desktop", "boltzmann.csv");
+		OutputData output = new OutputData(new ArrayList<Integer>(), new ArrayList<Double>(), new ArrayList<Double>());
+		Path p = Paths.get(/*System.getProperty("user.home"),*/"RBM_EnergyData", "boltzmannEnergy" + date + ".csv");
 		output.toCSV(p);
 		double[] image1D = m.readImage1D();
 		
@@ -42,22 +47,21 @@ public class TestRBM {
 		
 		
 		
-		String date = "_" + LocalDateTime.now();
-		date = date.substring(0, 20);
-		date = date.replace(':', '-');
-		System.out.println(date);
+		
 		String adress = "Images_ppm//";
 		String extension = ".ppm";
 		int[][] image2D = Tools.image1Dto2D(input1D, 28, 28);
 		MnistManager.writeImageToPpm(image2D, adress + "image1" + date + extension);
 		double[] probabilityOutputs;
 		double sumProbability = 0.0;
+		double learningEnergy = 0.;
 		for(int i = 1; i < 50000; i++){
 			m.setCurrent(i);
 			image1D = m.readImage1D();
 	//		rbm.unsupervisedLearning(2, image1D);
-			probabilityOutputs=rbm.getProbabilityOutputs();
 			sumProbability += Math.pow(rbm.getLogProbabilityDerivativeSum(rbm.unsupervisedLearning(2, image1D)), 2);
+			probabilityOutputs=rbm.getProbabilityOutputs();
+			learningEnergy += rbm.getEnergy();
 			
 			System.out.println(i);
 			
@@ -83,7 +87,8 @@ public class TestRBM {
 				 * MnistManager.writeImageToPpm(image2Dexit, adress + "imageExitRBMAfter" + (i/1000) + "Epochs" + date + extension);*/
 				//output.addData(sumProbability,i/1000, p);
 				sumProbability = 0.0;
-				output.addData(testEnergy, i/1000, p);
+				output.addData(testEnergy, learningEnergy, i/1000, p);
+				learningEnergy = 0.;
 			}
 			
 			
