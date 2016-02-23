@@ -55,11 +55,12 @@ public class TestRBM {
 		double[] probabilityOutputs;
 		double sumProbability = 0.0;
 		double learningEnergy = 0.;
-		for(int i = 1; i < 50000; i++){
-			m.setCurrent(i);
+		for(int i = 0; i < 250000; i++){
+			m.setCurrent((i % 60000) + 1);
 			image1D = m.readImage1D();
 	//		rbm.unsupervisedLearning(2, image1D);
-			sumProbability += Math.pow(rbm.getLogProbabilityDerivativeSum(rbm.unsupervisedLearning(2, image1D)), 2);
+	//		sumProbability += Math.pow(rbm.getLogProbabilityDerivativeSum(rbm.unsupervisedLearning(3, image1D)), 2);
+			rbm.getLogProbabilityDerivativeSum(rbm.unsupervisedLearning(3, image1D));
 			probabilityOutputs=rbm.getProbabilityOutputs();
 			learningEnergy += rbm.getEnergy();
 			
@@ -73,13 +74,13 @@ public class TestRBM {
 					testManager.setCurrent(j);
 					image1D = testManager.readImage1D();
 					rbm.setBinaryInputs(image1D);
-					rbm.constrastiveDivergence(2);
+					rbm.constrastiveDivergence(3);
 					testEnergy += rbm.getEnergy();
 					
 				}
 				m.setCurrent(1);
 				image1D = m.readImage1D(); 
-				double sum = rbm.getLogProbabilityDerivativeSum(rbm.unsupervisedLearning(2, image1D));
+				//double sum = rbm.getLogProbabilityDerivativeSum(rbm.unsupervisedLearning(2, image1D));
 				/* 
 				 * 
 				 * 
