@@ -34,6 +34,7 @@ public class TestRBM {
 		
 		
 		
+		
 		rbm.setBinaryInputs(image1D);
 		int[] input1D = rbm.getBinaryInputs();
 		for(int i = 0; i < 784; i++){
