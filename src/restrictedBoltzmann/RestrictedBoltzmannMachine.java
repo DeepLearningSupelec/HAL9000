@@ -486,6 +486,39 @@ public class RestrictedBoltzmannMachine {
 		return logProbabilityDerivatives;
 	}
 	
+	
+	public double getFreeEnergy(){
+		/*
+		 * Gives the free Energy of the visible layer of the RBM
+		 * 
+		 * 
+		 * the free energy of visible vector v
+			is the energy that a single configuration would need to have in
+			order to have the same probability as all of the configurations that contain v
+		 */
+		
+		double freeEnergy = 0.;
+		
+		for(int i = 0; i < this.layers[0].length; i++){
+			freeEnergy -= this.layers[0][i].getState()*this.layers[0][i].getBias();
+		}
+		
+		for(int j = 0; j < this.layers[1].length; j++){
+			double x = this.layers[1][j].getBias();
+			for(int i = 0; i < this.layers[0].length; i++){
+				x += this.layers[0][i].getState()*this.connections[i][j];
+			}
+			//System.out.println("x = " + x);
+			freeEnergy -= Math.log(1 + Math.exp(x));
+		}
+		
+		
+		return freeEnergy;
+	}
+	
+	
+	
+	
 	public double[][] unsupervisedLearning(int cdIterations, double[] exemple){
 		
 		double[][] logProbabilityDerivatives = new double[this.connections.length][this.connections[0].length];

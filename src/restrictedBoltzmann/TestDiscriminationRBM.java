@@ -48,7 +48,7 @@ public class TestDiscriminationRBM {
 		double[] image1D;
 		
 	
-		for(int i = 0; i < 300000; i++){
+		for(int i = 0; i < 5000; i++){
 			learningManager.setCurrent((i % 60000) + 1);
 			image1D = learningManager.readImage1D();
 			
@@ -69,7 +69,7 @@ public class TestDiscriminationRBM {
 			System.out.println(i);
 		}
 		
-		
+		/*
 		testManager.setCurrent(1);
 		System.out.println("Current label : " + testManager.readLabel());
 		image1D = testManager.readImage1D();
@@ -80,21 +80,18 @@ public class TestDiscriminationRBM {
 			System.out.println(i + " RBM energy : " + discriminationRbm[i].getEnergy());
 			
 		}
+		*/
 		
+		testManager.setCurrent(1);
+		System.out.println("Current label : " + testManager.readLabel());
+		image1D = testManager.readImage1D();
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		for(int i = 1; i < 10; i++){
+			double[] visibleVector = testManager.readImage1D();
+			discriminationRbm[i].setBinaryInputs(visibleVector);
+			System.out.println(i + " RBM free energy : " + discriminationRbm[i].getFreeEnergy());
+			
+		}
 		
 		
 		
