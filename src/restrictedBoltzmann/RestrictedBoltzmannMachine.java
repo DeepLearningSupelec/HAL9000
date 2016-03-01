@@ -503,6 +503,7 @@ public class RestrictedBoltzmannMachine {
 			freeEnergy -= this.layers[0][i].getState()*this.layers[0][i].getBias();
 		}
 		
+		
 		for(int j = 0; j < this.layers[1].length; j++){
 			double x = this.layers[1][j].getBias();
 			for(int i = 0; i < this.layers[0].length; i++){
@@ -512,6 +513,24 @@ public class RestrictedBoltzmannMachine {
 			freeEnergy -= Math.log(1 + Math.exp(x));
 		}
 		
+		/*
+		for(int j = 0; j < this.layers[1].length; j++){
+			double x = this.layers[1][j].getBias();
+			for(int i = 0; i < this.layers[0].length; i++){
+				x += this.layers[0][i].getState()*this.connections[i][j];
+			}
+			freeEnergy -= x*Sigmoid.getINSTANCE().apply(x);
+		}
+		
+		for(int j = 0; j < this.layers[1].length; j++){
+			double x = this.layers[1][j].getBias();
+			for(int i = 0; i < this.layers[0].length; i++){
+				x += this.layers[0][i].getState()*this.connections[i][j];
+			}
+			double p = Sigmoid.getINSTANCE().apply(x);
+			freeEnergy += p*Math.log10(p) + (1. - p)*Math.log10(1. - p);
+		}
+		*/
 		
 		return freeEnergy;
 	}
