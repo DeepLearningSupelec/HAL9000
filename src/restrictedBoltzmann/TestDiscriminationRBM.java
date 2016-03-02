@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import mnistReader.MnistManager;
 
@@ -22,7 +23,7 @@ public class TestDiscriminationRBM {
 		
 		int[] inputData = {784, 36};
 		double biasWide = 0;
-		double weightWide = 0.02;
+		double weightWide = 0.01;
 		
 		String date = "_" + LocalDateTime.now();
 		date = date.substring(0, 20);
@@ -48,7 +49,7 @@ public class TestDiscriminationRBM {
 		double[] image1D;
 		
 	
-		for(int i = 0; i < 5000; i++){
+		for(int i = 0; i < 50000; i++){
 			learningManager.setCurrent((i % 60000) + 1);
 			image1D = learningManager.readImage1D();
 			
@@ -82,17 +83,23 @@ public class TestDiscriminationRBM {
 		}
 		*/
 		
-		testManager.setCurrent(1);
-		System.out.println("Current label : " + testManager.readLabel());
-		image1D = testManager.readImage1D();
-		
-		for(int i = 1; i < 10; i++){
-			double[] visibleVector = testManager.readImage1D();
-			discriminationRbm[i].setBinaryInputs(visibleVector);
-			System.out.println(i + " RBM free energy : " + discriminationRbm[i].getFreeEnergy());
+
+		Scanner reader = new Scanner(System.in);  // Reading from System.in
+		int selectLabel = 1;
+		while(selectLabel != 0){
+			testManager.setCurrent(selectLabel);
+			System.out.println("Current label : " + testManager.readLabel());
+			image1D = testManager.readImage1D();
+			for(int i = 1; i < 10; i++){
+				double[] visibleVector = testManager.readImage1D();
+				discriminationRbm[i].setBinaryInputs(visibleVector);
+				System.out.println(i + " RBM free energy : " + discriminationRbm[i].getFreeEnergy());
+				
+			}
 			
+			System.out.println("Enter a testImage number (0 to exit): ");
+			selectLabel = reader.nextInt();
 		}
-		
 		
 		
 		

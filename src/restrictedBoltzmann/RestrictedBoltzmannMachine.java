@@ -79,7 +79,7 @@ public class RestrictedBoltzmannMachine {
 		 * 
 		 * 
 		 */
-		this.learningRate = 0.01;
+		this.learningRate = 0.00001;
 		this.weightWide = weightWide;
 		this.biasWide = biasWide;
 		Random rand = new Random();
@@ -189,7 +189,7 @@ public class RestrictedBoltzmannMachine {
 				this.connections[i][j] = 0;
 			}
 		}
-
+		
 		int lineCpt = 0; // line indicator
 		
 		for (String line : Files.readAllLines(p)) {
@@ -718,5 +718,16 @@ public class RestrictedBoltzmannMachine {
 		}
 	}
 	
+	public static int[] InputToBinaryEntity(double[] x){
+		int[] binaryEntity = new int[x.length];
+		for(int i = 0; i < x.length; i++){
+			if(x[i] - 130 > 1){
+				binaryEntity[i] = 1;
+			} else {
+				binaryEntity[i] = Math.min(1, (int)Math.floor(x[i]));
+			}	
+		}
+		return binaryEntity;
+	}
 	
 }
