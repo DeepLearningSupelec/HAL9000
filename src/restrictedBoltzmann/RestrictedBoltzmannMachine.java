@@ -2,6 +2,7 @@ package restrictedBoltzmann;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -176,6 +177,21 @@ public class RestrictedBoltzmannMachine {
 		 * 2 : hiddenEntitiesNumber;
 		 * 3 : connectionsDescribed
 		 */
+		
+		int lineCptTemp = 0;
+		
+		for(String line : Files.readAllLines(p)) {
+			if(lineCptTemp ==0){
+				int partCpt = 0;
+				for (String part : line.split("\\s+")) {
+			        int i = Integer.valueOf(part);
+			        informations[partCpt] = i;
+			        partCpt++;
+			    }
+				
+			}
+			lineCptTemp++;
+		}
 		
 		this.layers = new Entity[2][];
 		for(int i = 0; i < 2; i++){
@@ -729,5 +745,47 @@ public class RestrictedBoltzmannMachine {
 		}
 		return binaryEntity;
 	}
+	
+	public void setMnistParameters() throws IOException{
+		
+		Path p = Paths.get("mnistTrainingParameters.txt");
+		boolean firstLine = true;
+		
+		for(String line : Files.readAllLines(p)) {
+			if(firstLine){
+				int partCpt = 0;
+				for (String part : line.split("\\s+")) {
+			        double bias = Double.valueOf(part);
+			        this.layers[0][partCpt].setBias(bias / 60000);
+			        partCpt++;
+			    }
+				
+			}
+			firstLine = false;
+		}
+		
+		
+	}
+	
+	public void setMnistLabelParameters(int label) throws IOException{
+		
+		Path p = Paths.get("mnistTrainingParameters.txt");
+		int lineCpt = 0;
+		for(String line : Files.readAllLines(p)) {
+			if(lineCpt == label){
+				int partCpt = 0;
+				for (String part : line.split("\\s+")) {
+			        double bias = Double.valueOf(part);
+			        this.layers[0][partCpt].setBias(bias / 60000);
+			        partCpt++;
+			    }
+				
+			}
+			lineCpt++;
+		}
+		
+		
+	}
+	
 	
 }

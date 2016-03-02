@@ -35,6 +35,7 @@ public class TestDiscriminationRBM {
 		
 		for(int i = 0; i < 10; i++){
 			discriminationRbm[i] = new RestrictedBoltzmannMachine(inputData, weightWide, biasWide);
+			discriminationRbm[i].setMnistLabelParameters(i);
 		}
 		
 		
@@ -49,7 +50,7 @@ public class TestDiscriminationRBM {
 		double[] image1D;
 		
 	
-		for(int i = 0; i < 50000; i++){
+		for(int i = 0; i < 60000; i++){
 			learningManager.setCurrent((i % 60000) + 1);
 			image1D = learningManager.readImage1D();
 			
@@ -90,7 +91,7 @@ public class TestDiscriminationRBM {
 			testManager.setCurrent(selectLabel);
 			System.out.println("Current label : " + testManager.readLabel());
 			image1D = testManager.readImage1D();
-			for(int i = 1; i < 10; i++){
+			for(int i = 0; i < 10; i++){
 				double[] visibleVector = testManager.readImage1D();
 				discriminationRbm[i].setBinaryInputs(visibleVector);
 				System.out.println(i + " RBM free energy : " + discriminationRbm[i].getFreeEnergy());
@@ -100,8 +101,6 @@ public class TestDiscriminationRBM {
 			System.out.println("Enter a testImage number (0 to exit): ");
 			selectLabel = reader.nextInt();
 		}
-		
-		
 		
 	}
 	
