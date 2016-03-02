@@ -39,13 +39,38 @@ public class TestParameters {
 			}
 		}
 		
+		/*
 		
-		List<String> lines = Arrays.asList("The first line", "The second line");
-		Path file = Paths.get("the-file-name.txt");
+		1st Line: number of activation of each entity (with full training)
+		
+		2nd to 12th lines : number of activation of each entity (with one-label-only training)
+		
+		*/
+		String line = "";
+		String[] labelLines = new String[10];
+		for(int j=0;j<10;j++){labelLines[j] = "";}
+		
+		for(int i = 0; i < 784; i++){
+			line += activationCpt[i] + " ";
+			for(int j = 0; j < 10; j++){
+				labelLines[j] += labelActivationCpt[j][i] + " ";
+			}
+		}
+		
+		
+		
+		
+		List<String> lines = Arrays.asList(line, 
+				labelLines[0],labelLines[1],
+				labelLines[2],labelLines[3],
+				labelLines[4],labelLines[5],
+				labelLines[6],labelLines[7],
+				labelLines[8],labelLines[9]);
+		Path file = Paths.get("trainingParametersTemp.txt");
 		Files.write(file, lines, Charset.forName("UTF-8"));
 		
 		
 		
 	}
-
+	
 }
