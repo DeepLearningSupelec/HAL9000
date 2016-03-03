@@ -43,30 +43,65 @@ public class TestDiscriminationRBM {
 		MnistManager testManager = new MnistManager("src/t10k-images.idx3-ubyte","src/t10k-labels.idx1-ubyte");
 		
 		
-		//OutputData output = new OutputData(new ArrayList<Integer>(), new ArrayList<Double>(), new ArrayList<Double>());
-		//Path p = Paths.get(/*System.getProperty("user.home"),*/"RBM_EnergyData", "boltzmannEnergy" + date + ".csv");
-		//output.toCSV(p);
+		OutputData output = new OutputData(new ArrayList<Integer>(), new ArrayList<Double>(), new ArrayList<Double>());
+		Path p = Paths.get(/*System.getProperty("user.home"),*/"RBM_EnergyData", "visibleEnergyTest" + date + ".csv");
+		output.toCSV(p);
 		
 		double[] image1D;
-		
+		double trainingErrors = 0.;
+		double[] visibleVector;
 	
-		for(int i = 0; i < 60000; i++){
+		for(int i = 0; i < 300000; i++){
 			learningManager.setCurrent((i % 60000) + 1);
 			image1D = learningManager.readImage1D();
 			
 			discriminationRbm[learningManager.readLabel()].unsupervisedLearning(3, image1D);
-
-
+			
+			double min = 0.;
+			int labl = 0;
+			for(int k = 0; k < 10; k++){
+				learningManager.setCurrent((i % 60000) + 1);
+				visibleVector = learningManager.readImage1D();
+				discriminationRbm[k].setBinaryInputs(visibleVector);
+				double temp = discriminationRbm[k].getFreeEnergy();
+				if(temp < min){
+					labl = k;
+					min = temp;
+				}
+			}
+			if(labl != testManager.readLabel()){
+				trainingErrors ++;
+			}
+			
 			
 			if(i%1000 == 0){
+				// Somme sur l'ensemble test
+				double testErrors = 0.;
 				
+				for(int j = 1; j < 1000; j++){
+					testManager.setCurrent(j);
+					image1D = testManager.readImage1D();
+					
+					double minEnergy = 0.;
+					int label = 0;
+					for(int k = 0; k < 10; k++){
+						visibleVector = testManager.readImage1D();
+						discriminationRbm[k].setBinaryInputs(visibleVector);
+						double temp = discriminationRbm[k].getFreeEnergy();
+						if(temp < minEnergy){
+							label = k;
+							minEnergy = temp;
+						}
+					}
+					if(label != testManager.readLabel()){
+						testErrors ++;
+					}
+					
+				}
 				
-				/*
-				 * 
-				 * Test on each RBM ?
-				 * 
-				 * 
-				 */
+
+				output.addData(testErrors/1000, trainingErrors/1000, i/1000, p);
+				trainingErrors = 0.;
 			}
 			System.out.println(i);
 		}
@@ -84,7 +119,11 @@ public class TestDiscriminationRBM {
 		}
 		*/
 		
-
+		
+		/*
+		Test image per image
+		
+		
 		Scanner reader = new Scanner(System.in);  // Reading from System.in
 		int selectLabel = 1;
 		while(selectLabel != 0){
@@ -101,6 +140,9 @@ public class TestDiscriminationRBM {
 			System.out.println("Enter a testImage number (0 to exit): ");
 			selectLabel = reader.nextInt();
 		}
+		*/
+		
+		
 		
 	}
 	
