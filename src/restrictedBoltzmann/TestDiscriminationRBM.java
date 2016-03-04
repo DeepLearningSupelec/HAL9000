@@ -24,6 +24,7 @@ public class TestDiscriminationRBM {
 		int[] inputData = {784, 36};
 		double biasWide = 0;
 		double weightWide = 0.01;
+		double learningRate = 0.001;
 		
 		String date = "_" + LocalDateTime.now();
 		date = date.substring(0, 20);
@@ -34,7 +35,7 @@ public class TestDiscriminationRBM {
 		RestrictedBoltzmannMachine[] discriminationRbm = new RestrictedBoltzmannMachine[10];
 		
 		for(int i = 0; i < 10; i++){
-			discriminationRbm[i] = new RestrictedBoltzmannMachine(inputData, weightWide, biasWide);
+			discriminationRbm[i] = new RestrictedBoltzmannMachine(inputData, weightWide, biasWide, learningRate);
 			discriminationRbm[i].setMnistLabelParameters(i);
 		}
 		
@@ -44,7 +45,7 @@ public class TestDiscriminationRBM {
 		
 		
 		OutputData output = new OutputData(new ArrayList<Integer>(), new ArrayList<Double>(), new ArrayList<Double>());
-		Path p = Paths.get(/*System.getProperty("user.home"),*/"RBM_EnergyData", "visibleEnergyTest" + date + ".csv");
+		Path p = Paths.get(/*System.getProperty("user.home"),*/"RBM_EnergyData", "visibleEnergyTest" + "LR" + learningRate + date + ".csv");
 		output.toCSV(p);
 		
 		double[] image1D;
@@ -52,7 +53,24 @@ public class TestDiscriminationRBM {
 		double[] visibleVector;
 	
 		for(int i = 0; i < 300000; i++){
-			learningManager.setCurrent((i % 60000) + 1);
+			int tempInt = i % 10;
+			int tempLabel = 0;
+			switch (tempInt) {
+			case 0: tempLabel = 1; break;
+			case 1: tempLabel = 2; break;
+			case 2: tempLabel = 3; break;
+			case 3: tempLabel = 4; break;
+			case 4: tempLabel = 5; break;
+			case 5: tempLabel = 7; break;
+			case 6: tempLabel = 11; break;
+			case 7: tempLabel = 13; break;
+			case 8: tempLabel = 15; break;
+			case 9: tempLabel = 17; break;
+			}
+			
+			
+			
+			learningManager.setCurrent(/*(i % 60000) + 1*/tempLabel);
 			image1D = learningManager.readImage1D();
 			
 			discriminationRbm[learningManager.readLabel()].unsupervisedLearning(3, image1D);
@@ -60,7 +78,7 @@ public class TestDiscriminationRBM {
 			double min = 0.;
 			int labl = 0;
 			for(int k = 0; k < 10; k++){
-				learningManager.setCurrent((i % 60000) + 1);
+				learningManager.setCurrent(/*(i % 60000) + 1*/tempLabel);
 				visibleVector = learningManager.readImage1D();
 				discriminationRbm[k].setBinaryInputs(visibleVector);
 				double temp = discriminationRbm[k].getFreeEnergy();
@@ -69,7 +87,7 @@ public class TestDiscriminationRBM {
 					min = temp;
 				}
 			}
-			if(labl != testManager.readLabel()){
+			if(labl != learningManager.readLabel()){
 				trainingErrors ++;
 			}
 			
@@ -77,7 +95,7 @@ public class TestDiscriminationRBM {
 			if(i%1000 == 0){
 				// Somme sur l'ensemble test
 				double testErrors = 0.;
-				
+				/*
 				for(int j = 1; j < 1000; j++){
 					testManager.setCurrent(j);
 					image1D = testManager.readImage1D();
@@ -98,10 +116,11 @@ public class TestDiscriminationRBM {
 					}
 					
 				}
-				
+				*/
 
 				output.addData(testErrors/1000, trainingErrors/1000, i/1000, p);
 				trainingErrors = 0.;
+				System.out.println(trainingErrors/1000);
 			}
 			System.out.println(i);
 		}
@@ -119,9 +138,9 @@ public class TestDiscriminationRBM {
 		}
 		*/
 		
-		
 		/*
-		Test image per image
+		
+		//Test image one at a time
 		
 		
 		Scanner reader = new Scanner(System.in);  // Reading from System.in
@@ -131,7 +150,7 @@ public class TestDiscriminationRBM {
 			System.out.println("Current label : " + testManager.readLabel());
 			image1D = testManager.readImage1D();
 			for(int i = 0; i < 10; i++){
-				double[] visibleVector = testManager.readImage1D();
+				visibleVector = testManager.readImage1D();
 				discriminationRbm[i].setBinaryInputs(visibleVector);
 				System.out.println(i + " RBM free energy : " + discriminationRbm[i].getFreeEnergy());
 				
@@ -140,8 +159,8 @@ public class TestDiscriminationRBM {
 			System.out.println("Enter a testImage number (0 to exit): ");
 			selectLabel = reader.nextInt();
 		}
-		*/
 		
+		*/
 		
 		
 	}

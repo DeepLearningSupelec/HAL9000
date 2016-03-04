@@ -74,13 +74,39 @@ public class RestrictedBoltzmannMachine {
 	 * 
 	 */
 	
+	public RestrictedBoltzmannMachine(int[] inputData, double weightWide, double biasWide, double learningRate) {
+		/*
+		 * inputData : {visibleUnitsNumber, hiddenunitsNumber}
+		 * 
+		 * 
+		 */
+		this.learningRate = learningRate;
+		this.weightWide = weightWide;
+		this.biasWide = biasWide;
+		Random rand = new Random();
+		this.layers = new Entity[2][];
+		for(int i = 0; i < 2; i++){
+			this.layers[i] = new Entity[inputData[i]];
+			for(int j = 0; j < inputData[i]; j++){
+				this.layers[i][j] = new Entity(j, (rand.nextDouble()- 0.5)*this.biasWide);
+			}
+		}
+		this.connections = new double[inputData[0]][inputData[1]];
+		for(int i = 0; i < this.connections.length; i++){
+			for(int j = 0; j < this.connections[0].length; j++){
+				this.connections[i][j] = (rand.nextDouble()- 0.5)*this.weightWide;
+			}
+		}
+		
+	}
+	
 	public RestrictedBoltzmannMachine(int[] inputData, double weightWide, double biasWide){
 		/*
 		 * inputData : {visibleUnitsNumber, hiddenunitsNumber}
 		 * 
 		 * 
 		 */
-		this.learningRate = 0.00001;
+		this.learningRate = 0.005;
 		this.weightWide = weightWide;
 		this.biasWide = biasWide;
 		Random rand = new Random();
@@ -295,6 +321,8 @@ public class RestrictedBoltzmannMachine {
 	}*/
 	
 	
+	
+
 	//Methods
 	/**
 	 * <p>Update Energy</p>
