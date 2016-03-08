@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 import mnistReader.MnistManager;
 
-public class TestDiscriminationRBM {
+public class TestElementaryDiscrimination {
 	/*
 	 * This class purpose is to train one RBM for each class 
 	 * of the sample (here: 10 figures)
@@ -45,17 +45,32 @@ public class TestDiscriminationRBM {
 		
 		
 		OutputData output = new OutputData(new ArrayList<Integer>(), new ArrayList<Double>(), new ArrayList<Double>());
-		Path p = Paths.get(/*System.getProperty("user.home"),*/"RBM_EnergyData", "visibleEnergyTest" + "LR" + learningRate + date + ".csv");
+		Path p = Paths.get(/*System.getProperty("user.home"),*/"RBM_debugTest", "Test0and1s" + date + ".csv");
 		output.toCSV(p);
 		
 		double[] image1D;
 		double trainingErrors = 0.;
 		double[] visibleVector;
 	
-		for(int i = 0; i < 300000; i++){
+		for(int i = 0; i < 10000; i++){
 			int tempInt = i % 10;
 			int tempLabel = 0;
 			switch (tempInt) {
+			
+			case 0: tempLabel = 2; break;
+			case 1: tempLabel = 4; break;
+			case 2: tempLabel = 4; break;
+			case 3: tempLabel = 4; break;
+			case 4: tempLabel = 4; break;
+			case 5: tempLabel = 4; break;
+			case 6: tempLabel = 4; break;
+			case 7: tempLabel = 4; break;
+			case 8: tempLabel = 4; break;
+			case 9: tempLabel = 4; break;
+			
+			
+			/*0 to 9
+			 * 
 			case 0: tempLabel = 2; break;
 			case 1: tempLabel = 4; break;
 			case 2: tempLabel = 6; break;
@@ -66,19 +81,74 @@ public class TestDiscriminationRBM {
 			case 7: tempLabel = 16; break;
 			case 8: tempLabel = 18; break;
 			case 9: tempLabel = 5; break;
+			*/
+			
+			/*
+			case 0: tempLabel = 1; System.out.println(tempLabel);
+			learningManager.setCurrent(tempLabel);
+			System.out.println("label: " + learningManager.readLabel());
+			learningManager.setCurrent(tempLabel);
+			break;
+			case 1: tempLabel = 2; System.out.println(tempLabel);
+			learningManager.setCurrent(tempLabel);
+			System.out.println("label: " + learningManager.readLabel());
+			learningManager.setCurrent(tempLabel);
+			break;
+			case 2: tempLabel = 3; System.out.println(tempLabel);
+			learningManager.setCurrent(tempLabel);
+			System.out.println("label: " + learningManager.readLabel());
+			learningManager.setCurrent(tempLabel);
+			break;
+			case 3: tempLabel = 4; System.out.println(tempLabel);
+			learningManager.setCurrent(tempLabel);
+			System.out.println("label: " + learningManager.readLabel());
+			learningManager.setCurrent(tempLabel);
+			break;
+			case 4: tempLabel = 5; System.out.println(tempLabel);
+			learningManager.setCurrent(tempLabel);
+			System.out.println("label: " + learningManager.readLabel());
+			learningManager.setCurrent(tempLabel);
+			break;
+			case 5: tempLabel = 7; System.out.println(tempLabel);
+			learningManager.setCurrent(tempLabel);
+			System.out.println("label: " + learningManager.readLabel());
+			learningManager.setCurrent(tempLabel);
+			break;
+			case 6: tempLabel = 11; System.out.println(tempLabel);
+			learningManager.setCurrent(tempLabel);
+			System.out.println("label: " + learningManager.readLabel());
+			learningManager.setCurrent(tempLabel);
+			break;
+			case 7: tempLabel = 13; System.out.println(tempLabel);
+			learningManager.setCurrent(tempLabel);
+			System.out.println("label: " + learningManager.readLabel());
+			learningManager.setCurrent(tempLabel);
+			break;
+			case 8: tempLabel = 15; System.out.println(tempLabel);
+			learningManager.setCurrent(tempLabel);
+			System.out.println("label: " + learningManager.readLabel());
+			learningManager.setCurrent(tempLabel);
+			break;
+			case 9: tempLabel = 17; System.out.println(tempLabel);
+			learningManager.setCurrent(tempLabel);
+			System.out.println("label: " + learningManager.readLabel());
+			learningManager.setCurrent(tempLabel);
+			break;
+			
+			*/
 			}
 			
 			
 			
-			learningManager.setCurrent(/*(i % 60000) + 1*/tempLabel);
+			learningManager.setCurrent(tempLabel);
 			image1D = learningManager.readImage1D();
-			
-			discriminationRbm[learningManager.readLabel()].unsupervisedLearning(3, image1D);
+			learningManager.setCurrent(tempLabel);
+			discriminationRbm[/*learningManager.readLabel()*/i%10].unsupervisedLearning(3, image1D);
 			
 			double min = 0.;
 			int labl = 0;
 			for(int k = 0; k < 10; k++){
-				learningManager.setCurrent(/*(i % 60000) + 1*/tempLabel);
+				learningManager.setCurrent(tempLabel);
 				visibleVector = learningManager.readImage1D();
 				discriminationRbm[k].setBinaryInputs(visibleVector);
 				double temp = discriminationRbm[k].getFreeEnergy();
@@ -87,6 +157,7 @@ public class TestDiscriminationRBM {
 					min = temp;
 				}
 			}
+			learningManager.setCurrent(tempLabel);
 			if(labl != learningManager.readLabel()){
 				trainingErrors ++;
 			}
@@ -119,10 +190,14 @@ public class TestDiscriminationRBM {
 				*/
 
 				output.addData(testErrors/1000, trainingErrors/1000, i/1000, p);
-				trainingErrors = 0.;
 				System.out.println(trainingErrors/1000);
+				trainingErrors = 0.;
+				
 			}
-			System.out.println(i);
+			if(i%100 == 0){
+				System.out.println(i);
+			}
+			
 		}
 		
 		/*
@@ -138,7 +213,7 @@ public class TestDiscriminationRBM {
 		}
 		*/
 		
-		/*
+		
 		
 		//Test image one at a time
 		
@@ -146,11 +221,11 @@ public class TestDiscriminationRBM {
 		Scanner reader = new Scanner(System.in);  // Reading from System.in
 		int selectLabel = 1;
 		while(selectLabel != 0){
-			testManager.setCurrent(selectLabel);
-			System.out.println("Current label : " + testManager.readLabel());
-			image1D = testManager.readImage1D();
+			learningManager.setCurrent(selectLabel);
+			System.out.println("Current label : " + learningManager.readLabel());
+			image1D = learningManager.readImage1D();
 			for(int i = 0; i < 10; i++){
-				visibleVector = testManager.readImage1D();
+				visibleVector = learningManager.readImage1D();
 				discriminationRbm[i].setBinaryInputs(visibleVector);
 				System.out.println(i + " RBM free energy : " + discriminationRbm[i].getFreeEnergy());
 				
@@ -160,7 +235,7 @@ public class TestDiscriminationRBM {
 			selectLabel = reader.nextInt();
 		}
 		
-		*/
+		
 		
 		
 	}
