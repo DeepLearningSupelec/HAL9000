@@ -525,7 +525,7 @@ public class RestrictedBoltzmannMachine {
 		
 		for(int i = 0; i < 2; i++){
 			for(int j = 0; j < this.layers[i].length; j++){
-				this.layers[i][j].setBias(this.layers[i][j].getBias() + this.learningRate*biasModificationAttributes[i][j]);
+				this.layers[i][j].setBias(this.layers[i][j].getBias() + this.learningRate*10*biasModificationAttributes[i][j]);
 			}
 		}
 		return logProbabilityDerivatives;
@@ -669,7 +669,7 @@ public class RestrictedBoltzmannMachine {
 		
 		for(int i = 0; i < 2; i++){
 			for(int j = 0; j < this.layers[i].length; j++){
-				this.layers[i][j].setBias(this.layers[i][j].getBias() + this.learningRate*biasModificationAttributes[i][j]);
+				this.layers[i][j].setBias(this.layers[i][j].getBias() + this.learningRate*10*biasModificationAttributes[i][j]);
 			}
 		}
 	
@@ -737,7 +737,8 @@ public class RestrictedBoltzmannMachine {
 			/*System.out.println("x = " + x);
 			if(x != x){ 
 				System.out.println("getbias = " + this.layers[0][i].getBias());
-				this.layers[3] = null;}*/
+				this.layers[3] = null;
+			}*/
 			for(int j = 0; j < this.layers[1].length; j++){
 				/*System.out.println("this.layers[1][j].getState() = " + this.layers[1][j].getState());
 				if(this.layers[1][j].getState() != this.layers[1][j].getState()){ this.layers[3] = null;}
@@ -770,10 +771,10 @@ public class RestrictedBoltzmannMachine {
 	
 	public void setBinaryInputs(int[] x){
 		for(int i = 0; i < this.layers[0].length; i++){
-			if(x[i] - 130 > 1){
+			if(x[i] != 0){
 				this.layers[0][i].setState(1);
 			} else {
-				this.layers[0][i].setState(Math.min(1, x[i]));
+				this.layers[0][i].setState(0);
 			}
 			
 		}
@@ -781,10 +782,10 @@ public class RestrictedBoltzmannMachine {
 	
 	public void setBinaryInputs(double[] x){
 		for(int i = 0; i < this.layers[0].length; i++){
-			if(x[i] - 130 > 1){
+			if(x[i] != 0.){
 				this.layers[0][i].setState(1);
 			} else {
-				this.layers[0][i].setState(Math.min(1, (int)Math.floor(x[i])));
+				this.layers[0][i].setState(0);
 			}
 			
 		}
@@ -830,22 +831,48 @@ public class RestrictedBoltzmannMachine {
 	}
 	
 	public void setMnistLabelParameters(int label) throws IOException{
+		System.out.println("loading file...");
+		Path p = Paths.get("trainingParametersTemp.txt");
+		System.out.println("loaded");
 		
-		Path p = Paths.get("mnistTrainingParameters.txt");
+		//TODO: imageCpt
+		double[] imageCpt = new double[10];
+		imageCpt[0] = 5923.;
+		imageCpt[1] = 6742.;
+		imageCpt[2] = 5958.;
+		imageCpt[3] = 6131.;
+		imageCpt[4] = 5842.;
+		imageCpt[5] = 5421.;
+		imageCpt[6] = 5918.;
+		imageCpt[7] = 6265.;
+		imageCpt[8] = 5851.;
+		imageCpt[9] = 5949.;
+ 
+						 
+				
 		int lineCpt = 0;
 		for(String line : Files.readAllLines(p)) {
+			System.out.println(lineCpt);
 			if(lineCpt == label){
+				System.out.println("setting");
 				int partCpt = 0;
 				for (String part : line.split("\\s+")) {
-					double temp = (Double.valueOf(part) / 6000.);
+					double temp = (Double.valueOf(part) / imageCpt[label]);
 					if(temp == 0.){
-						temp = 1. / 6000.;
+						temp = 1. / 10000.;
 					}
-			        double bias = Math.log(temp / (1. - temp));
-			        System.out.println("bias = " + bias);
-			        if(bias != bias){
+					if(temp != temp){
 			        	System.out.println("temp = " + temp);
 			        }
+					if(temp >= 1.){
+						System.out.println("pouet");
+			        
+					}
+			        double bias = Math.log(temp / (1. - temp));
+			        /*System.out.println("bias = " + bias);
+			        if(bias != bias){
+			        	System.out.println("temp = " + temp);
+			        }*/
 			        this.layers[0][partCpt].setBias(bias);
 			        partCpt++;
 			    }

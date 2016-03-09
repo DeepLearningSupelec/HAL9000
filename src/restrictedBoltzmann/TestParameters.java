@@ -21,6 +21,7 @@ public class TestParameters {
 		 * 
 		 */
 		
+		int[] imageCpt = new int[10];
 		int[] activationCpt = new int[784];
 		int[][] labelActivationCpt = new int[10][784];
 		MnistManager learningManager = new MnistManager("src/train-images.idx3-ubyte","src/train-labels.idx1-ubyte");
@@ -32,7 +33,9 @@ public class TestParameters {
 			learningManager.setCurrent(i);
 			image1D = learningManager.readImage1D();
 			incrArray = RestrictedBoltzmannMachine.InputToBinaryEntity(image1D);
+			learningManager.setCurrent(i);
 			label = learningManager.readLabel();
+			imageCpt[label]++;
 			for(int j = 0; j < 784; j++){
 				activationCpt[j] += incrArray[j];
 				labelActivationCpt[label][j] += incrArray[j];
@@ -57,7 +60,10 @@ public class TestParameters {
 			}
 		}
 		
-		
+		String line12 = "";
+		for(int j = 0; j < 10; j++){
+			line12 += imageCpt[j] + " ";
+		}
 		
 		
 		List<String> lines = Arrays.asList(line, 
@@ -65,7 +71,8 @@ public class TestParameters {
 				labelLines[2],labelLines[3],
 				labelLines[4],labelLines[5],
 				labelLines[6],labelLines[7],
-				labelLines[8],labelLines[9]);
+				labelLines[8],labelLines[9],
+				line12);
 		Path file = Paths.get("trainingParametersTemp.txt");
 		Files.write(file, lines, Charset.forName("UTF-8"));
 		
