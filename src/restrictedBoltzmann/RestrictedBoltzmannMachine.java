@@ -794,10 +794,10 @@ public class RestrictedBoltzmannMachine {
 	public static int[] InputToBinaryEntity(double[] x){
 		int[] binaryEntity = new int[x.length];
 		for(int i = 0; i < x.length; i++){
-			if(x[i] - 130 > 1){
+			if(x[i] != 0.){
 				binaryEntity[i] = 1;
 			} else {
-				binaryEntity[i] = Math.min(1, (int)Math.floor(x[i]));
+				binaryEntity[i] = 0;
 			}	
 		}
 		return binaryEntity;
