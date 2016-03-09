@@ -23,8 +23,8 @@ public class TestDiscriminationRBM {
 		
 		int[] inputData = {784, 36};
 		double biasWide = 0;
-		double weightWide = 0.01;
-		double learningRate = 0.001;
+		double weightWide = 0.035;
+		double learningRate = 0.051;
 		
 		String date = "_" + LocalDateTime.now();
 		date = date.substring(0, 20);
