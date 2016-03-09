@@ -24,7 +24,7 @@ public class TestElementaryDiscrimination {
 		int[] inputData = {784, 36};
 		double biasWide = 0.;
 		double weightWide = 0.01;
-		double learningRate = 0.001;
+		double learningRate = 0.005;
 		
 		String date = "_" + LocalDateTime.now();
 		date = date.substring(0, 20);
@@ -36,7 +36,7 @@ public class TestElementaryDiscrimination {
 		
 		for(int i = 0; i < 10; i++){
 			discriminationRbm[i] = new RestrictedBoltzmannMachine(inputData, weightWide, biasWide, learningRate);
-			//discriminationRbm[i].setMnistLabelParameters(i);
+			discriminationRbm[i].setMnistLabelParameters(i);
 		}
 		
 		
@@ -144,7 +144,16 @@ public class TestElementaryDiscrimination {
 			learningManager.setCurrent(tempLabel);
 			image1D = learningManager.readImage1D();
 			learningManager.setCurrent(tempLabel);
-			discriminationRbm[/*learningManager.readLabel()*/i%10].unsupervisedLearning(4, image1D);
+			double[][] logderiv = discriminationRbm[tempInt].unsupervisedLearning(4, image1D);
+			double gradient = 0.;
+			for(int k = 0; k < logderiv.length; k++){
+				for(int j = 0; j < logderiv[0].length; j++){
+					gradient += Math.abs(logderiv[k][j]);
+				}
+			}
+			
+			System.out.println("Norme du gradient: " + gradient);
+			
 			
 			double min = 0.;
 			int labl = 0;
@@ -198,8 +207,8 @@ public class TestElementaryDiscrimination {
 				}
 				*/
 
-				output.addData(testErrors/1000, trainingErrors/1000, i/1000, p);
-				System.out.println(trainingErrors/1000);
+				output.addData(testErrors/1000, trainingErrors/1000., i/1000, p);
+				System.out.println(trainingErrors);
 				trainingErrors = 0.;
 				
 			}

@@ -604,7 +604,7 @@ public class RestrictedBoltzmannMachine {
 		// data informations
 		
 		this.setBinaryInputs(exemple);
-		this.constrastiveDivergence(2);
+		this.constrastiveDivergence(1);
 		/*for(int i = 0; i < this.layers[0].length; i++){
 			for(int j = 0; j < this.layers[1].length; j++){
 				logProbabilityDerivatives[i][j] = this.layers[0][i].getState()*this.layers[1][j].getState();
@@ -635,7 +635,7 @@ public class RestrictedBoltzmannMachine {
 		// model informations
 		
 		this.setBinaryInputs(exemple);
-		this.constrastiveDivergence(cdIterations);
+		this.constrastiveDivergence(cdIterations + 1);
 		/*for(int i = 0; i < this.layers[0].length; i++){
 			for(int j = 0; j < this.layers[1].length; j++){
 				logProbabilityDerivatives[i][j] -= this.layers[0][i].getState()*this.layers[1][j].getState();
@@ -657,10 +657,7 @@ public class RestrictedBoltzmannMachine {
 		
 		for(int i = 0; i < this.layers[0].length; i++){
 			for(int j = 0; j < this.layers[1].length; j++){
-				/*System.out.println("logProb = " + logProbabilityDerivatives[i][j]);
-				if(logProbabilityDerivatives[i][j] != logProbabilityDerivatives[i][j]){
-					this.layers[3] = null;
-				}*/
+				//System.out.println(logProbabilityDerivatives[i][j]);
 				this.connections[i][j] += this.learningRate*logProbabilityDerivatives[i][j];
 			}
 		}
@@ -853,7 +850,7 @@ public class RestrictedBoltzmannMachine {
 		int lineCpt = 0;
 		for(String line : Files.readAllLines(p)) {
 			System.out.println(lineCpt);
-			if(lineCpt == label){
+			if(lineCpt - 1 == label){
 				System.out.println("setting");
 				int partCpt = 0;
 				for (String part : line.split("\\s+")) {
@@ -869,10 +866,10 @@ public class RestrictedBoltzmannMachine {
 			        
 					}
 			        double bias = Math.log(temp / (1. - temp));
-			        /*System.out.println("bias = " + bias);
+			        //System.out.println("bias = " + bias);
 			        if(bias != bias){
 			        	System.out.println("temp = " + temp);
-			        }*/
+			        }
 			        this.layers[0][partCpt].setBias(bias);
 			        partCpt++;
 			    }
