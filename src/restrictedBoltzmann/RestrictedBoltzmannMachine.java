@@ -525,7 +525,7 @@ public class RestrictedBoltzmannMachine {
 		
 		for(int i = 0; i < 2; i++){
 			for(int j = 0; j < this.layers[i].length; j++){
-				this.layers[i][j].setBias(this.layers[i][j].getBias() + this.learningRate*10*biasModificationAttributes[i][j]);
+				this.layers[i][j].setBias(this.layers[i][j].getBias() + this.learningRate*biasModificationAttributes[i][j]);
 			}
 		}
 		return logProbabilityDerivatives;
@@ -666,7 +666,7 @@ public class RestrictedBoltzmannMachine {
 		
 		for(int i = 0; i < 2; i++){
 			for(int j = 0; j < this.layers[i].length; j++){
-				this.layers[i][j].setBias(this.layers[i][j].getBias() + this.learningRate*10*biasModificationAttributes[i][j]);
+				this.layers[i][j].setBias(this.layers[i][j].getBias() + this.learningRate*biasModificationAttributes[i][j]);
 			}
 		}
 	
@@ -804,10 +804,10 @@ public class RestrictedBoltzmannMachine {
 		System.out.println("loading file...");
 		Path p = Paths.get("mnistTrainingParameters.txt");
 		System.out.println("loaded");
-		boolean firstLine = true;
+		int lineCpt = 0;
 		
 		for(String line : Files.readAllLines(p)) {
-			if(firstLine){
+			if(lineCpt == 1){
 				int partCpt = 0;
 				for (String part : line.split("\\s+")) {
 			        double temp = (Double.valueOf(part) / 60000.);
@@ -821,7 +821,7 @@ public class RestrictedBoltzmannMachine {
 			    }
 				
 			}
-			firstLine = false;
+			lineCpt++;
 		}
 		
 		
@@ -829,12 +829,12 @@ public class RestrictedBoltzmannMachine {
 	
 	public void setMnistLabelParameters(int label) throws IOException{
 		System.out.println("loading file...");
-		Path p = Paths.get("trainingParametersTemp.txt");
+		Path p = Paths.get("mnistTrainingParameters.txt");
 		System.out.println("loaded");
 		
 		//TODO: imageCpt
 		double[] imageCpt = new double[10];
-		imageCpt[0] = 5923.;
+		/*imageCpt[0] = 5923.;
 		imageCpt[1] = 6742.;
 		imageCpt[2] = 5958.;
 		imageCpt[3] = 6131.;
@@ -844,13 +844,23 @@ public class RestrictedBoltzmannMachine {
 		imageCpt[7] = 6265.;
 		imageCpt[8] = 5851.;
 		imageCpt[9] = 5949.;
- 
+ */
 						 
 				
 		int lineCpt = 0;
 		for(String line : Files.readAllLines(p)) {
 			System.out.println(lineCpt);
-			if(lineCpt - 1 == label){
+			if(lineCpt == 0){
+				int partCpt =0;
+				for (String part : line.split("\\s+")) {
+					int temp = (Integer.valueOf(part) );
+					imageCpt[partCpt] = temp;
+			        partCpt++;
+			    }
+			}
+			
+			
+			if(lineCpt - 2 == label){
 				System.out.println("setting");
 				int partCpt = 0;
 				for (String part : line.split("\\s+")) {

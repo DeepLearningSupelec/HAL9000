@@ -23,7 +23,7 @@ public class TestElementaryDiscrimination {
 		
 		int[] inputData = {784, 36};
 		double biasWide = 0.;
-		double weightWide = 0.01;
+		double weightWide = 0.035;
 		double learningRate = 0.005;
 		
 		String date = "_" + LocalDateTime.now();
@@ -152,7 +152,7 @@ public class TestElementaryDiscrimination {
 				}
 			}
 			
-			System.out.println("Norme du gradient: " + gradient);
+			//System.out.println("Norme du gradient: " + gradient);
 			
 			
 			double min = 0.;

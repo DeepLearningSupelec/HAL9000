@@ -66,7 +66,8 @@ public class TestParameters {
 		}
 		
 		
-		List<String> lines = Arrays.asList(line, 
+		List<String> lines = Arrays.asList(line12,
+				line, 
 				labelLines[0],labelLines[1],
 				labelLines[2],labelLines[3],
 				labelLines[4],labelLines[5],
