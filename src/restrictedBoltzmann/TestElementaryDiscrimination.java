@@ -22,7 +22,7 @@ public class TestElementaryDiscrimination {
 		
 		
 		int[] inputData = {784, 36};
-		double biasWide = 0;
+		double biasWide = 0.;
 		double weightWide = 0.01;
 		double learningRate = 0.001;
 		
@@ -36,7 +36,7 @@ public class TestElementaryDiscrimination {
 		
 		for(int i = 0; i < 10; i++){
 			discriminationRbm[i] = new RestrictedBoltzmannMachine(inputData, weightWide, biasWide, learningRate);
-			discriminationRbm[i].setMnistLabelParameters(i);
+			//discriminationRbm[i].setMnistLabelParameters(i);
 		}
 		
 		
@@ -56,7 +56,8 @@ public class TestElementaryDiscrimination {
 			int tempInt = i % 10;
 			int tempLabel = 0;
 			switch (tempInt) {
-			
+			/*
+			//0 and 1
 			case 0: tempLabel = 2; break;
 			case 1: tempLabel = 4; break;
 			case 2: tempLabel = 4; break;
@@ -67,10 +68,10 @@ public class TestElementaryDiscrimination {
 			case 7: tempLabel = 4; break;
 			case 8: tempLabel = 4; break;
 			case 9: tempLabel = 4; break;
+			*/
 			
-			
-			/*0 to 9
-			 * 
+			//0 to 9
+			  
 			case 0: tempLabel = 2; break;
 			case 1: tempLabel = 4; break;
 			case 2: tempLabel = 6; break;
@@ -81,7 +82,7 @@ public class TestElementaryDiscrimination {
 			case 7: tempLabel = 16; break;
 			case 8: tempLabel = 18; break;
 			case 9: tempLabel = 5; break;
-			*/
+			
 			
 			/*
 			case 0: tempLabel = 1; System.out.println(tempLabel);
@@ -143,7 +144,7 @@ public class TestElementaryDiscrimination {
 			learningManager.setCurrent(tempLabel);
 			image1D = learningManager.readImage1D();
 			learningManager.setCurrent(tempLabel);
-			discriminationRbm[/*learningManager.readLabel()*/i%10].unsupervisedLearning(3, image1D);
+			discriminationRbm[/*learningManager.readLabel()*/i%10].unsupervisedLearning(4, image1D);
 			
 			double min = 0.;
 			int labl = 0;
@@ -161,6 +162,14 @@ public class TestElementaryDiscrimination {
 			if(labl != learningManager.readLabel()){
 				trainingErrors ++;
 			}
+			/*
+			if((labl != 0) && (learningManager.readLabel() == 0)){
+				trainingErrors ++;
+			}
+			if((labl == 0) && (learningManager.readLabel() == 1)){
+				trainingErrors ++;
+			}*/
+				
 			
 			
 			if(i%1000 == 0){

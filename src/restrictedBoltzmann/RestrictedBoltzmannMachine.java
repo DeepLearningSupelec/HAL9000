@@ -471,7 +471,7 @@ public class RestrictedBoltzmannMachine {
 		// data informations
 		
 		this.setBinaryInputs(exemple);
-		this.constrastiveDivergence(1);
+		this.constrastiveDivergence(2);
 		/*for(int i = 0; i < this.layers[0].length; i++){
 			for(int j = 0; j < this.layers[1].length; j++){
 				logProbabilityDerivatives[i][j] = this.layers[0][i].getState()*this.layers[1][j].getState();
@@ -506,9 +506,9 @@ public class RestrictedBoltzmannMachine {
 		probabilityOutputs = this.getProbabilityOutputs();
 		for(int i = 0; i < this.layers[0].length; i++){
 			for(int j = 0; j < this.layers[1].length; j++){
-				logProbabilityDerivatives[i][j] = probabilityInputs[i]*probabilityOutputs[j];
-				biasModificationAttributes[0][i] = probabilityInputs[i];
-				biasModificationAttributes[1][j] = probabilityOutputs[j];
+				logProbabilityDerivatives[i][j] -= probabilityInputs[i]*probabilityOutputs[j];
+				biasModificationAttributes[0][i] -= probabilityInputs[i];
+				biasModificationAttributes[1][j] -= probabilityOutputs[j];
 			}
 		}
 		
@@ -516,6 +516,7 @@ public class RestrictedBoltzmannMachine {
 		
 		for(int i = 0; i < this.layers[0].length; i++){
 			for(int j = 0; j < this.layers[1].length; j++){
+				
 				this.connections[i][j] += this.learningRate*logProbabilityDerivatives[i][j];
 			}
 		}
@@ -550,8 +551,13 @@ public class RestrictedBoltzmannMachine {
 		
 		for(int j = 0; j < this.layers[1].length; j++){
 			double x = this.layers[1][j].getBias();
+			//System.out.println("x = " + x);
 			for(int i = 0; i < this.layers[0].length; i++){
 				x += this.layers[0][i].getState()*this.connections[i][j];
+				/*System.out.println("1 = " + this.layers[0][i].getState());
+				System.out.println("2 = " + this.connections[i][j]);
+				System.out.println("x = " + x);
+				if(x != x){ this.layers[3] = null;}*/
 			}
 			//System.out.println("x = " + x);
 			freeEnergy -= Math.log(1 + Math.exp(x));
@@ -598,7 +604,7 @@ public class RestrictedBoltzmannMachine {
 		// data informations
 		
 		this.setBinaryInputs(exemple);
-		this.constrastiveDivergence(1);
+		this.constrastiveDivergence(2);
 		/*for(int i = 0; i < this.layers[0].length; i++){
 			for(int j = 0; j < this.layers[1].length; j++){
 				logProbabilityDerivatives[i][j] = this.layers[0][i].getState()*this.layers[1][j].getState();
@@ -610,6 +616,14 @@ public class RestrictedBoltzmannMachine {
 		double[] probabilityOutputs = this.getProbabilityOutputs();
 		for(int i = 0; i < this.layers[0].length; i++){
 			for(int j = 0; j < this.layers[1].length; j++){
+				/*System.out.println("probabilityOutputs[j] = " + probabilityOutputs[j]);
+				if(probabilityOutputs[j] != probabilityOutputs[j]){
+					this.layers[3] = null;
+				}
+				System.out.println("probabilityInputs[i] = " + probabilityInputs[i]);
+				if(probabilityInputs[i] != probabilityInputs[i]){
+					this.layers[3] = null;
+				}*/
 				logProbabilityDerivatives[i][j] = probabilityInputs[i]*probabilityOutputs[j];
 				biasModificationAttributes[0][i] = probabilityInputs[i];
 				biasModificationAttributes[1][j] = probabilityOutputs[j];
@@ -633,9 +647,9 @@ public class RestrictedBoltzmannMachine {
 		probabilityOutputs = this.getProbabilityOutputs();
 		for(int i = 0; i < this.layers[0].length; i++){
 			for(int j = 0; j < this.layers[1].length; j++){
-				logProbabilityDerivatives[i][j] = probabilityInputs[i]*probabilityOutputs[j];
-				biasModificationAttributes[0][i] = probabilityInputs[i];
-				biasModificationAttributes[1][j] = probabilityOutputs[j];
+				logProbabilityDerivatives[i][j] -= probabilityInputs[i]*probabilityOutputs[j];
+				biasModificationAttributes[0][i] -= probabilityInputs[i];
+				biasModificationAttributes[1][j] -= probabilityOutputs[j];
 			}
 		}
 		
@@ -643,6 +657,10 @@ public class RestrictedBoltzmannMachine {
 		
 		for(int i = 0; i < this.layers[0].length; i++){
 			for(int j = 0; j < this.layers[1].length; j++){
+				/*System.out.println("logProb = " + logProbabilityDerivatives[i][j]);
+				if(logProbabilityDerivatives[i][j] != logProbabilityDerivatives[i][j]){
+					this.layers[3] = null;
+				}*/
 				this.connections[i][j] += this.learningRate*logProbabilityDerivatives[i][j];
 			}
 		}
@@ -714,10 +732,20 @@ public class RestrictedBoltzmannMachine {
 		double[] inputs = new double[this.layers[0].length];
 		for(int i = 0; i < this.layers[0].length; i++){
 			
+			
 			double x = this.layers[0][i].getBias();
+			/*System.out.println("x = " + x);
+			if(x != x){ 
+				System.out.println("getbias = " + this.layers[0][i].getBias());
+				this.layers[3] = null;}*/
 			for(int j = 0; j < this.layers[1].length; j++){
+				/*System.out.println("this.layers[1][j].getState() = " + this.layers[1][j].getState());
+				if(this.layers[1][j].getState() != this.layers[1][j].getState()){ this.layers[3] = null;}
+				System.out.println("this.connections[i][j] = " + this.connections[i][j]);
+				if(this.connections[i][j] != this.connections[i][j]){ this.layers[3] = null;}*/
 				x += this.connections[i][j]*this.layers[1][j].getState();
 			}
+			
 			inputs[i] = Sigmoid.getINSTANCE().apply(x);
 		}
 		return inputs;
@@ -775,16 +803,22 @@ public class RestrictedBoltzmannMachine {
 	}
 	
 	public void setMnistParameters() throws IOException{
-		
+		System.out.println("loading file...");
 		Path p = Paths.get("mnistTrainingParameters.txt");
+		System.out.println("loaded");
 		boolean firstLine = true;
 		
 		for(String line : Files.readAllLines(p)) {
 			if(firstLine){
 				int partCpt = 0;
 				for (String part : line.split("\\s+")) {
-			        double bias = Double.valueOf(part);
-			        this.layers[0][partCpt].setBias(bias / 60000);
+			        double temp = (Double.valueOf(part) / 60000.);
+			        if(temp == 0.){
+						temp = 1. / 6000.;
+					}
+			        double bias = Math.log(temp / (1. - temp));
+			        this.layers[0][partCpt].setBias(bias);
+			        System.out.println(bias);
 			        partCpt++;
 			    }
 				
@@ -803,8 +837,16 @@ public class RestrictedBoltzmannMachine {
 			if(lineCpt == label){
 				int partCpt = 0;
 				for (String part : line.split("\\s+")) {
-			        double bias = Double.valueOf(part);
-			        this.layers[0][partCpt].setBias(bias / 60000);
+					double temp = (Double.valueOf(part) / 6000.);
+					if(temp == 0.){
+						temp = 1. / 6000.;
+					}
+			        double bias = Math.log(temp / (1. - temp));
+			        System.out.println("bias = " + bias);
+			        if(bias != bias){
+			        	System.out.println("temp = " + temp);
+			        }
+			        this.layers[0][partCpt].setBias(bias);
 			        partCpt++;
 			    }
 				
