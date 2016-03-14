@@ -169,8 +169,12 @@ public class TestElementaryDiscrimination {
 			}
 			learningManager.setCurrent(tempLabel);
 			if(labl != learningManager.readLabel()){
+				
 				trainingErrors ++;
+			} else {
+				System.out.println("from lbl : " + labl);
 			}
+				
 			/*
 			if((labl != 0) && (learningManager.readLabel() == 0)){
 				trainingErrors ++;
