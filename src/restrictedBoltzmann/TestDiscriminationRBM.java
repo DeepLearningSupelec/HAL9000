@@ -53,7 +53,7 @@ public class TestDiscriminationRBM {
 		double[] visibleVector;
 	
 		for(int i = 0; i < 300000; i++){
-			int tempInt = i % 10;
+			/*int tempInt = i % 10;
 			int tempLabel = 0;
 			switch (tempInt) {
 			case 0: tempLabel = 2; break;
@@ -66,19 +66,19 @@ public class TestDiscriminationRBM {
 			case 7: tempLabel = 16; break;
 			case 8: tempLabel = 18; break;
 			case 9: tempLabel = 5; break;
-			}
+			}*/
 			
 			
 			
-			learningManager.setCurrent(/*(i % 60000) + 1*/tempLabel);
+			learningManager.setCurrent((i % 60000) + 1/*tempLabel*/);
 			image1D = learningManager.readImage1D();
 			
-			discriminationRbm[learningManager.readLabel()].unsupervisedLearning(3, image1D);
+			discriminationRbm[learningManager.readLabel()].unsupervisedLearning(4, image1D);
 			
 			double min = 0.;
 			int labl = 0;
 			for(int k = 0; k < 10; k++){
-				learningManager.setCurrent(/*(i % 60000) + 1*/tempLabel);
+				learningManager.setCurrent((i % 60000) + 1/*tempLabel*/);
 				visibleVector = learningManager.readImage1D();
 				discriminationRbm[k].setBinaryInputs(visibleVector);
 				double temp = discriminationRbm[k].getFreeEnergy();
@@ -89,6 +89,7 @@ public class TestDiscriminationRBM {
 			}
 			if(labl != learningManager.readLabel()){
 				trainingErrors ++;
+				//System.out.println("error !");
 			}
 			
 			
@@ -119,10 +120,12 @@ public class TestDiscriminationRBM {
 				*/
 
 				output.addData(testErrors/1000, trainingErrors/1000, i/1000, p);
+				System.out.println(trainingErrors/1000.);
 				trainingErrors = 0.;
-				System.out.println(trainingErrors/1000);
 			}
-			System.out.println(i);
+			if(i%100 == 0){
+				System.out.println(i);
+			}
 		}
 		
 		/*

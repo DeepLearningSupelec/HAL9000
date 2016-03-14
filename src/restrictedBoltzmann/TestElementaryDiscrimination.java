@@ -169,10 +169,15 @@ public class TestElementaryDiscrimination {
 			}
 			learningManager.setCurrent(tempLabel);
 			if(labl != learningManager.readLabel()){
+				//System.out.println("err from lbl : " + labl);
+				learningManager.setCurrent(tempLabel);
+				//System.out.println("lbl " + labl + " expected " + learningManager.readLabel() + "temp labl " + tempLabel);
+				
+				System.out.println("lbl " + labl + " i " + tempInt + " expected " + learningManager.readLabel() + "temp labl " + tempLabel);
 				
 				trainingErrors ++;
 			} else {
-				System.out.println("from lbl : " + labl);
+				//System.out.println("from lbl : " + labl);
 			}
 				
 			/*
