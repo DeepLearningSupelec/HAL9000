@@ -1,10 +1,14 @@
 package restrictedBoltzmann;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 import mnistReader.MnistManager;
@@ -51,6 +55,10 @@ public class TestDiscriminationRBM {
 		double[] image1D;
 		double trainingErrors = 0.;
 		double[] visibleVector;
+		
+		double[] errorRates = new double[10];
+		double totalErrors = 0.;
+		
 	
 		for(int i = 0; i < 300000; i++){
 			/*int tempInt = i % 10;
@@ -89,8 +97,17 @@ public class TestDiscriminationRBM {
 			}
 			if(labl != learningManager.readLabel()){
 				trainingErrors ++;
+				totalErrors++;
+				learningManager.setCurrent((i % 60000) + 1);
+				errorRates[learningManager.readLabel()]++;
 				//System.out.println("error !");
 			}
+			
+			
+			
+			
+			
+			
 			
 			
 			if(i%1000 == 0){
@@ -164,6 +181,29 @@ public class TestDiscriminationRBM {
 		}
 		
 		*/
+		
+		// Errors repartition 
+		
+		String[] labelLines = new String[10];
+		for(int i = 0; i < 10; i++){
+			labelLines[i] = "label " + i + " percentage: ";
+		}
+		
+		
+		for(int i = 0; i < 10; i++){
+			labelLines[i] = labelLines[i] + (errorRates[i] / totalErrors);
+			
+			
+		}
+		
+		List<String> lines = Arrays.asList(
+				labelLines[0],labelLines[1],
+				labelLines[2],labelLines[3],
+				labelLines[4],labelLines[5],
+				labelLines[6],labelLines[7],
+				labelLines[8],labelLines[9]);
+		Path file = Paths.get("RBM_discrimationErrorRepartition", "repartitionError" + date + ".txt");
+		Files.write(file, lines, Charset.forName("UTF-8"));
 		
 		
 	}
