@@ -484,9 +484,11 @@ public class RestrictedBoltzmannMachine {
 		for(int i = 0; i < this.layers[0].length; i++){
 			for(int j = 0; j < this.layers[1].length; j++){
 				logProbabilityDerivatives[i][j] = probabilityInputs[i]*probabilityOutputs[j];
-				biasModificationAttributes[0][i] = probabilityInputs[i];
-				biasModificationAttributes[1][j] = probabilityOutputs[j];
 			}
+			biasModificationAttributes[0][i] = probabilityInputs[i];
+		}
+		for(int j = 0; j < this.layers[1].length; j++){
+			biasModificationAttributes[1][j] = probabilityOutputs[j];
 		}
 		
 		
@@ -507,9 +509,12 @@ public class RestrictedBoltzmannMachine {
 		for(int i = 0; i < this.layers[0].length; i++){
 			for(int j = 0; j < this.layers[1].length; j++){
 				logProbabilityDerivatives[i][j] -= probabilityInputs[i]*probabilityOutputs[j];
-				biasModificationAttributes[0][i] -= probabilityInputs[i];
 				biasModificationAttributes[1][j] -= probabilityOutputs[j];
 			}
+			biasModificationAttributes[0][i] -= probabilityInputs[i];
+		}
+		for(int j = 0; j < this.layers[1].length; j++){
+			biasModificationAttributes[1][j] -= probabilityOutputs[j];
 		}
 		
 		// applying weight modifications
