@@ -60,7 +60,7 @@ public class TestDiscriminationRBM {
 		double totalErrors = 0.;
 		
 	
-		for(int i = 0; i < 300000; i++){
+		for(int i = 0; i < 60000; i++){
 			/*int tempInt = i % 10;
 			int tempLabel = 0;
 			switch (tempInt) {
@@ -205,7 +205,11 @@ public class TestDiscriminationRBM {
 		Path file = Paths.get("RBM_discrimationErrorRepartition", "repartitionError" + date + ".txt");
 		Files.write(file, lines, Charset.forName("UTF-8"));
 		
-		
+		double tempd = 0.;
+		for(int i = 0; i <10; i++){
+			tempd+= errorRates[i];
+		}
+		System.out.println("error sum " + tempd + " on " + totalErrors + " errors");
 	}
 	
 }
