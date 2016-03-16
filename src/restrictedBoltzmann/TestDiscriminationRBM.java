@@ -43,13 +43,14 @@ public class TestDiscriminationRBM {
 			discriminationRbm[i].setMnistLabelParameters(i);
 		}
 		
+		int gibbsSteps = 3;
 		
 		MnistManager learningManager = new MnistManager("src/train-images.idx3-ubyte","src/train-labels.idx1-ubyte");
 		MnistManager testManager = new MnistManager("src/t10k-images.idx3-ubyte","src/t10k-labels.idx1-ubyte");
 		
 		
 		OutputData output = new OutputData(new ArrayList<Integer>(), new ArrayList<Double>(), new ArrayList<Double>());
-		Path p = Paths.get(/*System.getProperty("user.home"),*/"RBM_EnergyData", "visibleEnergyTest" + "LR" + learningRate + date + ".csv");
+		Path p = Paths.get(/*System.getProperty("user.home"),*/"RBM_EnergyData", "visibleEnergyTest" + gibbsSteps +  "GibbsSteps"  + date + ".csv");
 		output.toCSV(p);
 		
 		double[] image1D;
@@ -58,6 +59,8 @@ public class TestDiscriminationRBM {
 		
 		double[] errorRates = new double[10];
 		double totalErrors = 0.;
+		
+		
 		
 	
 		for(int i = 0; i < 300000; i++){
@@ -81,7 +84,10 @@ public class TestDiscriminationRBM {
 			learningManager.setCurrent((i % 60000) + 1/*tempLabel*/);
 			image1D = learningManager.readImage1D();
 			
-			discriminationRbm[learningManager.readLabel()].unsupervisedLearning(4, image1D);
+			
+			
+			
+			discriminationRbm[learningManager.readLabel()].unsupervisedLearning(gibbsSteps * 2, image1D);
 			
 			double min = 0.;
 			int labl = 0;
@@ -202,7 +208,7 @@ public class TestDiscriminationRBM {
 				labelLines[4],labelLines[5],
 				labelLines[6],labelLines[7],
 				labelLines[8],labelLines[9]);
-		Path file = Paths.get("RBM_discrimationErrorRepartition", "repartitionError" + date + ".txt");
+		Path file = Paths.get("RBM_discrimationErrorRepartition", "repartitionError" + gibbsSteps +  "GibbsSteps"  + date + ".txt");
 		Files.write(file, lines, Charset.forName("UTF-8"));
 		
 		double tempd = 0.;
