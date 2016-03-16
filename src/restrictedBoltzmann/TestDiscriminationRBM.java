@@ -60,7 +60,7 @@ public class TestDiscriminationRBM {
 		double totalErrors = 0.;
 		
 	
-		for(int i = 0; i < 60000; i++){
+		for(int i = 0; i < 300000; i++){
 			/*int tempInt = i % 10;
 			int tempLabel = 0;
 			switch (tempInt) {
