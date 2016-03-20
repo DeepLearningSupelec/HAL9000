@@ -509,7 +509,6 @@ public class RestrictedBoltzmannMachine {
 		for(int i = 0; i < this.layers[0].length; i++){
 			for(int j = 0; j < this.layers[1].length; j++){
 				logProbabilityDerivatives[i][j] -= probabilityInputs[i]*probabilityOutputs[j];
-				biasModificationAttributes[1][j] -= probabilityOutputs[j];
 			}
 			biasModificationAttributes[0][i] -= probabilityInputs[i];
 		}
@@ -610,25 +609,11 @@ public class RestrictedBoltzmannMachine {
 		
 		this.setBinaryInputs(exemple);
 		this.constrastiveDivergence(2);
-		/*for(int i = 0; i < this.layers[0].length; i++){
-			for(int j = 0; j < this.layers[1].length; j++){
-				logProbabilityDerivatives[i][j] = this.layers[0][i].getState()*this.layers[1][j].getState();
-				biasModificationAttributes[0][i] = this.layers[0][i].getState();
-				biasModificationAttributes[1][j] = this.layers[1][j].getState();
-			}
-		}*/
+		
 		double[] probabilityInputs = this.getProbabilityInputs();
 		double[] probabilityOutputs = this.getProbabilityOutputs();
 		for(int i = 0; i < this.layers[0].length; i++){
 			for(int j = 0; j < this.layers[1].length; j++){
-				/*System.out.println("probabilityOutputs[j] = " + probabilityOutputs[j]);
-				if(probabilityOutputs[j] != probabilityOutputs[j]){
-					this.layers[3] = null;
-				}
-				System.out.println("probabilityInputs[i] = " + probabilityInputs[i]);
-				if(probabilityInputs[i] != probabilityInputs[i]){
-					this.layers[3] = null;
-				}*/
 				logProbabilityDerivatives[i][j] = probabilityInputs[i]*probabilityOutputs[j];
 			}
 			biasModificationAttributes[0][i] = probabilityInputs[i];
