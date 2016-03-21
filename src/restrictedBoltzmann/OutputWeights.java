@@ -19,6 +19,8 @@ public class OutputWeights {
 	 * The minimal weight value in the weights matrix
 	 */
 	private double min;
+	
+	private int[][] weightsInt;
 	/**
 	 * The maximal weight value in the weights matrix
 	 */
@@ -75,6 +77,24 @@ public class OutputWeights {
 		this.max = max;
 	}
 	
+	public OutputWeights(int[][] weights){
+		this.weightsInt = weights;
+
+		double min = weights[0][0];
+		double max = weights[0][0];
+		for(int i = 0; i < weights.length; i++){
+			for(int j = 0; j < weights[i].length; j++){
+				if(weights[i][j] < min){
+					min = weights[i][j];
+				}
+				if(weights[i][j] > max){
+					max = weights[i][j];
+				}
+			}
+		}
+		this.min = min;
+		this.max = max;
+	}
 	
 	/* Accessors */
 	
