@@ -75,9 +75,32 @@ public class OutputWeights {
 		this.max = max;
 	}
 	
+	public OutputWeights(int[][] weights) {
+		for(int i=0; i<weights.length; i++){
+			for(int j=0; j<weights.length; j++){
+				this.weights[i][j] = (int) weights[i][j];
+			}
+		}
+
+		double min = weights[0][0];
+		double max = weights[0][0];
+		for(int i = 0; i < weights.length; i++){
+			for(int j = 0; j < weights[i].length; j++){
+				if(weights[i][j] < min){
+					min = weights[i][j];
+				}
+				if(weights[i][j] > max){
+					max = weights[i][j];
+				}
+			}
+		}
+		this.min = min;
+		this.max = max;
+	}
+	
 	
 	/* Accessors */
-	
+
 	/**
 	 * Allows to get the value of weights.
 	 * @return weights
@@ -158,7 +181,7 @@ public class OutputWeights {
 		int line = this.weights.length;
 		int column = this.weights[0].length;
 		int[][] rgbValues = new int[line][column];
-		BMP bmp = new BMP();
+		//BMP bmp = new BMP();
 		
 		for(int i=0; i<line; i++){
 			for(int j=0; j<column; j++){
@@ -169,7 +192,7 @@ public class OutputWeights {
 			}
 		}
 		
-		bmp.saveBMP(p.toString(), rgbValues);
+		BMP.saveBMP(p.toString(), rgbValues);
 	}
 	
 }

@@ -3,19 +3,20 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Path;
 
 
 public class BMP {
 	
 	private final static int BMP_CODE = 19778;
 	
-	byte [] bytes;
+	static byte [] bytes;
 	
 	public BMP(){
-		this.bytes = null;
+		BMP.bytes = null;
 	}
 	
-	public void saveBMP(String filename, int [][] rgbValues){
+	public static void saveBMP(String filename, int [][] rgbValues){
 		try {
 			FileOutputStream fos = new FileOutputStream(new File(filename));
 			
@@ -38,7 +39,7 @@ public class BMP {
 		
 	}
 
-	private void saveFileHeader() {
+	private static void saveFileHeader() {
 		byte[]a=intToByteCouple(BMP_CODE);
 		bytes[0]=a[1];
 		bytes[1]=a[0];
@@ -53,7 +54,7 @@ public class BMP {
 		bytes[10]=54;
 	}
 	
-	private void saveInfoHeader(int height, int width) {
+	private static void saveInfoHeader(int height, int width) {
 		bytes[14]=40;
 		
 		byte[]a=intToFourBytes(width);
@@ -73,11 +74,11 @@ public class BMP {
 		bytes[28]=24;
 	}
 	
-	private void saveRgbQuad() {
+	private static void saveRgbQuad() {
 		
 	}
 
-	private void saveBitmapData(int[][]rgbValues) {
+	private static void saveBitmapData(int[][]rgbValues) {
 		int i;
 		
 		for(i=0;i<rgbValues.length;i++){
@@ -86,7 +87,7 @@ public class BMP {
 		
 	}
 	
-	private void writeLine(int row, int [][] rgbValues) {
+	private static void writeLine(int row, int [][] rgbValues) {
 		final int offset=54;
 		final int rowLength=rgbValues[row].length;
 		final int padding = getPadding(rgbValues[0].length);
@@ -108,7 +109,7 @@ public class BMP {
 		
 	}
 
-	private byte[] intToByteCouple(int x){
+	private static byte[] intToByteCouple(int x){
 		byte [] array = new byte[2];
 		
 		array[1]=(byte)  x;
@@ -117,7 +118,7 @@ public class BMP {
 		return array;
 	}
 	
-	private byte[] intToFourBytes(int x){
+	private static byte[] intToFourBytes(int x){
 		byte [] array = new byte[4];
 		
 		array[3]=(byte)  x;
@@ -128,7 +129,7 @@ public class BMP {
 		return array;
 	}
 	
-	private int getPadding(int rowLength){
+	private static int getPadding(int rowLength){
 		
 		int padding = (3*rowLength)%4;
 		if(padding!=0)
