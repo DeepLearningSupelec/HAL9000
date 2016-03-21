@@ -145,7 +145,8 @@ public class TestElementaryDiscrimination {
 			image1D = learningManager.readImage1D();
 			learningManager.setCurrent(tempLabel);
 			double[][] logderiv = discriminationRbm[tempInt].unsupervisedLearning(4, image1D);
-			discriminationRbm[tempInt].applyLearningGradients();
+			
+			
 			double gradient = 0.;
 			for(int k = 0; k < logderiv.length; k++){
 				for(int j = 0; j < logderiv[0].length; j++){
@@ -188,7 +189,14 @@ public class TestElementaryDiscrimination {
 			if((labl == 0) && (learningManager.readLabel() == 1)){
 				trainingErrors ++;
 			}*/
+			
+			if(i%10 == 0){
+				// applying cumulative gradients
+				for(int k = 0; k < 10; k++){
+					discriminationRbm[k].applyLearningGradients();
+				}
 				
+			}
 			
 			
 			if(i%1000 == 0){

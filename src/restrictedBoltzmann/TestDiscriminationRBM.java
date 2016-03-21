@@ -45,9 +45,10 @@ public class TestDiscriminationRBM {
 		
 		int gibbsSteps = 3;
 		
-		MnistManager learningManager = new MnistManager("src/train-images.idx3-ubyte","src/train-labels.idx1-ubyte");
+		//MnistManager learningManager = new MnistManager("src/train-images.idx3-ubyte","src/train-labels.idx1-ubyte");
 		MnistManager testManager = new MnistManager("src/t10k-images.idx3-ubyte","src/t10k-labels.idx1-ubyte");
 		
+		BatchManager batchManager = new BatchManager();
 		
 		OutputData output = new OutputData(new ArrayList<Integer>(), new ArrayList<Double>(), new ArrayList<Double>());
 		Path p = Paths.get(/*System.getProperty("user.home"),*/"RBM_EnergyData", "visibleEnergyTest" + gibbsSteps +  "GibbsSteps"  + date + ".csv");
@@ -81,21 +82,19 @@ public class TestDiscriminationRBM {
 			
 			
 			
-			learningManager.setCurrent((i % 60000) + 1/*tempLabel*/);
-			image1D = learningManager.readImage1D();
+			batchManager.setCurrent((i % batchManager.dataSize) + 1/*tempLabel*/);
+			image1D = batchManager.readImage1D();
 			
 			
 			
 			
-			discriminationRbm[learningManager.readLabel()].unsupervisedLearning(gibbsSteps * 2, image1D);
-			learningManager.setCurrent((i % 60000) + 1/*tempLabel*/);
-			discriminationRbm[learningManager.readLabel()].applyLearningGradients();
+			discriminationRbm[batchManager.readLabel()].unsupervisedLearning(gibbsSteps * 2, image1D);
+			discriminationRbm[batchManager.readLabel()].applyLearningGradients();
 			
 			double min = 0.;
 			int labl = 0;
+			visibleVector = batchManager.readImage1D();
 			for(int k = 0; k < 10; k++){
-				learningManager.setCurrent((i % 60000) + 1/*tempLabel*/);
-				visibleVector = learningManager.readImage1D();
 				discriminationRbm[k].setBinaryInputs(visibleVector);
 				double temp = discriminationRbm[k].getFreeEnergy();
 				if(temp < min){
@@ -103,15 +102,21 @@ public class TestDiscriminationRBM {
 					min = temp;
 				}
 			}
-			if(labl != learningManager.readLabel()){
+			if(labl != batchManager.readLabel()){
 				trainingErrors ++;
 				totalErrors++;
-				learningManager.setCurrent((i % 60000) + 1);
-				errorRates[learningManager.readLabel()]++;
+				errorRates[batchManager.readLabel()]++;
 				//System.out.println("error !");
 			}
 			
-			
+			if(i%10 == 0){
+				// applying batch cumulative gradients
+				
+				for(int k = 0; k < 10; k++){
+					discriminationRbm[k].applyLearningGradients();
+				}
+				
+			}
 			
 			
 			
