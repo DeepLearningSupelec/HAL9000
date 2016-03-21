@@ -935,7 +935,7 @@ public class RestrictedBoltzmannMachine {
 
 	}
 
-	public void visualizeFilters() throws IOException{
+	public void visualizeFilters(){
 
 		for(int i=0; i < this.layers[1].length; i++){
 
@@ -973,7 +973,14 @@ public class RestrictedBoltzmannMachine {
 			date = date.substring(0, 20);
 			date = date.replace(':', '-');
 			Path p = Paths.get(/*System.getProperty("user.home"),*/"RBMFilters", date + "filter"  + i + ".bmp");
-			output.toBmp(p);
+			try {
+				output.toBmp(p);
+				System.out.println("Images Crées");
+			} catch (java.io.IOException e) {
+			
+				System.out.println("Exception");
+				e.printStackTrace();
+			}
 			
 		
 		}
