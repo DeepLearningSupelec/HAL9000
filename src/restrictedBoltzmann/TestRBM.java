@@ -62,6 +62,7 @@ public class TestRBM {
 	//		rbm.unsupervisedLearning(2, image1D);
 	//		sumProbability += Math.pow(rbm.getLogProbabilityDerivativeSum(rbm.unsupervisedLearning(3, image1D)), 2);
 			rbm.getLogProbabilityDerivativeSum(rbm.unsupervisedLearning(3, image1D));
+			rbm.applyLearningGradients();
 			probabilityOutputs=rbm.getProbabilityOutputs();
 			learningEnergy += rbm.getEnergy();
 			

@@ -88,6 +88,8 @@ public class TestDiscriminationRBM {
 			
 			
 			discriminationRbm[learningManager.readLabel()].unsupervisedLearning(gibbsSteps * 2, image1D);
+			learningManager.setCurrent((i % 60000) + 1/*tempLabel*/);
+			discriminationRbm[learningManager.readLabel()].applyLearningGradients();
 			
 			double min = 0.;
 			int labl = 0;

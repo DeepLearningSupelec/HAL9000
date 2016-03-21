@@ -27,6 +27,11 @@ public class RestrictedBoltzmannMachine {
 	
 	static String image_adress = "Images_ppm//";
 	
+	double[][] connectionsGradient;
+	double[][] biasGradient;
+
+	
+	
 	//Constructor
 
 	/**
@@ -57,6 +62,11 @@ public class RestrictedBoltzmannMachine {
 				this.connections[i][j] = (rand.nextDouble()- 0.5)*this.weightWide;
 			}
 		}
+		this.connectionsGradient = new double[this.connections.length][this.connections[0].length];
+		
+		this.biasGradient = new double[2][];
+		this.biasGradient[0] = new double[this.layers[0].length];
+		this.biasGradient[1] = new double[this.layers[1].length];
 	}
 	
 	/**
@@ -98,6 +108,11 @@ public class RestrictedBoltzmannMachine {
 			}
 		}
 		
+		this.connectionsGradient = new double[this.connections.length][this.connections[0].length];
+		
+		this.biasGradient = new double[2][];
+		this.biasGradient[0] = new double[this.layers[0].length];
+		this.biasGradient[1] = new double[this.layers[1].length];
 	}
 	
 	public RestrictedBoltzmannMachine(int[] inputData, double weightWide, double biasWide){
@@ -123,6 +138,11 @@ public class RestrictedBoltzmannMachine {
 				this.connections[i][j] = (rand.nextDouble()- 0.5)*this.weightWide;
 			}
 		}
+		this.connectionsGradient = new double[this.connections.length][this.connections[0].length];
+		
+		this.biasGradient = new double[2][];
+		this.biasGradient[0] = new double[this.layers[0].length];
+		this.biasGradient[1] = new double[this.layers[1].length];
 		
 	}
 	
@@ -301,7 +321,11 @@ public class RestrictedBoltzmannMachine {
 			}
 		    lineCpt++;
 		}
+		this.connectionsGradient = new double[this.connections.length][this.connections[0].length];
 		
+		this.biasGradient = new double[2][];
+		this.biasGradient[0] = new double[this.layers[0].length];
+		this.biasGradient[1] = new double[this.layers[1].length];
 		
 	}
 	
@@ -448,6 +472,35 @@ public class RestrictedBoltzmannMachine {
 		}
 	}
 	
+	public void applyLearningGradients(){
+		
+		// applying weight modifications
+		
+		for(int i = 0; i < this.layers[0].length; i++){
+			for(int j = 0; j < this.layers[1].length; j++){
+				
+				this.connections[i][j] += this.learningRate*this.connectionsGradient[i][j];
+			}
+		}
+		
+		// applying bias modifications
+		
+		for(int i = 0; i < 2; i++){
+			for(int j = 0; j < this.layers[i].length; j++){
+				this.layers[i][j].setBias(this.layers[i][j].getBias() + this.learningRate*this.biasGradient[i][j]);
+			}
+		}
+		
+		// reseting gradients
+		
+		this.connectionsGradient = new double[this.connections.length][this.connections[0].length];
+		this.biasGradient = new double[2][];
+		this.biasGradient[0] = new double[this.layers[0].length];
+		this.biasGradient[1] = new double[this.layers[1].length];
+		
+	}
+	
+	
 	
 	/**
 	 * 
@@ -516,22 +569,19 @@ public class RestrictedBoltzmannMachine {
 			biasModificationAttributes[1][j] -= probabilityOutputs[j];
 		}
 		
-		// applying weight modifications
+		// updating gradients
 		
 		for(int i = 0; i < this.layers[0].length; i++){
 			for(int j = 0; j < this.layers[1].length; j++){
-				
-				this.connections[i][j] += this.learningRate*logProbabilityDerivatives[i][j];
+				this.connectionsGradient[i][j] += logProbabilityDerivatives[i][j];
 			}
+			this.biasGradient[0][i] += biasModificationAttributes[0][i];
+		}
+		for(int j = 0; j < this.layers[1].length; j++){
+			this.biasGradient[1][j] += biasModificationAttributes[1][j];
 		}
 		
-		// applying bias modifications
 		
-		for(int i = 0; i < 2; i++){
-			for(int j = 0; j < this.layers[i].length; j++){
-				this.layers[i][j].setBias(this.layers[i][j].getBias() + this.learningRate*biasModificationAttributes[i][j]);
-			}
-		}
 		return logProbabilityDerivatives;
 	}
 	
@@ -647,22 +697,19 @@ public class RestrictedBoltzmannMachine {
 			biasModificationAttributes[1][j] -= probabilityOutputs[j];
 		}
 		
-		// applying weight modifications
+		// updating gradients
 		
 		for(int i = 0; i < this.layers[0].length; i++){
 			for(int j = 0; j < this.layers[1].length; j++){
-				//System.out.println(logProbabilityDerivatives[i][j]);
-				this.connections[i][j] += this.learningRate*logProbabilityDerivatives[i][j];
+				this.connectionsGradient[i][j] += logProbabilityDerivatives[i][j];
 			}
+			this.biasGradient[0][i] += biasModificationAttributes[0][i];
 		}
-		
-		// applying bias modifications
-		
-		for(int i = 0; i < 2; i++){
-			for(int j = 0; j < this.layers[i].length; j++){
-				this.layers[i][j].setBias(this.layers[i][j].getBias() + this.learningRate*biasModificationAttributes[i][j]);
-			}
+		for(int j = 0; j < this.layers[1].length; j++){
+			this.biasGradient[1][j] += biasModificationAttributes[1][j];
 		}
+				
+				
 	
 		return logProbabilityDerivatives;
 	}
