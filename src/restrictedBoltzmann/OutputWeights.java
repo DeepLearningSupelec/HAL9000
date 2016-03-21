@@ -158,7 +158,7 @@ public class OutputWeights {
 		int line = this.weights.length;
 		int column = this.weights[0].length;
 		int[][] rgbValues = new int[line][column];
-		BMP bmp = new BMP();
+		//BMP bmp = new BMP();
 		
 		for(int i=0; i<line; i++){
 			for(int j=0; j<column; j++){
@@ -169,7 +169,7 @@ public class OutputWeights {
 			}
 		}
 		
-		bmp.saveBMP(p.toString(), rgbValues);
+		BMP.saveBMP(p.toString(), rgbValues);
 	}
 	
 }

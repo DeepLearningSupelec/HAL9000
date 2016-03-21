@@ -932,5 +932,44 @@ public class RestrictedBoltzmannMachine {
 		
 	}
 	
+	public void visualizeFilters(){
+		
+		for(int i=0; i < this.layers[1].length; i++){
+			
+			int[] image1DFilter = new int[this.layers[0].length];
+
+			/*For each filter we put one output 
+			 * node to 1 the others to 0
+			 */
+
+			for(int j=0; j<this.layers[1].length; j++){
+				if (j==i){
+					this.layers[1][j].setState(1);
+				}
+				else{
+					this.layers[1][j].setState(0);
+				}
+			}
+
+			/*We update the visible layer given the distribution
+			 * of the hidden layer we set and store it in image1DFilter
+			 * 
+			 */
+			for(int k = 0; k < this.layers[0].length; k++){
+				double x = this.layers[0][i].getBias();
+				for(int j = 0; j < this.layers[(0 + 1) % 2].length; j++){
+					x += this.connections[k][j]*this.layers[k][j].getState();
+				}
+				image1DFilter[k]=Sigmoid.getINSTANCE().apply(x).intValue();
+			}
+			
+			int[][] image2DFilter = Tools.image1Dto2D(image1DFilter, 28, 28);
+			
+			//TODO : transform into a BMP the table
+		}
+			
+	}
+	
+	
 	
 }
