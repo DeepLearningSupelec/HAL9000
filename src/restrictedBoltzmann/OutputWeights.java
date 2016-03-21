@@ -1,5 +1,6 @@
 package restrictedBoltzmann;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -172,24 +173,48 @@ public class OutputWeights {
 	 * @param p
 	 * 		The Path where the bitmap file will be saved.
 	 */
-	public void toBmp(Path p){
+	public void toBmp(Path p) throws IOException {
 		
-		int red, green, blue;
-		int line = this.weights.length;
-		int column = this.weights[0].length;
-		int[][] rgbValues = new int[line][column];
-		BMP bmp = new BMP();
-		
-		for(int i=0; i<line; i++){
-			for(int j=0; j<column; j++){
-				red = (int) Math.ceil(255*(this.weights[i][j] - this.min)/(this.max - this.min));
-				blue = (int) Math.ceil(255*(this.weights[i][j] - this.min)/(this.max - this.min));
-				green = (int) Math.ceil(255*(this.weights[i][j] - this.min)/(this.max - this.min));
-				rgbValues[i][j]=red|green<<8|blue<<16;
+		if (this.weights!=null){
+			int line = this.weights.length;
+			int column = this.weights[0].length;
+			int red, green, blue;
+
+			int[][] rgbValues = new int[line][column];
+			BMP bmp = new BMP();
+			
+			for(int i=0; i<line; i++){
+				for(int j=0; j<column; j++){
+					red = (int) Math.ceil(255*(this.weights[i][j] - this.min)/(this.max - this.min));
+					blue = (int) Math.ceil(255*(this.weights[i][j] - this.min)/(this.max - this.min));
+					green = (int) Math.ceil(255*(this.weights[i][j] - this.min)/(this.max - this.min));
+					rgbValues[i][j]=red|green<<8|blue<<16;
+				}
 			}
-		}
+			
+			bmp.saveBMP(p.toString(), rgbValues);
+		} 
 		
-		bmp.saveBMP(p.toString(), rgbValues);
+		
+		else{
+			int line = this.weightsInt.length;
+			int column = this.weightsInt[0].length;
+			int red, green, blue;
+
+			int[][] rgbValues = new int[line][column];
+			BMP bmp = new BMP();
+			
+			for(int i=0; i<line; i++){
+				for(int j=0; j<column; j++){
+					red = (int) Math.ceil(255*(this.weightsInt[i][j] - this.min)/(this.max - this.min));
+					blue = (int) Math.ceil(255*(this.weightsInt[i][j] - this.min)/(this.max - this.min));
+					green = (int) Math.ceil(255*(this.weightsInt[i][j] - this.min)/(this.max - this.min));
+					rgbValues[i][j]=red|green<<8|blue<<16;
+				}
+			}
+			
+			bmp.saveBMP(p.toString(), rgbValues);
+		}
 	}
 	
 }

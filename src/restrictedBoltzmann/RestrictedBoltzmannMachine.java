@@ -12,6 +12,8 @@ import java.util.Random;
 public class RestrictedBoltzmannMachine {
 
 
+	private static final Exception IOException = null;
+
 	//Attributes
 
 	Entity[][] layers;
@@ -933,7 +935,7 @@ public class RestrictedBoltzmannMachine {
 
 	}
 
-	public void visualizeFilters(){
+	public void visualizeFilters() throws IOException{
 
 		for(int i=0; i < this.layers[1].length; i++){
 
@@ -959,7 +961,7 @@ public class RestrictedBoltzmannMachine {
 			for(int k = 0; k < this.layers[0].length; k++){
 				double x = this.layers[0][i].getBias();
 				for(int j = 0; j < this.layers[(0 + 1) % 2].length; j++){
-					x += this.connections[k][j]*this.layers[k][j].getState();
+					x += this.connections[k][j]*this.layers[1][j].getState();
 				}
 				image1DFilter[k]=Sigmoid.getINSTANCE().apply(x).intValue();
 			}
@@ -968,8 +970,12 @@ public class RestrictedBoltzmannMachine {
 
 			OutputWeights output = new OutputWeights(image2DFilter);
 			String date = "_" + LocalDateTime.now();
-			Path p = Paths.get("Filters/"+date, "filter"  + i + ".bmp");
+			date = date.substring(0, 20);
+			date = date.replace(':', '-');
+			Path p = Paths.get(/*System.getProperty("user.home"),*/"RBMFilters", date + "filter"  + i + ".bmp");
 			output.toBmp(p);
+			
+		
 		}
 
 	}
