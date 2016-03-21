@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -965,7 +966,10 @@ public class RestrictedBoltzmannMachine {
 			
 			int[][] image2DFilter = Tools.image1Dto2D(image1DFilter, 28, 28);
 			
-			//TODO : transform into a BMP the table
+			OutputWeights output = new OutputWeights(image2DFilter);
+			String date = "_" + LocalDateTime.now();
+			Path p = Paths.get("Filters", date + "filter"  + i + ".bmp");
+			output.toBmp(p);
 		}
 			
 	}
