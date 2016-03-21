@@ -968,7 +968,7 @@ public class RestrictedBoltzmannMachine {
 			
 			OutputWeights output = new OutputWeights(image2DFilter);
 			String date = "_" + LocalDateTime.now();
-			Path p = Paths.get("Filters", date + "filter"  + i + ".bmp");
+			Path p = Paths.get("Filters/"+date, "filter"  + i + ".bmp");
 			output.toBmp(p);
 		}
 			
