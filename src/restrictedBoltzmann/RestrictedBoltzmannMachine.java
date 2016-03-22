@@ -962,13 +962,19 @@ public class RestrictedBoltzmannMachine {
 			 * of the hidden layer we set and store it in image1DFilter
 			 * 
 			 */
-			for(int k = 0; k < this.layers[0].length; k++){
+			/*for(int k = 0; k < this.layers[0].length; k++){
 				double x = this.layers[0][i].getBias();
 				for(int j = 0; j < this.layers[(0 + 1) % 2].length; j++){
 					x += this.connections[k][j]*this.layers[1][j].getState();
 				}
 				image1DFilter[k]=Sigmoid.getINSTANCE().apply(x);
+			}*/
+			for(int k = 0; k < this.layers[0].length; k++){
+				double x = this.layers[0][k].getBias();
+				x += this.connections[k][i];
+				image1DFilter[k]=Sigmoid.getINSTANCE().apply(x);
 			}
+			
 
 			double [][]image2DFilter = Tools.image1Dto2Ddouble(image1DFilter, 28, 28);
 
@@ -982,7 +988,7 @@ public class RestrictedBoltzmannMachine {
 			f.mkdirs();
 			try {
 				output.toBmp(path);
-				System.out.println("Images Crées");
+				System.out.println("Images Créées");
 			} catch (java.io.IOException e) {
 			
 				System.out.println("Exception");
