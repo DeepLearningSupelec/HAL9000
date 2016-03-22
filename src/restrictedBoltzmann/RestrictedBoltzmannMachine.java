@@ -1,4 +1,5 @@
 package restrictedBoltzmann;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -530,7 +531,7 @@ public class RestrictedBoltzmannMachine {
 		// data informations
 
 		this.setBinaryInputs(exemple);
-		this.constrastiveDivergence(2);
+		this.constrastiveDivergence(1);
 		/*for(int i = 0; i < this.layers[0].length; i++){
 			for(int j = 0; j < this.layers[1].length; j++){
 				logProbabilityDerivatives[i][j] = this.layers[0][i].getState()*this.layers[1][j].getState();
@@ -976,8 +977,9 @@ public class RestrictedBoltzmannMachine {
 			date = date.substring(1, 17);
 			date = date.replace(':', '-');
 			date = date.replace('T', '_');
-			
-			Path path = Paths.get("RBM_Filters", date + "_filter_"  + i + ".bmp");
+			Path path = Paths.get("RBM_Filters/Filtre" + date, date + "_filter_"  + i + ".bmp");
+			File f = new File("RBM_Filters/Filtre" + date);
+			f.mkdirs();
 			try {
 				output.toBmp(path);
 				System.out.println("Images Crées");
