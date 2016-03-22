@@ -3,8 +3,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -963,18 +966,19 @@ public class RestrictedBoltzmannMachine {
 				for(int j = 0; j < this.layers[(0 + 1) % 2].length; j++){
 					x += this.connections[k][j]*this.layers[1][j].getState();
 				}
-				image1DFilter[k]=Sigmoid.getINSTANCE().apply(x).intValue();
+				image1DFilter[k]=(int) (Sigmoid.getINSTANCE().apply(x)*255.0);
 			}
 
 			int [][]image2DFilter = Tools.image1Dto2D(image1DFilter, 28, 28);
 
 			OutputWeights output = new OutputWeights(image2DFilter);
 			String date = "_" + LocalDateTime.now();
-			date = date.substring(0, 20);
+			date = date.substring(1, 17);
 			date = date.replace(':', '-');
-			Path p = Paths.get(/*System.getProperty("user.home"),*/"RBMFilters", date + "filter"  + i + ".bmp");
+			
+			Path path = Paths.get("RBM_Filters", date + "_filter_"  + i + ".bmp");
 			try {
-				output.toBmp(p);
+				output.toBmp(path);
 				System.out.println("Images Crées");
 			} catch (java.io.IOException e) {
 			
