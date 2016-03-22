@@ -942,7 +942,7 @@ public class RestrictedBoltzmannMachine {
 
 		for(int i=0; i < this.layers[1].length; i++){
 
-			int[] image1DFilter = new int[this.layers[0].length];
+			double[] image1DFilter = new double[this.layers[0].length];
 
 			/*For each filter we put one output 
 			 * node to 1 the others to 0
@@ -966,10 +966,10 @@ public class RestrictedBoltzmannMachine {
 				for(int j = 0; j < this.layers[(0 + 1) % 2].length; j++){
 					x += this.connections[k][j]*this.layers[1][j].getState();
 				}
-				image1DFilter[k]=(int) (Sigmoid.getINSTANCE().apply(x)*255.0);
+				image1DFilter[k]=Sigmoid.getINSTANCE().apply(x);
 			}
 
-			int [][]image2DFilter = Tools.image1Dto2D(image1DFilter, 28, 28);
+			double [][]image2DFilter = Tools.image1Dto2Ddouble(image1DFilter, 28, 28);
 
 			OutputWeights output = new OutputWeights(image2DFilter);
 			String date = "_" + LocalDateTime.now();

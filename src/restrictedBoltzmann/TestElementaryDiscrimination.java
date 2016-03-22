@@ -53,7 +53,7 @@ public class TestElementaryDiscrimination {
 		double trainingErrors = 0.;
 		double[] visibleVector;
 	
-		for(int i = 0; i < 3000; i++){
+		for(int i = 0; i < 10000; i++){
 			int tempInt = i % 10;
 			int tempLabel = 0;
 			switch (tempInt) {
