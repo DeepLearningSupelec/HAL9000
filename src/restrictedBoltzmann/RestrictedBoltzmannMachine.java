@@ -975,6 +975,7 @@ public class RestrictedBoltzmannMachine {
 				image1DFilter[k]=Sigmoid.getINSTANCE().apply(x);
 			}
 			
+			
 
 			double [][]image2DFilter = Tools.image1Dto2Ddouble(image1DFilter, 28, 28);
 
@@ -983,12 +984,12 @@ public class RestrictedBoltzmannMachine {
 			date = date.substring(1, 17);
 			date = date.replace(':', '-');
 			date = date.replace('T', '_');
-			Path path = Paths.get("RBM_Filters/Filtre" + date, date + "_filter_"  + i + ".bmp");
-			File f = new File("RBM_Filters/Filtre_" + date + "_" + this.layers[0].length + "visibles_" + this.layers[1].length +"cachés");
+			Path path = Paths.get("RBM_Filters/Filtre_" + date, date + "_filter_"  + i + ".bmp");
+			File f = new File("RBM_Filters/Filtre_" + date);
 			f.mkdirs();
 			try {
 				output.toBmp(path);
-				System.out.println("Images Créées");
+				System.out.println("Images Crées");
 			} catch (java.io.IOException e) {
 			
 				System.out.println("Exception");
