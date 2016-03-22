@@ -975,6 +975,7 @@ public class RestrictedBoltzmannMachine {
 			String date = "_" + LocalDateTime.now();
 			date = date.substring(1, 17);
 			date = date.replace(':', '-');
+			date = date.replace('T', '_');
 			
 			Path path = Paths.get("RBM_Filters", date + "_filter_"  + i + ".bmp");
 			try {
