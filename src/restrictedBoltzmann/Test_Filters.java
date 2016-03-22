@@ -19,8 +19,8 @@ public class Test_Filters {
 	public static void main(String[] args) throws IOException {
 	
 		int[] inputData = {784, 36};
-		double biasWide = 0.;
-		double weightWide = 0.035;
+		double biasWide = -4;
+		double weightWide = 0.5;
 		double learningRate = 0.005;
 
 		String date = "_" + LocalDateTime.now();

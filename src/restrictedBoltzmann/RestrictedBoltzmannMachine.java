@@ -978,7 +978,7 @@ public class RestrictedBoltzmannMachine {
 			date = date.replace(':', '-');
 			date = date.replace('T', '_');
 			Path path = Paths.get("RBM_Filters/Filtre" + date, date + "_filter_"  + i + ".bmp");
-			File f = new File("RBM_Filters/Filtre" + date);
+			File f = new File("RBM_Filters/Filtre_" + date + "_" + this.layers[0].length + "visibles_" + this.layers[1].length +"cachés");
 			f.mkdirs();
 			try {
 				output.toBmp(path);
