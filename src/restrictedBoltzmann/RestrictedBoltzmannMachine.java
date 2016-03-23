@@ -667,7 +667,7 @@ public class RestrictedBoltzmannMachine {
 		this.setBinaryInputs(exemple);
 		/*// old version
 		this.constrastiveDivergence(2);
-		
+
 		double[] probabilityInputs = this.getProbabilityInputs();
 		double[] probabilityOutputs = this.getProbabilityOutputs();
 		for(int i = 0; i < this.layers[0].length; i++){
@@ -679,8 +679,8 @@ public class RestrictedBoltzmannMachine {
 		for(int j = 0; j < this.layers[1].length; j++){
 			biasModificationAttributes[1][j] = probabilityOutputs[j];
 		}
-		*/
-		
+		 */
+
 		// computing p(Hi = 1|v_0)*vj_0
 		double[] probabilityOutputs = this.getProbabilityOutputs(); // p(Hi = 1|v_0)
 		for(int j = 0; j < this.layers[0].length; j++){
@@ -696,10 +696,10 @@ public class RestrictedBoltzmannMachine {
 		// model informations
 
 		this.setBinaryInputs(exemple);
-		
+
 		/*// old version
 		this.constrastiveDivergence(cdIterations + 1);
-		
+
 		probabilityInputs = this.getProbabilityInputs();
 		probabilityOutputs = this.getProbabilityOutputs();
 		for(int i = 0; i < this.layers[0].length; i++){
@@ -711,8 +711,8 @@ public class RestrictedBoltzmannMachine {
 		for(int j = 0; j < this.layers[1].length; j++){
 			biasModificationAttributes[1][j] -= probabilityOutputs[j];
 		}*/
-		
-		
+
+
 		// computing - p(Hi = 1|v_k)*vj_k
 		this.constrastiveDivergence(cdIterations);
 		probabilityOutputs = this.getProbabilityOutputs(); // p(Hi = 1|v_k)
@@ -725,7 +725,7 @@ public class RestrictedBoltzmannMachine {
 		for(int j = 0; j < this.layers[1].length; j++){
 			biasModificationAttributes[1][j] -= probabilityOutputs[j];
 		}
-		
+
 
 		// updating gradients
 
@@ -962,6 +962,88 @@ public class RestrictedBoltzmannMachine {
 
 	}
 
+	public void visualizeAllFilters(){
+
+		int nombreFiltres = (int) Math.ceil(Math.sqrt(this.layers[1].length));
+		int pixelParFiltre = (int) Math.sqrt(this.layers[0].length);
+		int ecart = (nombreFiltres-1)*3;
+		int taille = (nombreFiltres*pixelParFiltre)+ecart;
+		double[][] allFilters = new double[taille][taille];
+		for(int k=0; k<taille; k++){
+			for(int j = 0; j<taille; j++){
+				allFilters[k][j] = 1; 
+			}
+		}
+
+		
+
+		for(int i=0; i < this.layers[1].length; i++){
+
+			double[] image1DFilter = new double[this.layers[0].length];
+
+			/*For each filter we put one output 
+			 * node to 1 the others to 0
+			 */
+			for(int j=0; j<this.layers[1].length; j++){
+				if (j==i){
+					this.layers[1][j].setState(1);
+				}
+				else{
+					this.layers[1][j].setState(0);
+				}
+			}
+
+			/*We update the visible layer given the distribution
+			 * of the hidden layer we set and store it in image1DFilter
+			 * 
+			 */
+			/*for(int k = 0; k < this.layers[0].length; k++){
+				double x = this.layers[0][i].getBias();
+				for(int j = 0; j < this.layers[(0 + 1) % 2].length; j++){
+					x += this.connections[k][j]*this.layers[1][j].getState();
+				}
+				image1DFilter[k]=Sigmoid.getINSTANCE().apply(x);
+			}*/
+			for(int k = 0; k < this.layers[0].length; k++){
+				double x = this.layers[0][k].getBias();
+				x += this.connections[k][i];
+				image1DFilter[k]=Sigmoid.getINSTANCE().apply(x);
+			}
+
+			double [][]image2DFilter = Tools.image1Dto2Ddouble(image1DFilter, pixelParFiltre, pixelParFiltre);
+
+			int rang = i % nombreFiltres;
+			int ligne =(int) i/nombreFiltres;
+
+			for(int k = 0; k< image2DFilter[0].length; k++){
+				for(int j = 0; j<image2DFilter[0].length; j++){
+					allFilters[rang*(pixelParFiltre+3)+k][ligne*(pixelParFiltre+3)+j]=image2DFilter[k][j];
+				}
+			}
+			
+			
+			
+		}
+		
+		OutputWeights output = new OutputWeights(allFilters);
+		String date = "_" + LocalDateTime.now();
+		date = date.substring(1, 17);
+		date = date.replace(':', '-');
+		date = date.replace('T', '_');
+		Path path = Paths.get("RBM_Filters/Filtre_" + date, date + "_AllFilters" + ".bmp");
+		File f = new File("RBM_Filters/Filtre_" + date);
+		f.mkdirs();
+		try {
+			output.toBmp(path);
+			System.out.println("Images Crées");
+		} catch (java.io.IOException e) {
+
+			System.out.println("Exception");
+			e.printStackTrace();
+		}
+		
+	}
+
 	public void visualizeFilters(){
 
 		for(int i=0; i < this.layers[1].length; i++){
@@ -997,8 +1079,8 @@ public class RestrictedBoltzmannMachine {
 				x += this.connections[k][i];
 				image1DFilter[k]=Sigmoid.getINSTANCE().apply(x);
 			}
-			
-			
+
+
 
 			double [][]image2DFilter = Tools.image1Dto2Ddouble(image1DFilter, 28, 28);
 
@@ -1014,12 +1096,12 @@ public class RestrictedBoltzmannMachine {
 				output.toBmp(path);
 				System.out.println("Images Crées");
 			} catch (java.io.IOException e) {
-			
+
 				System.out.println("Exception");
 				e.printStackTrace();
 			}
-			
-		
+
+
 		}
 
 	}
