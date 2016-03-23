@@ -18,7 +18,7 @@ public class Test_Filters {
 
 	public static void main(String[] args) throws IOException {
 	
-		int[] inputData = {784, 16};
+		int[] inputData = {784, 100};
 		double biasWide = 0.;
 		double weightWide = 0.035;
 		double learningRate = 0.005;
