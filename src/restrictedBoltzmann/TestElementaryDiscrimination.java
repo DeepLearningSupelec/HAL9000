@@ -176,7 +176,7 @@ public class TestElementaryDiscrimination {
 				learningManager.setCurrent(tempLabel);
 				//System.out.println("lbl " + labl + " expected " + learningManager.readLabel() + "temp labl " + tempLabel);
 				
-				System.out.println("lbl " + labl + " i " + tempInt + " expected " + learningManager.readLabel() + "temp labl " + tempLabel);
+				//System.out.println("lbl " + labl + " i " + tempInt + " expected " + learningManager.readLabel() + "temp labl " + tempLabel);
 				
 				trainingErrors ++;
 			} else {
