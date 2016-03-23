@@ -962,7 +962,7 @@ public class RestrictedBoltzmannMachine {
 
 	}
 
-	public void visualizeAllFilters(){
+	public void visualizeAllFilters() throws ParseException{
 
 		int nombreFiltres = (int) Math.ceil(Math.sqrt(this.layers[1].length));
 		int pixelParFiltre = (int) Math.sqrt(this.layers[0].length);
@@ -1030,8 +1030,15 @@ public class RestrictedBoltzmannMachine {
 		date = date.substring(1, 17);
 		date = date.replace(':', '-');
 		date = date.replace('T', '_');
-		Path path = Paths.get("RBM_Filters/Filtre_" + date, date + "_AllFilters" + ".bmp");
-		File f = new File("RBM_Filters/Filtre_" + date);
+		
+		SimpleDateFormat dt = new SimpleDateFormat("yyyyy-mm-dd_hh-mm-ss"); 
+		Date date_ = dt.parse(date); 
+		SimpleDateFormat dt1 = new SimpleDateFormat("dd-mm_/_hh_mm");
+		String date_1 = dt1.format(date_);
+
+		
+		Path path = Paths.get("RBM_Filters/Filtre_" + date_1, date_1 + "_AllFilters" + ".bmp");
+		File f = new File("RBM_Filters/Filtre_" + date_1);
 		f.mkdirs();
 		try {
 			output.toBmp(path);
