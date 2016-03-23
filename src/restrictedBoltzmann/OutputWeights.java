@@ -173,7 +173,7 @@ public class OutputWeights {
 	 * @param p
 	 * 		The Path where the bitmap file will be saved.
 	 */
-	public void toBmp(Path p) throws IOException {
+	public void toBmpContrast(Path p) throws IOException {
 		
 		if (this.weights!=null){
 			int line = this.weights.length;
@@ -209,6 +209,50 @@ public class OutputWeights {
 					red = (int) Math.ceil(255*(this.weightsInt[i][j] - this.min)/(this.max - this.min));
 					blue = (int) Math.ceil(255*(this.weightsInt[i][j] - this.min)/(this.max - this.min));
 					green = (int) Math.ceil(255*(this.weightsInt[i][j] - this.min)/(this.max - this.min));
+					rgbValues[i][j]=red|green<<8|blue<<16;
+				}
+			}
+			
+			bmp.saveBMP(p.toString(), rgbValues);
+		}
+	}
+	
+public void toBmp(Path p) throws IOException {
+		
+		if (this.weights!=null){
+			int line = this.weights.length;
+			int column = this.weights[0].length;
+			int red, green, blue;
+
+			int[][] rgbValues = new int[line][column];
+			BMP bmp = new BMP();
+			
+			for(int i=0; i<line; i++){
+				for(int j=0; j<column; j++){
+					red = (int) Math.ceil(255*(this.weights[i][j]));
+					blue = (int) Math.ceil(255*(this.weights[i][j]));
+					green = (int) Math.ceil(255*(this.weights[i][j]));
+					rgbValues[i][j]=red|green<<8|blue<<16;
+				}
+			}
+			
+			bmp.saveBMP(p.toString(), rgbValues);
+		} 
+		
+		
+		else{
+			int line = this.weightsInt.length;
+			int column = this.weightsInt[0].length;
+			int red, green, blue;
+
+			int[][] rgbValues = new int[line][column];
+			BMP bmp = new BMP();
+			
+			for(int i=0; i<line; i++){
+				for(int j=0; j<column; j++){
+					red = (int) Math.ceil(255*(this.weightsInt[i][j]));
+					blue = (int) Math.ceil(255*(this.weightsInt[i][j]));
+					green = (int) Math.ceil(255*(this.weightsInt[i][j]));
 					rgbValues[i][j]=red|green<<8|blue<<16;
 				}
 			}
