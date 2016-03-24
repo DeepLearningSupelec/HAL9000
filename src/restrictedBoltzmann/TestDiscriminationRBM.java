@@ -89,7 +89,6 @@ public class TestDiscriminationRBM {
 			
 			
 			discriminationRbm[batchManager.readLabel()].unsupervisedLearning(gibbsSteps * 2, image1D);
-			discriminationRbm[batchManager.readLabel()].applyLearningGradients();
 			
 			double min = 0.;
 			int labl = 0;
