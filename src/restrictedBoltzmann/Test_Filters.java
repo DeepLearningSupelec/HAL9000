@@ -18,7 +18,7 @@ public class Test_Filters {
 
 	public static void main(String[] args) throws IOException, ParseException {
 	
-		int[] inputData = {784, 16};
+		int[] inputData = {784, 3};
 		double biasWide = 0.;
 		double weightWide = 0.035;
 		double learningRate = 0.005;
@@ -41,7 +41,7 @@ public class Test_Filters {
 		double sumProbability = 0.0;
 		double learningEnergy = 0.;
 
-		for(int i = 0; i < 100000; i++){
+		for(int i = 0; i < 10000; i++){
 			m.setCurrent((i % 60000) + 1);
 			image1D = m.readImage1D();
 			Rbm.getLogProbabilityDerivativeSum(Rbm.unsupervisedLearning(2, image1D));

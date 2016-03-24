@@ -1027,18 +1027,16 @@ public class RestrictedBoltzmannMachine {
 		
 		OutputWeights output = new OutputWeights(allFilters);
 		String date = "_" + LocalDateTime.now();
-		date = date.substring(1, 17);
-		date = date.replace(':', '-');
-		date = date.replace('T', '_');
+		int month = LocalDateTime.now().getMonthValue();
+		int year = LocalDateTime.now().getYear();
+		int day = LocalDateTime.now().getDayOfMonth();
+		int hour = LocalDateTime.now().getHour();
+		int minute = LocalDateTime.now().getMinute();
 		
-		SimpleDateFormat dt = new SimpleDateFormat("yyyyy-mm-dd_hh-mm-ss"); 
-		Date date_ = dt.parse(date); 
-		SimpleDateFormat dt1 = new SimpleDateFormat("dd-mm_/_hh_mm");
-		String date_1 = dt1.format(date_);
-
+		date = day + "-" + month + "-" + year + "_" + hour + "h" + minute;
 		
-		Path path = Paths.get("RBM_Filters/Filtre_" + date_1, date_1 + "_AllFilters" + ".bmp");
-		File f = new File("RBM_Filters/Filtre_" + date_1);
+		Path path = Paths.get("RBM_Filters/Filtre_" + date, date + "_AllFilters" + ".bmp");
+		File f = new File("RBM_Filters/Filtre_" + date);
 		f.mkdirs();
 		try {
 			output.toBmp(path);
