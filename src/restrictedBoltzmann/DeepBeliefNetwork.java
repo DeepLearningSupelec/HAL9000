@@ -27,6 +27,8 @@ public class DeepBeliefNetwork {
 	
 	double learningRate;
 	
+	
+	
 	// BackPropagation Attributes
 	
 	final double momentumFactor = 0.0;
@@ -110,6 +112,31 @@ public class DeepBeliefNetwork {
 			currentExemple = this.machines[i].getBinaryOutputs();
 		}
 	}
+	
+	public void singleUnsupervisedLearning(int cdIterations, double[] exemple){
+		
+		double[] currentExemple = exemple;
+		
+		// the machines are trained one after another
+		for(int i = 0; i < this.layerNumber - 1; i++){
+			this.machines[i].unsupervisedLearning(cdIterations, currentExemple);
+			this.machines[i].setBinaryInputs(currentExemple);
+			this.machines[i].layerUpdate(1);
+			int[] temp = this.machines[i].getBinaryOutputs();
+			currentExemple = new double[temp.length];
+			for(int j = 0; j < temp.length; j++){
+				currentExemple[j] = (double)temp[j];
+			}
+		}
+	}
+	
+	public void applyLearningGradients(){
+		for(int i = 0; i < this.layerNumber - 1; i++){
+			this.machines[i].applyLearningGradients();
+		}
+	}
+	
+	
 	
 //	public void singleBackPropagation(int[] exemple, int[] expectedOutput){
 
