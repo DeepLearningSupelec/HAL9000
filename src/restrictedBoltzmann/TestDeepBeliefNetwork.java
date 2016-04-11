@@ -86,9 +86,10 @@ public class TestDeepBeliefNetwork {
 			
 			//discriminationRbm[batchManager.readLabel()].unsupervisedLearning(gibbsSteps * 2, image1D);
 			
-			dBN.singleUnsupervisedLearning(gibbsSteps * 2, image1D);
+			dBN.singleUnsupervisedLearning(gibbsSteps * 2, image1D, true);
 			
 			/*
+			 //Discrimination 
 			double min = 0.;
 			int labl = 0;
 			visibleVector = batchManager.readImage1D();
@@ -107,14 +108,15 @@ public class TestDeepBeliefNetwork {
 				//System.out.println("error !");
 			}*/
 			
-			if(i%10 == 0){
+			
+			/*if(i%10 == 0){
 				// applying batch cumulative gradients
 				
 				for(int k = 0; k < 10; k++){
 					dBN.applyLearningGradients();
 				}
 				
-			}
+			}*/
 			
 			
 			
