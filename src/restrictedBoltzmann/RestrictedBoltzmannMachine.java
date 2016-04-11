@@ -903,7 +903,7 @@ public class RestrictedBoltzmannMachine {
 		Path p = Paths.get("mnistTrainingParameters.txt");
 		System.out.println("loaded");
 
-		//TODO: imageCpt
+		
 		double[] imageCpt = new double[10];
 		/*imageCpt[0] = 5923.;
 		imageCpt[1] = 6742.;

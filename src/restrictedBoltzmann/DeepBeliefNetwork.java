@@ -152,7 +152,7 @@ public class DeepBeliefNetwork {
 	}
 	
 	
-	public void singleBackPropagation(int[] exemple, int[] expectedOutput){
+	public void singleBackPropagation(double[] expectedOutput){
 		
 		// Entity Diff computing
 		
@@ -164,12 +164,16 @@ public class DeepBeliefNetwork {
 			
 			//bias diff 
 			this.machines[this.layerNumber - 2].biasGradient[1][i] += this.entityDiffs[this.layerNumber - 1][i]*this.learningRate;
-
+			//weight diff
+			for(int m = 0; m < this.layers[this.layerNumber - 2].length; m++){
+				this.machines[this.layerNumber - 2].connectionsGradient[m][i] += 
+						this.learningRate*this.entityDiffs[this.layerNumber - 1][i]*Sigmoid.getINSTANCE().apply(this.entityWeightedSums[this.layerNumber - 2][m]);
+			}
 		}
 		
 		// sub step : others layers
 		
-		for(int i = this.layerNumber - 2; i > 0; i--){
+		for(int i = this.layerNumber - 2; i >= 0; i--){
 			for(int j = 0; j < this.layers[i].length; j++){
 				double weightedErrorOutput = 0;
 				for(int k = 0; k < this.layers[i + 1].length; k++){
@@ -178,28 +182,70 @@ public class DeepBeliefNetwork {
 				// delta = f'(input)* sum ( gradient next Neuron * weight linked synapse) 
 				this.entityDiffs[i][j] = Sigmoid.getINSTANCE().applyDerivative(this.entityWeightedSums[i][j])*weightedErrorOutput;
 				
-				//bias diff 
-				this.machines[i - 1].biasGradient[1][i] += this.entityDiffs[this.layerNumber - 1][i]*this.learningRate;
-				//weight diff
-				//this.machines[this.layerNumber - 2].connectionsGradient[]
+				if(i > 0){
+					//bias diff 
+					this.machines[i - 1].biasGradient[1][j] += this.entityDiffs[i][j]*this.learningRate;
+					//weight diff
+					for(int m = 0; m < this.layers[i - 1].length; m++){
+						this.machines[i - 1].connectionsGradient[m][j] += 
+								this.learningRate*this.entityDiffs[i][j]*Sigmoid.getINSTANCE().apply(this.entityWeightedSums[i - 1][m]);
+					}
+				} else {
+					//input bias diff
+					this.machines[0].biasGradient[0][j] += this.entityDiffs[0][j]*this.learningRate;
+				}
 			}
-		}
-		
-		/*
-		 * 
-		 * 
-		 * 
-		 * 
-		 * 
-		 * TODO
-		 * 
-		 * 
-		 * 
-		 * 
-		 */
-		
+		}	
 	}
 	
 	
+	public void setIntegerInputs(int[] inputs, int inputWide){
+		for(int i = 0; i < this.layers[0].length; i++){
+			this.entityValues[0][i] = ((double)inputs[i]) / ((double)inputWide);
+			this.entityWeightedSums[0][i] = ((double)inputs[i]) / ((double)inputWide);
+            /*
+             * 
+             * TODO
+             * tests
+             * 
+             */
+		}
+	}
+	
+	public void setNormalizedInputs(double[] inputs){
+		for(int i = 0; i < this.layers[0].length; i++){
+			this.entityValues[0][i] = inputs[i];
+			this.entityWeightedSums[0][i] = inputs[i];
+		}
+	}
+	
+	public void fire(){
+		
+		for(int i = 1; i < this.layerNumber; i++){
+			for(int j = 0; j < this.layers[i].length; j++){
+				
+				double x = this.machines[i - 1].layers[1][j].getBias();
+				for(int k = 0; k < this.layers[i - 1].length; k++){
+					x += this.machines[i - 1].connections[k][j]*this.entityValues[i - 1][k];
+				}
+				this.entityWeightedSums[i][j] = x;
+				this.entityValues[i][j] = Sigmoid.getINSTANCE().apply(x);
+				
+			}
+		}
+	}
+	
+	public void singleSupervisedLearning(double[] example, int label){
+		this.setNormalizedInputs(example);
+		this.fire();
+		double[] expectedOutput = this.getMnistExpectedOutput(label);
+		this.singleBackPropagation(expectedOutput);
+	}
+	
+	public double[] getMnistExpectedOutput(int label){
+		double[] output = new double[10];
+		output[label] = 1.;
+		return output;
+	}
 	
 }
