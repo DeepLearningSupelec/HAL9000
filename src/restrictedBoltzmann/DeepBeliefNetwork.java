@@ -110,13 +110,16 @@ public class DeepBeliefNetwork {
 	
 	
 	
-	public void singleUnsupervisedLearning(int cdIterations, int[] exemple){
+	public void singleUnsupervisedLearning(int cdIterations, int[] exemple, boolean instantLearning){
 		
 		int[] currentExemple = exemple;
 		
 		// the machines are trained one after another
 		for(int i = 0; i < this.layerNumber - 1; i++){
 			this.machines[i].unsupervisedLearning(cdIterations, currentExemple);
+			if(instantLearning){
+				this.machines[i].applyLearningGradients();
+			}
 			this.machines[i].setBinaryInputs(currentExemple);
 			this.machines[i].layerUpdate(1);
 			currentExemple = this.machines[i].getBinaryOutputs();
