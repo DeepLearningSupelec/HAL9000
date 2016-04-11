@@ -491,7 +491,7 @@ public class RestrictedBoltzmannMachine {
 		}
 
 		// applying bias modifications
-
+		
 		for(int i = 0; i < 2; i++){
 			for(int j = 0; j < this.layers[i].length; j++){
 				this.layers[i][j].setBias(this.layers[i][j].getBias() + this.learningRate*this.biasGradient[i][j]);
