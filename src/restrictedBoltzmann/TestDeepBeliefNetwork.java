@@ -26,6 +26,7 @@ public class TestDeepBeliefNetwork {
 		double biasWide = 0;
 		double weightWide = 0.035;
 		double learningRate = 0.051;
+		double backPropLearningRate = 0.1;
 		
 		String date = "_" + LocalDateTime.now();
 		date = date.substring(0, 20);
@@ -34,7 +35,7 @@ public class TestDeepBeliefNetwork {
 		
 		
 		
-		DeepBeliefNetwork dBN = new DeepBeliefNetwork(inputData, weightWide, biasWide, learningRate);
+		DeepBeliefNetwork dBN = new DeepBeliefNetwork(inputData, weightWide, biasWide, learningRate, backPropLearningRate);
 		dBN.machines[0].setMnistParameters();
 		
 		
@@ -47,7 +48,7 @@ public class TestDeepBeliefNetwork {
 		BatchManager batchManager = new BatchManager();
 		
 		OutputData output = new OutputData(new ArrayList<Integer>(), new ArrayList<Double>(), new ArrayList<Double>());
-		Path p = Paths.get(/*System.getProperty("user.home"),*/"DBN_Erros", "Test" /*+ gibbsSteps +  "GibbsSteps"*/  + date + ".csv");
+		Path p = Paths.get(/*System.getProperty("user.home"),*/"DBN_Errors", "Test" /*+ gibbsSteps +  "GibbsSteps"*/  + date + ".csv");
 		output.toCSV(p);
 		
 		double[] image1D;
@@ -77,36 +78,7 @@ public class TestDeepBeliefNetwork {
 				
 			}*/
 			
-			if(i%1000 == 0){
-				// Somme sur l'ensemble test
-				double testErrors = 0.;
-				/*
-				for(int j = 1; j < 1000; j++){
-					testManager.setCurrent(j);
-					image1D = testManager.readImage1D();
-					
-					double minEnergy = 0.;
-					int label = 0;
-					for(int k = 0; k < 10; k++){
-						visibleVector = testManager.readImage1D();
-						discriminationRbm[k].setBinaryInputs(visibleVector);
-						double temp = discriminationRbm[k].getFreeEnergy();
-						if(temp < minEnergy){
-							label = k;
-							minEnergy = temp;
-						}
-					}
-					if(label != testManager.readLabel()){
-						testErrors ++;
-					}
-					
-				}
-				*/
-
-				output.addData(testErrors/1000, trainingErrors/1000, i/1000, p);
-				System.out.println(trainingErrors/1000.);
-				trainingErrors = 0.;
-			}
+			
 			if(i%100 == 0){
 				System.out.println(i);
 			}
@@ -120,7 +92,11 @@ public class TestDeepBeliefNetwork {
 			image1D = batchManager.readImage1D();
 			
 			dBN.singleSupervisedLearning(image1D, batchManager.readLabel());
-
+			
+			if(dBN.getMnistMostProbableLabel() != batchManager.readLabel()){
+				trainingErrors ++;
+			}
+			
 			if(i%10 == 0){
 				// applying batch cumulative gradients
 				

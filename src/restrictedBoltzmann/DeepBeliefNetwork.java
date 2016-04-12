@@ -31,6 +31,8 @@ public class DeepBeliefNetwork {
 	
 	// BackPropagation Attributes
 	
+	double backPropLearningRate;
+	
 	final double momentumFactor = 0.0;
 	
 	double[][] entityValues;
@@ -43,7 +45,7 @@ public class DeepBeliefNetwork {
 		
 	//Constructor
 	
-	public DeepBeliefNetwork(int[] inputData, double weightWide, double biasWide, double learningRate){
+	public DeepBeliefNetwork(int[] inputData, double weightWide, double biasWide, double learningRate, double backPropLearningRate){
 		/*
 		 * inputData : {layer0UnitsNumber, layer1UnitsNumber, layer2UnitsNumber, ... }
 		 * 
@@ -51,6 +53,7 @@ public class DeepBeliefNetwork {
 		this.weightWide = weightWide;
 		this.biasWide = biasWide;
 		this.learningRate = learningRate;
+		this.backPropLearningRate = backPropLearningRate;
 		Random rand = new Random();
 		this.layerNumber = inputData.length;
 		this.layers = new Entity[this.layerNumber][];
@@ -166,11 +169,11 @@ public class DeepBeliefNetwork {
 			this.entityDiffs[this.layerNumber - 1][i] = Sigmoid.getINSTANCE().applyDerivative(this.entityWeightedSums[this.layerNumber - 1][i])*error;
 			
 			//bias diff 
-			this.machines[this.layerNumber - 2].biasGradient[1][i] += this.entityDiffs[this.layerNumber - 1][i]*this.learningRate;
+			this.machines[this.layerNumber - 2].biasGradient[1][i] += this.entityDiffs[this.layerNumber - 1][i]*this.backPropLearningRate;
 			//weight diff
 			for(int m = 0; m < this.layers[this.layerNumber - 2].length; m++){
 				this.machines[this.layerNumber - 2].connectionsGradient[m][i] += 
-						this.learningRate*this.entityDiffs[this.layerNumber - 1][i]*Sigmoid.getINSTANCE().apply(this.entityWeightedSums[this.layerNumber - 2][m]);
+						this.backPropLearningRate*this.entityDiffs[this.layerNumber - 1][i]*Sigmoid.getINSTANCE().apply(this.entityWeightedSums[this.layerNumber - 2][m]);
 			}
 		}
 		
@@ -187,15 +190,15 @@ public class DeepBeliefNetwork {
 				
 				if(i > 0){
 					//bias diff 
-					this.machines[i - 1].biasGradient[1][j] += this.entityDiffs[i][j]*this.learningRate;
+					this.machines[i - 1].biasGradient[1][j] += this.entityDiffs[i][j]*this.backPropLearningRate;
 					//weight diff
 					for(int m = 0; m < this.layers[i - 1].length; m++){
 						this.machines[i - 1].connectionsGradient[m][j] += 
-								this.learningRate*this.entityDiffs[i][j]*Sigmoid.getINSTANCE().apply(this.entityWeightedSums[i - 1][m]);
+								this.backPropLearningRate*this.entityDiffs[i][j]*Sigmoid.getINSTANCE().apply(this.entityWeightedSums[i - 1][m]);
 					}
 				} else {
 					//input bias diff
-					this.machines[0].biasGradient[0][j] += this.entityDiffs[0][j]*this.learningRate;
+					this.machines[0].biasGradient[0][j] += this.entityDiffs[0][j]*this.backPropLearningRate;
 				}
 			}
 		}	
