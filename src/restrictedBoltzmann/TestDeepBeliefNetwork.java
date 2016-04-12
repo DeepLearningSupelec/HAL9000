@@ -22,7 +22,7 @@ public class TestDeepBeliefNetwork {
 
 
 
-		int[] inputData = {784, 90, 36};
+		int[] inputData = {784, 90, 36, 10};
 		double biasWide = 0;
 		double weightWide = 0.035;
 		double learningRate = 0.051;
@@ -47,8 +47,8 @@ public class TestDeepBeliefNetwork {
 		BatchManager batchManager = new BatchManager();
 		
 		OutputData output = new OutputData(new ArrayList<Integer>(), new ArrayList<Double>(), new ArrayList<Double>());
-		Path p = Paths.get(/*System.getProperty("user.home"),*/"RBM_EnergyData", "visibleEnergyTest" + gibbsSteps +  "GibbsSteps"  + date + ".csv");
-		//output.toCSV(p);
+		Path p = Paths.get(/*System.getProperty("user.home"),*/"DBN_Erros", "Test" /*+ gibbsSteps +  "GibbsSteps"*/  + date + ".csv");
+		output.toCSV(p);
 		
 		double[] image1D;
 		double trainingErrors = 0.;
@@ -58,56 +58,15 @@ public class TestDeepBeliefNetwork {
 		double totalErrors = 0.;
 		
 		
-		
+		//unsupervised learning
 	
 		for(int i = 0; i < 300000; i++){
-			/*int tempInt = i % 10;
-			int tempLabel = 0;
-			switch (tempInt) {
-			case 0: tempLabel = 2; break;
-			case 1: tempLabel = 4; break;
-			case 2: tempLabel = 6; break;
-			case 3: tempLabel = 8; break;
-			case 4: tempLabel = 3; break;
-			case 5: tempLabel = 1; break;
-			case 6: tempLabel = 14; break;
-			case 7: tempLabel = 16; break;
-			case 8: tempLabel = 18; break;
-			case 9: tempLabel = 5; break;
-			}*/
-			
-			
-			
+
 			batchManager.setCurrent((i % batchManager.dataSize) + 1/*tempLabel*/);
 			image1D = batchManager.readImage1D();
 			
-			
-			
-			
-			//discriminationRbm[batchManager.readLabel()].unsupervisedLearning(gibbsSteps * 2, image1D);
-			
 			dBN.singleUnsupervisedLearning(gibbsSteps * 2, image1D, true);
-			
-			/*
-			 //Discrimination 
-			double min = 0.;
-			int labl = 0;
-			visibleVector = batchManager.readImage1D();
-			for(int k = 0; k < 10; k++){
-				discriminationRbm[k].setBinaryInputs(visibleVector);
-				double temp = discriminationRbm[k].getFreeEnergy();
-				if(temp < min){
-					labl = k;
-					min = temp;
-				}
-			}
-			if(labl != batchManager.readLabel()){
-				trainingErrors ++;
-				totalErrors++;
-				errorRates[batchManager.readLabel()]++;
-				//System.out.println("error !");
-			}*/
-			
+			//discriminationRbm[batchManager.readLabel()].unsupervisedLearning(gibbsSteps * 2, image1D);
 			
 			/*if(i%10 == 0){
 				// applying batch cumulative gradients
@@ -117,11 +76,6 @@ public class TestDeepBeliefNetwork {
 				}
 				
 			}*/
-			
-			
-			
-			
-			
 			
 			if(i%1000 == 0){
 				// Somme sur l'ensemble test
@@ -157,6 +111,51 @@ public class TestDeepBeliefNetwork {
 				System.out.println(i);
 			}
 		}
+		
+		//supervised learning
+	
+		for(int i = 0; i < 300000; i++){
+
+			batchManager.setCurrent((i % batchManager.dataSize) + 1/*tempLabel*/);
+			image1D = batchManager.readImage1D();
+			
+			dBN.singleSupervisedLearning(image1D, batchManager.readLabel());
+
+			if(i%10 == 0){
+				// applying batch cumulative gradients
+				
+				for(int k = 0; k < 10; k++){
+					dBN.applyLearningGradients();
+				}
+				
+			}
+			
+			if(i%1000 == 0){
+				// Somme sur l'ensemble test
+				double testErrors = 0.;
+				
+				for(int j = 1; j < 1000; j++){
+					testManager.setCurrent(j);
+					image1D = testManager.readImage1D();
+					dBN.setInputs(image1D, 255.);
+					dBN.fire();
+					if(dBN.getMnistMostProbableLabel() != testManager.readLabel()){
+						testErrors ++;
+					}
+					
+				}
+				
+
+				output.addData(testErrors/1000, trainingErrors/1000, i/1000, p);
+				System.out.println(trainingErrors/1000.);
+				trainingErrors = 0.;
+			}
+			if(i%100 == 0){
+				System.out.println(i);
+			}
+		}
+	
+		
 		
 		/*
 		testManager.setCurrent(1);
@@ -195,6 +194,7 @@ public class TestDeepBeliefNetwork {
 		
 		*/
 		
+		/*
 		// Errors repartition 
 		
 		String[] labelLines = new String[10];
@@ -224,9 +224,9 @@ public class TestDeepBeliefNetwork {
 		}
 		System.out.println("error sum " + tempd + " on " + totalErrors + " errors");
 			
-			
+		*/
 		
-
+		
 
 	}
 

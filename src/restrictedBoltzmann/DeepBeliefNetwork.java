@@ -215,6 +215,19 @@ public class DeepBeliefNetwork {
 		}
 	}
 	
+	public void setInputs(double[] inputs, double inputWide){
+		for(int i = 0; i < this.layers[0].length; i++){
+			this.entityValues[0][i] = ((double)inputs[i]) / ((double)inputWide);
+			this.entityWeightedSums[0][i] = ((double)inputs[i]) / ((double)inputWide);
+            /*
+             * 
+             * TODO
+             * tests
+             * 
+             */
+		}
+	}
+	
 	public void setNormalizedInputs(double[] inputs){
 		for(int i = 0; i < this.layers[0].length; i++){
 			this.entityValues[0][i] = inputs[i];
@@ -238,6 +251,13 @@ public class DeepBeliefNetwork {
 		}
 	}
 	
+	public void singleSupervisedLearning(double[] example, int label, double wide){
+		this.setInputs(example, wide);
+		this.fire();
+		double[] expectedOutput = this.getMnistExpectedOutput(label);
+		this.singleBackPropagation(expectedOutput);
+	}
+	
 	public void singleSupervisedLearning(double[] example, int label){
 		this.setNormalizedInputs(example);
 		this.fire();
@@ -251,4 +271,15 @@ public class DeepBeliefNetwork {
 		return output;
 	}
 	
+	public int getMnistMostProbableLabel(){
+		int label = -1;
+		double maxProba = 0.;
+		for(int i = 0; i<10;i++){
+			if(this.entityValues[this.layerNumber - 1][i] >= maxProba){
+				label = i;
+				maxProba = this.entityValues[this.layerNumber - 1][i];
+			}
+		}
+		return label;
+	}
 }
