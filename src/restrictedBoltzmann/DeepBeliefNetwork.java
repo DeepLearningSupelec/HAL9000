@@ -1,7 +1,16 @@
 package restrictedBoltzmann;
 
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
 public class DeepBeliefNetwork {
 	/*
@@ -285,4 +294,76 @@ public class DeepBeliefNetwork {
 		}
 		return label;
 	}
+	
+	public void saveMachineState() throws IOException{
+		
+		/*
+		 * Save file content:
+		 * 1st line: layers composition (int[] inputData)
+		 * line 2 to line x : bias of each layer
+		 * line x+1 : weight of synapses from 1st layer 1st entity with 2nd layer
+		 * line x+2 : weight of synapses from 1st layer 2nd entity with 2nd layer
+		 * .
+		 * .
+		 * .
+		 * line y+1 : weight of synapses from 2nd layer 1st entity with 3rd layer
+		 * .
+		 * .
+		 * .
+		 */
+		
+		
+		int lineNumber = 1;
+		
+		//line 1:
+		String composition = "";
+		for(int i = 0; i < this.layerNumber; i++){
+			composition += this.layers[i].length + " "; 
+			lineNumber ++; //bias lines
+		}
+		for(int i = 0; i < this.layerNumber - 1; i++){
+			lineNumber += this.layers[i].length; // connections lines
+		}
+		
+		String[] lines = new String[lineNumber];
+		lines[0] = composition;
+		
+		//bias lines
+		for(int i = 1; i <= this.layerNumber; i++){
+			for(int j = 0; j < this.layers[i - 1].length; j++){
+				lines[i] += this.layers[i-1][j].getBias() + " ";
+			}
+		}
+		
+		//weights lines
+		int lineIndex = this.layerNumber+1;
+		for(int i = 0; i < this.layerNumber - 1; i++){
+			for(int j = 0; j < this.layers[i].length; j++){
+				for(int k = 0; k < this.layers[i+1].length; k++){
+					lines[lineIndex] += this.machines[i].connections[j][k] + " ";
+				}
+				lineIndex++;
+			}
+		}
+		
+		String date = "_" + LocalDateTime.now();
+		date = date.substring(0, 20);
+		date = date.replace(':', '-');
+		System.out.println("date" + date);
+		
+		Scanner reader = new Scanner(System.in);  // Reading from System.in
+		int selectAnswer = 1;
+		System.out.println("Do you want to save a copy of the machine ? (1 yes; 0 no");
+		selectAnswer = reader.nextInt();
+	
+		if(selectAnswer == 1){
+			List<String> linesList = Arrays.asList(lines);
+			Path file = Paths.get("DBNsaveFiles", "saveFile" + this.layerNumber +  "Layers"  + date + ".txt");
+			Files.write(file, linesList, Charset.forName("UTF-8"));
+		}
+		
+		
+		
+	}
+	
 }

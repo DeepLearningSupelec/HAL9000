@@ -33,7 +33,7 @@ public class TestDiscriminationRBM {
 		String date = "_" + LocalDateTime.now();
 		date = date.substring(0, 20);
 		date = date.replace(':', '-');
-		System.out.println(date);
+		System.out.println("date " + date);
 		
 		
 		RestrictedBoltzmannMachine[] discriminationRbm = new RestrictedBoltzmannMachine[10];
