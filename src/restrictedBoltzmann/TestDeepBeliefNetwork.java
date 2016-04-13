@@ -22,10 +22,11 @@ public class TestDeepBeliefNetwork {
 
 
 
-		int[] inputData = {784, 90, 36, 10};
+		int[] inputData = {784, 500, 500, 2000, 10};
+		int rbmLayerNumber = 4;
 		double biasWide = 0;
-		double weightWide = 0.035;
-		double learningRate = 0.051;
+		double weightWide = 1;
+		double learningRate = 0.1;
 		double backPropLearningRate = 0.1;
 		
 		String date = "_" + LocalDateTime.now();
@@ -35,12 +36,12 @@ public class TestDeepBeliefNetwork {
 		
 		
 		
-		DeepBeliefNetwork dBN = new DeepBeliefNetwork(inputData, weightWide, biasWide, learningRate, backPropLearningRate);
+		DeepBeliefNetwork dBN = new DeepBeliefNetwork(inputData, rbmLayerNumber, weightWide, biasWide, learningRate, backPropLearningRate);
 		dBN.machines[0].setMnistParameters();
 		
 		
 		
-		int gibbsSteps = 3;
+		int gibbsSteps = 2;
 		
 		//MnistManager learningManager = new MnistManager("src/train-images.idx3-ubyte","src/train-labels.idx1-ubyte");
 		MnistManager testManager = new MnistManager("src/t10k-images.idx3-ubyte","src/t10k-labels.idx1-ubyte");

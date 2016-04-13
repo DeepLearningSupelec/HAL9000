@@ -28,7 +28,9 @@ public class DeepBeliefNetwork {
 	
 	RestrictedBoltzmannMachine[] machines;
 	
-	private int layerNumber;
+	private int rbmLayerNumber;
+	
+	int totalLayerNumber;
 	
 	double weightWide;
 	
@@ -54,7 +56,7 @@ public class DeepBeliefNetwork {
 		
 	//Constructor
 	
-	public DeepBeliefNetwork(int[] inputData, double weightWide, double biasWide, double learningRate, double backPropLearningRate){
+	public DeepBeliefNetwork(int[] inputData, int rbmLayerNumber, double weightWide, double biasWide, double learningRate, double backPropLearningRate){
 		/*
 		 * inputData : {layer0UnitsNumber, layer1UnitsNumber, layer2UnitsNumber, ... }
 		 * 
@@ -64,13 +66,14 @@ public class DeepBeliefNetwork {
 		this.learningRate = learningRate;
 		this.backPropLearningRate = backPropLearningRate;
 		Random rand = new Random();
-		this.layerNumber = inputData.length;
-		this.layers = new Entity[this.layerNumber][];
-		this.entityDiffs = new double[this.layerNumber][];
-		this.entityWeightedSums = new double[this.layerNumber][];
-		this.entityValues = new double[this.layerNumber][];
-		this.entityIntermediateValues = new double[this.layerNumber][];
-		for(int i = 0; i < this.layerNumber; i++){
+		this.totalLayerNumber = inputData.length;
+		this.rbmLayerNumber = rbmLayerNumber;
+		this.layers = new Entity[this.totalLayerNumber][];
+		this.entityDiffs = new double[this.totalLayerNumber][];
+		this.entityWeightedSums = new double[this.totalLayerNumber][];
+		this.entityValues = new double[this.totalLayerNumber][];
+		this.entityIntermediateValues = new double[this.totalLayerNumber][];
+		for(int i = 0; i < this.totalLayerNumber; i++){
 			this.layers[i] = new Entity[inputData[i]];
 			this.entityDiffs[i] = new double[inputData[i]];
 			this.entityWeightedSums[i] = new double[inputData[i]];
@@ -78,7 +81,7 @@ public class DeepBeliefNetwork {
 			this.entityIntermediateValues[i] = new double[inputData[i]];
 			
 			for(int j = 0; j < inputData[i]; j++){
-				this.layers[i][j] = new Entity(j, (rand.nextDouble()- 0.5)*this.biasWide);
+				this.layers[i][j] = new Entity(j, (rand.nextDouble())*this.biasWide);
 				this.entityDiffs[i][j] = 0;
 				this.entityWeightedSums[i][j] = 0;
 				this.entityValues[i][j] = 0;
@@ -86,8 +89,8 @@ public class DeepBeliefNetwork {
 			}
 		}
 		
-		this.machines = new RestrictedBoltzmannMachine[this.layerNumber - 1];
-		for(int i = 0; i < this.layerNumber - 1; i++){
+		this.machines = new RestrictedBoltzmannMachine[this.totalLayerNumber - 1];
+		for(int i = 0; i < this.totalLayerNumber - 1; i++){
 			this.machines[i] = new RestrictedBoltzmannMachine(this.layers[i], this.layers[i + 1], weightWide, this.learningRate);
 		}
 		
@@ -102,13 +105,13 @@ public class DeepBeliefNetwork {
 		this.machines[0].setBinaryInputs(x);
 	}
 	
-	public int[] getBinaryOutputs(){
-		int[] outputs = this.machines[this.layerNumber - 2].getBinaryOutputs(); //there is (this.layerNumber -1) Boltzmann machines in the network
+	public int[] getRBMBinaryOutputs(){
+		int[] outputs = this.machines[this.rbmLayerNumber - 2].getBinaryOutputs(); //there is (this.rbmLayerNumber -1) Boltzmann machines in the network
 		return outputs;
 	}
 	
-	public double[] getProbabilityOutputs(){
-		double[] outputs = this.machines[this.layerNumber - 2].getProbabilityOutputs(); 
+	public double[] getRBMProbabilityOutputs(){
+		double[] outputs = this.machines[this.rbmLayerNumber - 2].getProbabilityOutputs(); 
 		return outputs;
 	}
 	
@@ -127,7 +130,7 @@ public class DeepBeliefNetwork {
 		int[] currentExemple = exemple;
 		
 		// the machines are trained one after another
-		for(int i = 0; i < this.layerNumber - 1; i++){
+		for(int i = 0; i < this.rbmLayerNumber - 1; i++){
 			this.machines[i].unsupervisedLearning(cdIterations, currentExemple);
 			if(instantLearning){
 				this.machines[i].applyLearningGradients();
@@ -143,7 +146,7 @@ public class DeepBeliefNetwork {
 		double[] currentExemple = exemple;
 		
 		// the machines are trained one after another
-		for(int i = 0; i < this.layerNumber - 1; i++){
+		for(int i = 0; i < this.rbmLayerNumber - 1; i++){
 			this.machines[i].unsupervisedLearning(cdIterations, currentExemple);
 			if(instantLearning){
 				this.machines[i].applyLearningGradients();
@@ -161,7 +164,7 @@ public class DeepBeliefNetwork {
 	
 	
 	public void applyLearningGradients(){
-		for(int i = 0; i < this.layerNumber - 1; i++){
+		for(int i = 0; i < this.totalLayerNumber - 1; i++){
 			this.machines[i].applyLearningGradients();
 		}
 	}
@@ -172,23 +175,23 @@ public class DeepBeliefNetwork {
 		// Entity Diff computing
 		
 		//sub step : output layer
-		for(int i = 0; i < this.layers[this.layerNumber - 1].length; i++){
-			double error = expectedOutput[i] - this.entityValues[this.layerNumber - 1][i];
+		for(int i = 0; i < this.layers[this.totalLayerNumber - 1].length; i++){
+			double error = expectedOutput[i] - this.entityValues[this.totalLayerNumber - 1][i];
 			// delta = f'(input)*e
-			this.entityDiffs[this.layerNumber - 1][i] = Sigmoid.getINSTANCE().applyDerivative(this.entityWeightedSums[this.layerNumber - 1][i])*error;
+			this.entityDiffs[this.totalLayerNumber - 1][i] = Sigmoid.getINSTANCE().applyDerivative(this.entityWeightedSums[this.totalLayerNumber - 1][i])*error;
 			
 			//bias diff 
-			this.machines[this.layerNumber - 2].biasGradient[1][i] += this.entityDiffs[this.layerNumber - 1][i]*this.backPropLearningRate;
+			this.machines[this.totalLayerNumber - 2].biasGradient[1][i] += this.entityDiffs[this.totalLayerNumber - 1][i]*this.backPropLearningRate;
 			//weight diff
-			for(int m = 0; m < this.layers[this.layerNumber - 2].length; m++){
-				this.machines[this.layerNumber - 2].connectionsGradient[m][i] += 
-						this.backPropLearningRate*this.entityDiffs[this.layerNumber - 1][i]*Sigmoid.getINSTANCE().apply(this.entityWeightedSums[this.layerNumber - 2][m]);
+			for(int m = 0; m < this.layers[this.totalLayerNumber - 2].length; m++){
+				this.machines[this.totalLayerNumber - 2].connectionsGradient[m][i] += 
+						this.backPropLearningRate*this.entityDiffs[this.totalLayerNumber - 1][i]*Sigmoid.getINSTANCE().apply(this.entityWeightedSums[this.totalLayerNumber - 2][m]);
 			}
 		}
 		
 		// sub step : others layers
 		
-		for(int i = this.layerNumber - 2; i >= 0; i--){
+		for(int i = this.totalLayerNumber - 2; i >= 0; i--){
 			for(int j = 0; j < this.layers[i].length; j++){
 				double weightedErrorOutput = 0;
 				for(int k = 0; k < this.layers[i + 1].length; k++){
@@ -249,7 +252,7 @@ public class DeepBeliefNetwork {
 	
 	public void fire(){
 		
-		for(int i = 1; i < this.layerNumber; i++){
+		for(int i = 1; i < this.totalLayerNumber; i++){
 			for(int j = 0; j < this.layers[i].length; j++){
 				
 				double x = this.machines[i - 1].layers[1][j].getBias();
@@ -287,9 +290,9 @@ public class DeepBeliefNetwork {
 		int label = -1;
 		double maxProba = 0.;
 		for(int i = 0; i<10;i++){
-			if(this.entityValues[this.layerNumber - 1][i] >= maxProba){
+			if(this.entityValues[this.totalLayerNumber - 1][i] >= maxProba){
 				label = i;
-				maxProba = this.entityValues[this.layerNumber - 1][i];
+				maxProba = this.entityValues[this.totalLayerNumber - 1][i];
 			}
 		}
 		return label;
@@ -317,11 +320,11 @@ public class DeepBeliefNetwork {
 		
 		//line 1:
 		String composition = "";
-		for(int i = 0; i < this.layerNumber; i++){
+		for(int i = 0; i < this.totalLayerNumber; i++){
 			composition += this.layers[i].length + " "; 
 			lineNumber ++; //bias lines
 		}
-		for(int i = 0; i < this.layerNumber - 1; i++){
+		for(int i = 0; i < this.totalLayerNumber - 1; i++){
 			lineNumber += this.layers[i].length; // connections lines
 		}
 		
@@ -329,15 +332,15 @@ public class DeepBeliefNetwork {
 		lines[0] = composition;
 		
 		//bias lines
-		for(int i = 1; i <= this.layerNumber; i++){
+		for(int i = 1; i <= this.totalLayerNumber; i++){
 			for(int j = 0; j < this.layers[i - 1].length; j++){
 				lines[i] += this.layers[i-1][j].getBias() + " ";
 			}
 		}
 		
 		//weights lines
-		int lineIndex = this.layerNumber+1;
-		for(int i = 0; i < this.layerNumber - 1; i++){
+		int lineIndex = this.totalLayerNumber+1;
+		for(int i = 0; i < this.totalLayerNumber - 1; i++){
 			for(int j = 0; j < this.layers[i].length; j++){
 				for(int k = 0; k < this.layers[i+1].length; k++){
 					lines[lineIndex] += this.machines[i].connections[j][k] + " ";
@@ -358,7 +361,7 @@ public class DeepBeliefNetwork {
 	
 		if(selectAnswer == 1){
 			List<String> linesList = Arrays.asList(lines);
-			Path file = Paths.get("DBNsaveFiles", "saveFile" + this.layerNumber +  "Layers"  + date + ".txt");
+			Path file = Paths.get("DBNsaveFiles", "saveFile" + this.totalLayerNumber +  "Layers"  + date + ".txt");
 			Files.write(file, linesList, Charset.forName("UTF-8"));
 		}
 		

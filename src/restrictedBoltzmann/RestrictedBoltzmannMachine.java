@@ -66,7 +66,7 @@ public class RestrictedBoltzmannMachine {
 		this.connections = new double[visibleEntities.length][hiddenEntities.length];
 		for(int i = 0; i < this.connections.length; i++){
 			for(int j = 0; j < this.connections[0].length; j++){
-				this.connections[i][j] = (rand.nextDouble()- 0.5)*this.weightWide;
+				this.connections[i][j] = (rand.nextDouble())*this.weightWide;
 			}
 		}
 		this.connectionsGradient = new double[this.connections.length][this.connections[0].length];
@@ -105,13 +105,13 @@ public class RestrictedBoltzmannMachine {
 		for(int i = 0; i < 2; i++){
 			this.layers[i] = new Entity[inputData[i]];
 			for(int j = 0; j < inputData[i]; j++){
-				this.layers[i][j] = new Entity(j, (rand.nextDouble()- 0.5)*this.biasWide);
+				this.layers[i][j] = new Entity(j, (rand.nextDouble())*this.biasWide);
 			}
 		}
 		this.connections = new double[inputData[0]][inputData[1]];
 		for(int i = 0; i < this.connections.length; i++){
 			for(int j = 0; j < this.connections[0].length; j++){
-				this.connections[i][j] = (rand.nextDouble()- 0.5)*this.weightWide;
+				this.connections[i][j] = (rand.nextDouble())*this.weightWide;
 			}
 		}
 
@@ -136,13 +136,13 @@ public class RestrictedBoltzmannMachine {
 		for(int i = 0; i < 2; i++){
 			this.layers[i] = new Entity[inputData[i]];
 			for(int j = 0; j < inputData[i]; j++){
-				this.layers[i][j] = new Entity(j, (rand.nextDouble()- 0.5)*this.biasWide);
+				this.layers[i][j] = new Entity(j, (rand.nextDouble())*this.biasWide);
 			}
 		}
 		this.connections = new double[inputData[0]][inputData[1]];
 		for(int i = 0; i < this.connections.length; i++){
 			for(int j = 0; j < this.connections[0].length; j++){
-				this.connections[i][j] = (rand.nextDouble()- 0.5)*this.weightWide;
+				this.connections[i][j] = (rand.nextDouble())*this.weightWide;
 			}
 		}
 		this.connectionsGradient = new double[this.connections.length][this.connections[0].length];
