@@ -103,7 +103,7 @@ public class Entity {
 	/**
      * <p>Allows to set the value of the bias to b</p>
      * @param b
-     * 		The new value of the biais
+     * 		The new value of the bias
      * @see Entity#biais
      */
 	public void setBias(double b){
