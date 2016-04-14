@@ -28,7 +28,7 @@ public class TestDiscriminationRBM {
 		int[] inputData = {784, 36};
 		double biasWide = 0;
 		double weightWide = 0.035;
-		double learningRate = 0.051;
+		double learningRate = 0.1 ;
 		
 		String date = "_" + LocalDateTime.now();
 		date = date.substring(0, 20);
@@ -51,7 +51,7 @@ public class TestDiscriminationRBM {
 		BatchManager batchManager = new BatchManager();
 		
 		OutputData output = new OutputData(new ArrayList<Integer>(), new ArrayList<Double>(), new ArrayList<Double>());
-		Path p = Paths.get(/*System.getProperty("user.home"),*/"RBM_EnergyData", "visibleEnergyTest" + gibbsSteps +  "GibbsSteps"  + date + ".csv");
+		Path p = Paths.get(/*System.getProperty("user.home"),*/"RBM_prob", "visibleEnergyTest" + gibbsSteps +  "GibbsSteps"  + date + ".csv");
 		output.toCSV(p);
 		
 		double[] image1D;
