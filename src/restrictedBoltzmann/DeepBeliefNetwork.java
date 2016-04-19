@@ -97,6 +97,121 @@ public class DeepBeliefNetwork {
 		
 	}
 	
+	//load deepbeliefmachine
+	public DeepBeliefNetwork(Path p) throws IOException{
+		
+		/*
+		 * Save file content:
+		 * line 0: (informations) total number of layers, number of rbm layers, learningRate, backPropLearningRate
+		 * line 1: layers composition (int[] inputData)
+		 * line 2 to line x : bias of each layer
+		 * line x+1 : weight of synapses from 1st layer 1st entity with 2nd layer
+		 * line x+2 : weight of synapses from 1st layer 2nd entity with 2nd layer
+		 * .
+		 * .
+		 * .
+		 * line y+1 : weight of synapses from 2nd layer 1st entity with 3rd layer
+		 * .
+		 * .
+		 * .
+		 */
+		
+		int lineCpt = 0;
+		int currentEntity = 0;
+		int currentLayer = 0;
+		
+		double[] informations = new double[4];
+		int[] inputData = null;
+		
+		
+		for(String line : Files.readAllLines(p)) {
+			if(lineCpt == 0){
+				int partCpt = 0;
+				for (String part : line.split("\\s+")) {
+					informations[partCpt] = Double.valueOf(part);
+					//System.out.println();
+					partCpt++;
+				}
+				inputData = new int[(int)informations[0]];
+			} else if(lineCpt == 1){
+				int partCpt = 0;
+				for (String part : line.split("\\s+")) {
+					inputData[partCpt] = (int)Math.floor(Double.valueOf(part));
+					//System.out.println();
+					partCpt++;
+				}
+				
+				// DBN construction
+				//call impossible : this(inputData, (int)informations[1], 0, 0, informations[2], informations[3]);
+				
+				this.weightWide = 0;
+				this.biasWide = 0;
+				this.learningRate = informations[2];
+				this.backPropLearningRate = informations[3];
+				this.totalLayerNumber = inputData.length;
+				this.rbmLayerNumber = (int)informations[1];
+				this.layers = new Entity[this.totalLayerNumber][];
+				this.entityDiffs = new double[this.totalLayerNumber][];
+				this.entityWeightedSums = new double[this.totalLayerNumber][];
+				this.entityValues = new double[this.totalLayerNumber][];
+				this.entityIntermediateValues = new double[this.totalLayerNumber][];
+				for(int i = 0; i < this.totalLayerNumber; i++){
+					this.layers[i] = new Entity[inputData[i]];
+					this.entityDiffs[i] = new double[inputData[i]];
+					this.entityWeightedSums[i] = new double[inputData[i]];
+					this.entityValues[i] = new double[inputData[i]];
+					this.entityIntermediateValues[i] = new double[inputData[i]];
+					
+					for(int j = 0; j < inputData[i]; j++){
+						this.layers[i][j] = new Entity(j, 0);
+						this.entityDiffs[i][j] = 0;
+						this.entityWeightedSums[i][j] = 0;
+						this.entityValues[i][j] = 0;
+						this.entityIntermediateValues[i][j] = 0;
+					}
+				}
+				
+				this.machines = new RestrictedBoltzmannMachine[this.totalLayerNumber - 1];
+				for(int i = 0; i < this.totalLayerNumber - 1; i++){
+					this.machines[i] = new RestrictedBoltzmannMachine(this.layers[i], this.layers[i + 1], 0, this.learningRate);
+				}
+				
+				
+				
+				
+			} else if(lineCpt < 1 + informations[0]) {
+				//bias line
+				currentLayer = lineCpt - 2;
+				int partCpt = 0;
+				for (String part : line.split("\\s+")) {
+					this.layers[currentLayer][partCpt].setBias(Double.valueOf(part));
+					//System.out.println();
+					partCpt++;
+				}
+				currentLayer = 0;
+			} else {
+				//weight line
+				
+				
+				int partCpt = 0;
+				for (String part : line.split("\\s+")) {
+					this.machines[currentLayer].connections[currentEntity][partCpt] = (Double.valueOf(part));
+					//System.out.println();
+					partCpt++;
+				}
+				
+				currentEntity++;
+				if(currentEntity == this.layers[currentLayer].length){
+					currentLayer++;
+					currentEntity = 0;
+				}
+				
+			}
+			lineCpt++;
+		}
+		
+		
+	}
 	
 	
 	// Methods
@@ -302,7 +417,8 @@ public class DeepBeliefNetwork {
 		
 		/*
 		 * Save file content:
-		 * 1st line: layers composition (int[] inputData)
+		 * line 0: (informations) total number of layers, number of rbm layers, learningRate, backPropLearningRate
+		 * line 1: layers composition (int[] inputData)
 		 * line 2 to line x : bias of each layer
 		 * line x+1 : weight of synapses from 1st layer 1st entity with 2nd layer
 		 * line x+2 : weight of synapses from 1st layer 2nd entity with 2nd layer
@@ -316,9 +432,9 @@ public class DeepBeliefNetwork {
 		 */
 		
 		
-		int lineNumber = 1;
+		int lineNumber = 2;
 		
-		//line 1:
+		//line 0 and 1:
 		String composition = "";
 		for(int i = 0; i < this.totalLayerNumber; i++){
 			composition += this.layers[i].length + " "; 
@@ -329,7 +445,12 @@ public class DeepBeliefNetwork {
 		}
 		
 		String[] lines = new String[lineNumber];
-		lines[0] = composition;
+		lines[0] = this.totalLayerNumber + " " + this.rbmLayerNumber + " " + this.learningRate + " " + this.backPropLearningRate + " ";
+		lines[1] = composition;
+		
+		for(int i = 2; i < lineNumber; i++){
+			lines[i] = "";
+		}
 		
 		//bias lines
 		for(int i = 1; i <= this.totalLayerNumber; i++){
@@ -368,5 +489,6 @@ public class DeepBeliefNetwork {
 		
 		
 	}
+	
 	
 }

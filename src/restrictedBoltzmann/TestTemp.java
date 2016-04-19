@@ -1,6 +1,8 @@
 package restrictedBoltzmann;
 
 import java.io.IOException;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -10,33 +12,21 @@ public class TestTemp {
 
 	public static void main(String[] args) throws IOException {
 		
-		String line = "";
-		String[] labelLines = new String[10];
-		for(int j=0;j<10;j++){labelLines[j] = "";}
-		
-		for(int i = 0; i < 784; i++){
-			line +=  " ";
-			for(int j = 0; j < 10; j++){
-				labelLines[j] +=   " ";
-			}
-		}
-		
-		String line12 = "";
-		for(int j = 0; j < 10; j++){
-			line12 +=  " ";
-		}
+		int[] inputData = {784, 10, 10, 10};
+		int rbmLayerNumber = 3;
+		double biasWide = 0;
+		double weightWide = 1;
+		double learningRate = 0.1;
+		double backPropLearningRate = 0.1;
 		
 		
-		List<String> lines = Arrays.asList(line12,
-				line, 
-				labelLines[0],labelLines[1],
-				labelLines[2],labelLines[3],
-				labelLines[4],labelLines[5],
-				labelLines[6],labelLines[7],
-				labelLines[8],labelLines[9],
-				line12);
+		DeepBeliefNetwork dBN = new DeepBeliefNetwork(inputData, rbmLayerNumber, weightWide, biasWide, learningRate, backPropLearningRate);
+		dBN.machines[0].setMnistParameters();
 		
-		List<String> lines2 = Arrays.asList(labelLines);
+		//dBN.saveMachineState();
+		
+		dBN = new DeepBeliefNetwork(Paths.get("DBNsaveFiles","saveFile4Layers_2016-04-14T12-00-22.txt"));
+		
 		
 	}
 

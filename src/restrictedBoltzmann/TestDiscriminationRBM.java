@@ -26,12 +26,14 @@ public class TestDiscriminationRBM {
 	 */
 
 	public static void main(String[] args) throws IOException {
+
 		DecimalFormat df = new DecimalFormat ( ) ;
 		df.setMaximumFractionDigits ( 6 ) ; //arrondi à 2 chiffres apres la virgules
 		df.setMinimumFractionDigits ( 2) ;
 		for(double learningRate = 0.0031;learningRate<=0.004;learningRate+=0.0001){
 			for(int nbfois=0;nbfois<20;nbfois++){
-				
+		
+
 				int[] inputData = {784, 36};
 				double biasWide = 0;
 				double weightWide = 0.035;

@@ -41,7 +41,6 @@ public class OutputData {
 					+ ((TestEnergySumIter.hasNext()) ? (TestEnergySumIter.next()+";") : (";"))
 					+ ((LearningEnergySumIter.hasNext()) ? (LearningEnergySumIter.next()+";") : (";"))
 					+ "\n";
-	
 			file.write(line);
 			cont =
 					nbexIter.hasNext()
@@ -70,6 +69,7 @@ public class OutputData {
 				nbex + ";" +
 				TestEnergySum + ";"+
 				LearningEnergySum + ";"+"\n";
+
 		file.write(line);
 		file.close();
 	}

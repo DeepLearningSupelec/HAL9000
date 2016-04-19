@@ -48,7 +48,7 @@ public class Test2classes {
 			double totalErrors = 0.;
 			
 			int number1 = 6;
-			int number2 = 2;
+			int number2 = 8;
 			ArrayList <Integer> index1 = new ArrayList<Integer>();
 			ArrayList <Integer> index2 = new ArrayList<Integer>();
 			
