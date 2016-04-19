@@ -46,7 +46,7 @@ public class BatchManager {
 		
 		int lineCpt = 0;
 		for(String line : Files.readAllLines(p)) {
-			System.out.println(lineCpt);
+		//	System.out.println(lineCpt);
 			if(lineCpt == 0){
 				int partCpt =0;
 				for (String part : line.split("\\s+")) {
