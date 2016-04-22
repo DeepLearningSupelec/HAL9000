@@ -962,7 +962,7 @@ public class RestrictedBoltzmannMachine {
 
 	}
 
-	public void visualizeAllFilters() throws ParseException{
+	public Path visualizeAllFilters() throws ParseException{
 
 		int nombreFiltres = (int) Math.ceil(Math.sqrt(this.layers[1].length));
 		int pixelParFiltre = (int) Math.sqrt(this.layers[0].length);
@@ -1032,8 +1032,9 @@ public class RestrictedBoltzmannMachine {
 		int day = LocalDateTime.now().getDayOfMonth();
 		int hour = LocalDateTime.now().getHour();
 		int minute = LocalDateTime.now().getMinute();
+		int seconde = LocalDateTime.now().getSecond();
 		
-		date = day + "-" + month + "-" + year + "_" + hour + "h" + minute;
+		date = day + "-" + month + "-" + year + "_" + hour + "h" + minute + "m" + seconde;
 		
 		Path path = Paths.get("RBM_Filters/Filtre_" + date, date + "_AllFilters" + ".bmp");
 		File f = new File("RBM_Filters/Filtre_" + date);
@@ -1046,6 +1047,7 @@ public class RestrictedBoltzmannMachine {
 			System.out.println("Exception");
 			e.printStackTrace();
 		}
+		return path;
 		
 	}
 

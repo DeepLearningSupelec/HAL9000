@@ -277,7 +277,7 @@ public class OutputWeights {
 	    Size size = new Size(dim,dim);
 	      
 	    vid = new VideoWriter();
-	    vid.open(destination.toString(), -1, 60, size, true);
+	    vid.open(destination.toString(), -1, 25, size, true);
 	    System.out.println("Vidéo créée : " + destination.toString());
 	    
 	}

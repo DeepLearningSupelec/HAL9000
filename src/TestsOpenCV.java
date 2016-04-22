@@ -10,10 +10,7 @@ public class TestsOpenCV
    {	
 	  System.loadLibrary( Core.NATIVE_LIBRARY_NAME );
 	  
-	  Mat img = Imgcodecs.imread("D:\test.png");
-	  if(img==null){
-		  System.out.println("Fuck!-1");
-	  }
+	  Mat img = Imgcodecs.imread("D:\\test.png");
 	  int dim = img.dims();
       Size size = new Size(dim,dim);
       
