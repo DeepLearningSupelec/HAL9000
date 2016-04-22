@@ -4,6 +4,12 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.opencv.core.Core;
+import org.opencv.core.Mat;
+import org.opencv.core.Size;
+import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.videoio.VideoWriter;
+
 
 /**
  * <p> This class allows to print a weight matrix into a bitmap file.</p>
@@ -26,6 +32,8 @@ public class OutputWeights {
 	 * The maximal weight value in the weights matrix
 	 */
 	private double max;
+	
+	private VideoWriter vid;
 	
 	
 	/* Constructors */
@@ -217,7 +225,7 @@ public class OutputWeights {
 		}
 	}
 	
-public void toBmp(Path p) throws IOException {
+	public void toBmp(Path p) throws IOException {
 		
 		if (this.weights!=null){
 			int line = this.weights.length;
@@ -259,6 +267,33 @@ public void toBmp(Path p) throws IOException {
 			
 			bmp.saveBMP(p.toString(), rgbValues);
 		}
+	}
+
+
+	public void toVidInit(Path destination, int dim) {
+		
+		System.loadLibrary( Core.NATIVE_LIBRARY_NAME );
+		  
+	    Size size = new Size(dim,dim);
+	      
+	    vid = new VideoWriter();
+	    vid.open(destination.toString(), -1, 60, size, true);
+	    System.out.println("Vidéo créée : " + destination.toString());
+	    
+	}
+	
+	public void toVid(Path img) {
+		
+		Mat imgM = Imgcodecs.imread(img.toString());
+		vid.write(imgM);
+		System.out.println("Image ajoutée à la vidéo : " + img.toString());
+	     
+	}
+	
+	public void toVidRelease(){
+		
+	    vid.release();
+	    System.out.println("Fin de la vidéo");
 	}
 	
 }
