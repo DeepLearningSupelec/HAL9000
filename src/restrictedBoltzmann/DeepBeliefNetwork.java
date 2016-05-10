@@ -206,7 +206,7 @@ public class DeepBeliefNetwork {
 				if(currentEntity == this.layers[currentLayer].length){
 					currentLayer++;
 					currentEntity = 0;
-				}// TODO debug
+				}
 				
 			}
 			lineCpt++;
@@ -287,7 +287,7 @@ public class DeepBeliefNetwork {
 	}
 	
 	
-	public void singleBackPropagation(double[] expectedOutput){
+	public void singleBackPropagation(double[] expectedOutput, int layerNumberToBackPropagate){
 		
 		// Entity Diff computing
 		
@@ -308,7 +308,7 @@ public class DeepBeliefNetwork {
 		
 		// sub step : others layers
 		
-		for(int i = this.totalLayerNumber - 2; i >= 0; i--){
+		for(int i = this.totalLayerNumber - 2; i >= this.totalLayerNumber - layerNumberToBackPropagate; i--){
 			for(int j = 0; j < this.layers[i].length; j++){
 				double weightedErrorOutput = 0;
 				for(int k = 0; k < this.layers[i + 1].length; k++){
@@ -383,18 +383,18 @@ public class DeepBeliefNetwork {
 		}
 	}
 	
-	public void singleSupervisedLearning(double[] example, int label, double wide){
+	public void singleSupervisedLearning(double[] example, int label, double wide, int backPropLayers){
 		this.setInputs(example, wide);
 		this.fire();
 		double[] expectedOutput = this.getMnistExpectedOutput(label);
-		this.singleBackPropagation(expectedOutput);
+		this.singleBackPropagation(expectedOutput, backPropLayers);
 	}
 	
-	public void singleSupervisedLearning(double[] example, int label){
+	public void singleSupervisedLearning(double[] example, int label, int backPropLayers){
 		this.setNormalizedInputs(example);
 		this.fire();
 		double[] expectedOutput = this.getMnistExpectedOutput(label);
-		this.singleBackPropagation(expectedOutput);
+		this.singleBackPropagation(expectedOutput, backPropLayers);
 	}
 	
 	public double[] getMnistExpectedOutput(int label){
@@ -432,7 +432,7 @@ public class DeepBeliefNetwork {
 		 * .
 		 * .
 		 */
-		//TODO debug
+		
 		
 		int lineNumber = 2;
 		

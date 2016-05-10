@@ -58,8 +58,10 @@ public class TestDeepBeliefNetwork {
 		
 		double[] errorRates = new double[10];
 		double totalErrors = 0.;
+		int layersToBackProp = 2;
 		
 		int totalSetTraining = 5;
+		
 		
 		//unsupervised learning
 	
@@ -93,7 +95,7 @@ public class TestDeepBeliefNetwork {
 			batchManager.setCurrent((i % batchManager.dataSize) + 1/*tempLabel*/);
 			image1D = batchManager.readImage1D();
 			
-			dBN.singleSupervisedLearning(image1D, batchManager.readLabel());
+			dBN.singleSupervisedLearning(image1D, batchManager.readLabel(), layersToBackProp);
 			
 			if(dBN.getMnistMostProbableLabel() != batchManager.readLabel()){
 				trainingErrors ++;
@@ -204,7 +206,7 @@ public class TestDeepBeliefNetwork {
 			
 		*/
 		
-		
+		dBN.saveMachineState();
 
 	}
 
