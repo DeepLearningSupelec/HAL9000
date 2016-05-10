@@ -25,9 +25,9 @@ public class TestTemp {
 		
 		//dBN.saveMachineState();
 		
-		dBN = new DeepBeliefNetwork(Paths.get("DBNsaveFiles","saveFile4Layers_2016-04-14T12-00-22.txt"));
+		dBN = new DeepBeliefNetwork(Paths.get("DBNsaveFiles","saveFile4Layers_2016-05-10T11-20-41.txt"));
 		
-		
+		dBN.saveMachineState();
 	}
 
 }

@@ -195,6 +195,8 @@ public class DeepBeliefNetwork {
 				
 				int partCpt = 0;
 				for (String part : line.split("\\s+")) {
+					System.out.println("Line " + lineCpt);
+					System.out.println(currentLayer +" "+ currentEntity +" "+ partCpt);
 					this.machines[currentLayer].connections[currentEntity][partCpt] = (Double.valueOf(part));
 					//System.out.println();
 					partCpt++;
@@ -453,14 +455,14 @@ public class DeepBeliefNetwork {
 		}
 		
 		//bias lines
-		for(int i = 1; i <= this.totalLayerNumber; i++){
-			for(int j = 0; j < this.layers[i - 1].length; j++){
-				lines[i] += this.layers[i-1][j].getBias() + " ";
+		for(int i = 2; i <= this.totalLayerNumber+1; i++){
+			for(int j = 0; j < this.layers[i - 2].length; j++){
+				lines[i] += this.layers[i-2][j].getBias() + " ";
 			}
 		}
 		
 		//weights lines
-		int lineIndex = this.totalLayerNumber+1;
+		int lineIndex = this.totalLayerNumber+2;
 		for(int i = 0; i < this.totalLayerNumber - 1; i++){
 			for(int j = 0; j < this.layers[i].length; j++){
 				for(int k = 0; k < this.layers[i+1].length; k++){
