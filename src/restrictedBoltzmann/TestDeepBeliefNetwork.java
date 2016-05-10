@@ -59,10 +59,11 @@ public class TestDeepBeliefNetwork {
 		double[] errorRates = new double[10];
 		double totalErrors = 0.;
 		
+		int totalSetTraining = 5;
 		
 		//unsupervised learning
 	
-		for(int i = 0; i < 300000; i++){
+		for(int i = 0; i < totalSetTraining*batchManager.dataSize; i++){
 
 			batchManager.setCurrent((i % batchManager.dataSize) + 1/*tempLabel*/);
 			image1D = batchManager.readImage1D();
@@ -87,7 +88,7 @@ public class TestDeepBeliefNetwork {
 		
 		//supervised learning
 	
-		for(int i = 0; i < 300000; i++){
+		for(int i = 0; i < totalSetTraining*batchManager.dataSize; i++){
 
 			batchManager.setCurrent((i % batchManager.dataSize) + 1/*tempLabel*/);
 			image1D = batchManager.readImage1D();
