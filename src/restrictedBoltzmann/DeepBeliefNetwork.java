@@ -179,7 +179,7 @@ public class DeepBeliefNetwork {
 				
 				
 				
-			} else if(lineCpt < 1 + informations[0]) {
+			} else if(lineCpt < 2 + informations[0]) {
 				//bias line
 				currentLayer = lineCpt - 2;
 				int partCpt = 0;
@@ -206,7 +206,7 @@ public class DeepBeliefNetwork {
 				if(currentEntity == this.layers[currentLayer].length){
 					currentLayer++;
 					currentEntity = 0;
-				}
+				}// TODO debug
 				
 			}
 			lineCpt++;
@@ -432,7 +432,7 @@ public class DeepBeliefNetwork {
 		 * .
 		 * .
 		 */
-		
+		//TODO debug
 		
 		int lineNumber = 2;
 		
@@ -479,9 +479,9 @@ public class DeepBeliefNetwork {
 		
 		Scanner reader = new Scanner(System.in);  // Reading from System.in
 		int selectAnswer = 1;
-		System.out.println("Do you want to save a copy of the machine ? (1 yes; 0 no");
+		/*System.out.println("Do you want to save a copy of the machine ? (1 yes; 0 no");
 		selectAnswer = reader.nextInt();
-	
+	*/
 		if(selectAnswer == 1){
 			List<String> linesList = Arrays.asList(lines);
 			Path file = Paths.get("DBNsaveFiles", "saveFile" + this.totalLayerNumber +  "Layers"  + date + ".txt");
