@@ -41,7 +41,7 @@ public class Test_Filters {
 		double sumProbability = 0.0;
 		double learningEnergy = 0.;
 
-		for(int i = 0; i < 1000; i++){
+		for(int i = 0; i < 50000; i++){
 			m.setCurrent((i % 60000) + 1);
 			image1D = m.readImage1D();
 			Rbm.getLogProbabilityDerivativeSum(Rbm.unsupervisedLearning(2, image1D));

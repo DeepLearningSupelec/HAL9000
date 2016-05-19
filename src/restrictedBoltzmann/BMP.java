@@ -29,14 +29,22 @@ public class BMP {
 
 	public void saveBMP(String filename, int [][] rgbValues){
 		try {
+			int[][] reverse = new int[rgbValues.length][rgbValues[0].length];
+			
+			for(int i=0; i<rgbValues.length; i++){
+				for(int j=0; j<rgbValues[0].length; j++){
+					reverse[rgbValues.length -i -1][j] = rgbValues[i][j];
+				}
+			}
+			
 			FileOutputStream fos = new FileOutputStream(new File(filename));
 
-			bytes = new byte[54 + 3*rgbValues.length*rgbValues[0].length + getPadding(rgbValues[0].length)*rgbValues.length];
+			bytes = new byte[54 + 3*reverse.length*reverse[0].length + getPadding(reverse[0].length)*reverse.length];
 
 			saveFileHeader();
-			saveInfoHeader(rgbValues.length, rgbValues[0].length);
+			saveInfoHeader(reverse.length, reverse[0].length);
 			saveRgbQuad();
-			saveBitmapData(rgbValues);
+			saveBitmapData(reverse);
 
 			fos.write(bytes);
 

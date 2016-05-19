@@ -1015,7 +1015,7 @@ public class RestrictedBoltzmannMachine {
 			int rang = i % nombreFiltres;
 			int ligne =(int) Math.floor(i/nombreFiltres);
 			
-			System.out.println(ligne + "," + rang );
+			// System.out.println(ligne + "," + rang );
 
 			for(int k = 0; k< image2DFilter[0].length; k++){
 				for(int j = 0; j<image2DFilter[0].length; j++){
@@ -1024,12 +1024,15 @@ public class RestrictedBoltzmannMachine {
 				}
 			}
 
-			for(int o=0; o<image2DFilter[0].length -1 ; o++){
+			/*
+			 * for(int o=0; o<image2DFilter[0].length -1 ; o++){
 				for(int j=0; j<image2DFilter[1].length; j++){
 					System.out.println(image2DFilter[i][j]);
 				}
 			}
-			
+			 *
+			 */
+
 			
 		}
 		
