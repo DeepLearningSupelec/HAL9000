@@ -156,6 +156,7 @@ public class BMP {
 
 
 		return padding;
+		
 	}
 
 	public double[] BMPtograyscale(String filename)throws IOException{

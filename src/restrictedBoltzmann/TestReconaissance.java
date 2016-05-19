@@ -27,6 +27,7 @@ public class TestReconaissance {
 		BMP bmp = new BMP();
 		double[] weights = bmp.BMPtograyscale("image-test.bmp");
 		
+		
 		for(int i=0; i < weights.length ; i++){
 			System.out.println(weights[i]);
 		}
