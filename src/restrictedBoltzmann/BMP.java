@@ -158,7 +158,7 @@ public class BMP {
 		return padding;
 	}
 
-	public double[][] BMPtograyscale(String filename)throws IOException{
+	public double[] BMPtograyscale(String filename)throws IOException{
 
 		BufferedImage  image;
 		int width;
@@ -169,6 +169,7 @@ public class BMP {
 		width = image.getWidth();
 		height = image.getHeight();
 		double[][] array = new double[width][height];
+		double[] image1D;
 
 		for(int i=0; i<height; i++){
 
@@ -189,7 +190,8 @@ public class BMP {
 			}
 		}
 
-		return array;
+		image1D = Tools.image2Dto1D(array);
+		return image1D;
 
 	}
 
