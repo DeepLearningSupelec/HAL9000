@@ -150,16 +150,17 @@ public class BMP {
 		return padding;
 	}
 
-	private BufferedImage BMPtograyscale(String filename)throws IOException{
+	public double[][] BMPtograyscale(String filename)throws IOException{
 
 		BufferedImage  image;
 		int width;
 		int height;
 
-		File input = new File(filename);
-		image = ImageIO.read(input);
+		//File input = new File(filename);
+		image = ImageIO.read(getClass().getResource(filename));
 		width = image.getWidth();
 		height = image.getHeight();
+		double[][] array = new double[width][height];
 
 		for(int i=0; i<height; i++){
 
@@ -169,34 +170,20 @@ public class BMP {
 				int red = (int)(c.getRed() * 0.299);
 				int green = (int)(c.getGreen() * 0.587);
 				int blue = (int)(c.getBlue() *0.114);
-				Color newColor = new Color(red+green+blue,red+green+blue,red+green+blue);
+				array[i][j] = (green+red+blue) ;
 
-				image.setRGB(j,i,newColor.getRGB());
+			}
+		}
+		
+		for(int i=0; i<array[0].length ; i++){
+			for(int j=0; j<array[1].length; j++){
+				array[i][j]=1-(255-array[i][j])/255;
 			}
 		}
 
-		return image;
+		return array;
 
 	}
-
-	private byte[][] BMPtoArray(String filename) throws IOException {
-		BufferedImage image = BMPtograyscale(filename);
-
-		byte[][] green = new byte[28][28];
-		
-		for(int x=0; x<30; x++){
-			for(int y=0; y<40; y++){
-				int color = image.getRGB(x,y);
-				green[x][y] = (byte)(color>>8);	
-			}
-		}
-
-		byte[][] inputData = green;
-		
-		return inputData;
-
-	}
-
 
 
 }
