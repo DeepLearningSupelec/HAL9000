@@ -2,7 +2,5 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/OpenCV"/>
-	<classpathentry kind="lib" path="C:/OpenCV-3.1.0/build/java/opencv-310.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

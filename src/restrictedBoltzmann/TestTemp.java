@@ -20,6 +20,12 @@ public class TestTemp {
 		double backPropLearningRate = 0.1;
 		
 		
+		int[] p = inputData.clone();
+		p[0] = 0;
+		System.out.println(p[0] + " " + inputData[0]);
+
+		
+		
 		DeepBeliefNetwork dBN = new DeepBeliefNetwork(inputData, rbmLayerNumber, weightWide, biasWide, learningRate, backPropLearningRate);
 		dBN.machines[0].setMnistParameters();
 		
