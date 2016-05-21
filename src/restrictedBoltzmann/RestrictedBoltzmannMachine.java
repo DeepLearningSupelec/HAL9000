@@ -966,7 +966,7 @@ public class RestrictedBoltzmannMachine {
 
 		int nombreFiltres = (int) Math.ceil(Math.sqrt(this.layers[1].length));
 		int pixelParFiltre = (int) Math.sqrt(this.layers[0].length);
-		int ecart = (nombreFiltres-1)*3;
+		int ecart = (nombreFiltres-1);
 		int taille = (nombreFiltres*pixelParFiltre)+ecart;
 		double[][] allFilters = new double[taille][taille];
 		for(int k=0; k<taille; k++){
@@ -1013,17 +1013,30 @@ public class RestrictedBoltzmannMachine {
 			double [][]image2DFilter = Tools.image1Dto2Ddouble(image1DFilter, pixelParFiltre, pixelParFiltre);
 
 			int rang = i % nombreFiltres;
-			int ligne =(int) i/nombreFiltres;
+			int ligne =(int) Math.floor(i/nombreFiltres);
+			
+			// System.out.println(ligne + "," + rang );
 
 			for(int k = 0; k< image2DFilter[0].length; k++){
 				for(int j = 0; j<image2DFilter[0].length; j++){
-					allFilters[rang*(pixelParFiltre+3)+k][ligne*(pixelParFiltre+3)+j]=image2DFilter[k][j];
+					allFilters[ligne*(pixelParFiltre+1)+k][rang*(pixelParFiltre+1)+j]=image2DFilter[k][j];
+					
 				}
 			}
-			
-			
+
+			/*
+			 * for(int o=0; o<image2DFilter[0].length -1 ; o++){
+				for(int j=0; j<image2DFilter[1].length; j++){
+					System.out.println(image2DFilter[i][j]);
+				}
+			}
+			 *
+			 */
+
 			
 		}
+		
+		
 		
 		OutputWeights output = new OutputWeights(allFilters);
 		String date = "_" + LocalDateTime.now();
@@ -1047,6 +1060,7 @@ public class RestrictedBoltzmannMachine {
 			System.out.println("Exception");
 			e.printStackTrace();
 		}
+		
 		return path;
 		
 	}
@@ -1091,6 +1105,7 @@ public class RestrictedBoltzmannMachine {
 
 			double [][]image2DFilter = Tools.image1Dto2Ddouble(image1DFilter, 28, 28);
 
+			
 			OutputWeights output = new OutputWeights(image2DFilter);
 			String date = "_" + LocalDateTime.now();
 			date = date.substring(1, 17);

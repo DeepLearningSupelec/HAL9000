@@ -80,4 +80,24 @@ public class Tools {
 	}
 	
 	
+
+	static public double[] image2Dto1D(double[][] image2D){
+		//int size = (int)(Math.sqrt(image1D.length));
+		double[] image1D = new double[image2D.length*image2D[0].length];
+		for (int i = 0; i < image2D.length; i++) {
+            for (int j = 0; j < image2D[0].length; j++) {
+            	
+            	if(1-image2D[i][j] > 0.01){
+            		image1D[i*image2D[0].length+j] = 1-image2D[i][j];
+            	}
+            	
+            	else{
+            		image1D[i*image2D[0].length+j] = 0;
+            	}
+                
+            }
+        }
+		return image1D;
+	}
+	
 }

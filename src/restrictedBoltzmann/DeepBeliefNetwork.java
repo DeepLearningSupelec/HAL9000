@@ -13,7 +13,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class DeepBeliefNetwork {
-	/*
+	/**
 	 * The Network is modeled by a composition of RestrictedBoltzmannMachine connected one with another
 	 * 
 	 * 
