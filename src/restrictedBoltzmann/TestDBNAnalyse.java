@@ -3,9 +3,11 @@ package restrictedBoltzmann;
 import java.io.IOException;
 import java.nio.file.Paths;
 
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
+
 public class TestDBNAnalyse {
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, ParseException {
 
 		/*
 		 * DBN parameters :
@@ -22,7 +24,13 @@ public class TestDBNAnalyse {
 		DeepBeliefNetwork dBN = new DeepBeliefNetwork(Paths.get("DBNsaveFiles","saveFile5Layers_2016-05-14T11-19-37.txt"));
 		
 		for(int i = 0; i < 4; i++){
-			dBN.machines[i].visualizeFilters();
+			try {
+				dBN.machines[i].visualizeAllFilters();
+			} catch (java.text.ParseException e) {
+				System.out.println("Exception");
+				e.printStackTrace();
+			}
+			System.out.println("Couche " + i);
 		}
 		
 		
