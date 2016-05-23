@@ -17,7 +17,7 @@ import org.opencv.videoio.VideoWriter;
  * @see BMP
  */
 public class OutputWeights {
-	
+
 	/**
 	 * The weight matrix which will be converted to a bitmap file.
 	 */
@@ -26,18 +26,18 @@ public class OutputWeights {
 	 * The minimal weight value in the weights matrix
 	 */
 	private double min;
-	
+
 	private int[][] weightsInt;
 	/**
 	 * The maximal weight value in the weights matrix
 	 */
 	private double max;
-	
+
 	private VideoWriter vid;
-	
-	
+
+
 	/* Constructors */
-	
+
 	/**
 	 * Allows to create a new OutputWeights instance with all values defined to zero.
 	 * @param l
@@ -48,7 +48,7 @@ public class OutputWeights {
 		this.min = 0;
 		this.max = 0;
 	}
-	
+
 	/**
 	 * Allows to create a new OutputWeights instance with all values defined to zero.
 	 * @param lines
@@ -61,7 +61,7 @@ public class OutputWeights {
 		this.min = 0;
 		this.max = 0;
 	}
-	
+
 	/**
 	 * Allows to create a new OutputWeights instance with the weights defined by the argument.
 	 * @param weights
@@ -85,7 +85,7 @@ public class OutputWeights {
 		this.min = min;
 		this.max = max;
 	}
-	
+
 	public OutputWeights(int[][] weights){
 		this.weightsInt = weights;
 
@@ -104,9 +104,9 @@ public class OutputWeights {
 		this.min = min;
 		this.max = max;
 	}
-	
+
 	/* Accessors */
-	
+
 	/**
 	 * Allows to get the value of weights.
 	 * @return weights
@@ -115,7 +115,7 @@ public class OutputWeights {
 	public double[][] getWeights(){
 		return this.weights;
 	}
-	
+
 	/**
 	 * Returns the max weight value
 	 * @return max
@@ -124,7 +124,7 @@ public class OutputWeights {
 	public double getMax(){
 		return this.max;
 	}
-	
+
 	/**
 	 * Returns the min weight value
 	 * @return min
@@ -133,7 +133,7 @@ public class OutputWeights {
 	public double getMin(){
 		return this.min;
 	}
-	
+
 	/**
 	 * Allows to set the weight to the value of the argument
 	 * @param weights
@@ -141,7 +141,7 @@ public class OutputWeights {
 	 */
 	public void set(double[][] weights){
 		this.weights = weights;
-		
+
 		double min = weights[0][0];
 		double max = weights[0][0];
 		for(int i = 0; i < weights.length; i++){
@@ -157,7 +157,7 @@ public class OutputWeights {
 		this.min = min;
 		this.max = max;
 	}
-	
+
 	/**
 	 * Allows to set the value of the weight at a given line and number to a given value
 	 * @param line
@@ -166,7 +166,7 @@ public class OutputWeights {
 	 */
 	public void set(int line, int column, double weight){
 		this.weights[line][column] = weight;
-		
+
 		if(weights[line][column] < min){
 			min = weights[line][column];
 		}
@@ -174,7 +174,7 @@ public class OutputWeights {
 			max = weights[line][column];
 		}
 	}
-	
+
 	/**
 	 * Converts the weights matrix to a bitmap file.
 	 * It returns a picture in grey levels with the minimal weight value at #000 and the maximal weight value at #FFF.
@@ -182,7 +182,7 @@ public class OutputWeights {
 	 * 		The Path where the bitmap file will be saved.
 	 */
 	public void toBmpContrast(Path p) throws IOException {
-		
+
 		if (this.weights!=null){
 			int line = this.weights.length;
 			int column = this.weights[0].length;
@@ -190,7 +190,7 @@ public class OutputWeights {
 
 			int[][] rgbValues = new int[line][column];
 			BMP bmp = new BMP();
-			
+
 			for(int i=0; i<line; i++){
 				for(int j=0; j<column; j++){
 					red = (int) Math.ceil(255*(this.weights[i][j] - this.min)/(this.max - this.min));
@@ -199,11 +199,11 @@ public class OutputWeights {
 					rgbValues[i][j]=red|green<<8|blue<<16;
 				}
 			}
-			
+
 			bmp.saveBMP(p.toString(), rgbValues);
 		} 
-		
-		
+
+
 		else{
 			int line = this.weightsInt.length;
 			int column = this.weightsInt[0].length;
@@ -211,7 +211,7 @@ public class OutputWeights {
 
 			int[][] rgbValues = new int[line][column];
 			BMP bmp = new BMP();
-			
+
 			for(int i=0; i<line; i++){
 				for(int j=0; j<column; j++){
 					red = (int) Math.ceil(255*(this.weightsInt[i][j] - this.min)/(this.max - this.min));
@@ -220,13 +220,13 @@ public class OutputWeights {
 					rgbValues[i][j]=red|green<<8|blue<<16;
 				}
 			}
-			
+
 			bmp.saveBMP(p.toString(), rgbValues);
 		}
 	}
-	
-	public void toBmp(Path p) throws IOException {
-		
+
+	public void toBmp(Path p) throws java.io.IOException {
+
 		if (this.weights!=null){
 			int line = this.weights.length;
 			int column = this.weights[0].length;
@@ -234,7 +234,7 @@ public class OutputWeights {
 
 			int[][] rgbValues = new int[line][column];
 			BMP bmp = new BMP();
-			
+
 			for(int i=0; i<line; i++){
 				for(int j=0; j<column; j++){
 					red = (int) Math.ceil(255*(this.weights[i][j]));
@@ -243,11 +243,12 @@ public class OutputWeights {
 					rgbValues[i][j]=red|green<<8|blue<<16;
 				}
 			}
-			
+
 			bmp.saveBMP(p.toString(), rgbValues);
+			System.out.println("Images Crées");
 		} 
-		
-		
+
+
 		else{
 			int line = this.weightsInt.length;
 			int column = this.weightsInt[0].length;
@@ -255,7 +256,7 @@ public class OutputWeights {
 
 			int[][] rgbValues = new int[line][column];
 			BMP bmp = new BMP();
-			
+
 			for(int i=0; i<line; i++){
 				for(int j=0; j<column; j++){
 					red = (int) Math.ceil(255*(this.weightsInt[i][j]));
@@ -264,36 +265,38 @@ public class OutputWeights {
 					rgbValues[i][j]=red|green<<8|blue<<16;
 				}
 			}
-			
+
 			bmp.saveBMP(p.toString(), rgbValues);
 		}
+
+		
 	}
 
 
 	public void toVidInit(Path destination, int dim) {
-		
+
 		System.loadLibrary( Core.NATIVE_LIBRARY_NAME );
-		  
-	    Size size = new Size(dim,dim);
-	      
-	    vid = new VideoWriter();
-	    vid.open(destination.toString(), -1, 25, size, true);
-	    System.out.println("Vidéo créée : " + destination.toString());
-	    
+
+		Size size = new Size(dim,dim);
+
+		vid = new VideoWriter();
+		vid.open(destination.toString(), -1, 25, size, true);
+		System.out.println("Vidéo créée : " + destination.toString());
+
 	}
-	
+
 	public void toVid(Path img) {
-		
+
 		Mat imgM = Imgcodecs.imread(img.toString());
 		vid.write(imgM);
 		System.out.println("Image ajoutée à la vidéo : " + img.toString());
-	     
+
 	}
-	
+
 	public void toVidRelease(){
-		
-	    vid.release();
-	    System.out.println("Fin de la vidéo");
+
+		vid.release();
+		System.out.println("Fin de la vidéo");
 	}
-	
+
 }

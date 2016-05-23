@@ -499,6 +499,17 @@ public class DeepBeliefNetwork {
 
 	public void visualizeAllFilters() throws ParseException{
 
+		String date = "_" + LocalDateTime.now();
+		int month = LocalDateTime.now().getMonthValue();
+		int year = LocalDateTime.now().getYear();
+		int day = LocalDateTime.now().getDayOfMonth();
+		int hour = LocalDateTime.now().getHour();
+		int minute = LocalDateTime.now().getMinute();
+		int seconde = LocalDateTime.now().getSecond();
+
+		date = day + "-" + month + "-" + year + "_" + hour + "h" + minute + "m" + seconde;
+
+
 		/*
 		 * For all machine we initialize the i layer of the machine,
 		 * then we go back through the layers. 
@@ -585,6 +596,8 @@ public class DeepBeliefNetwork {
 					for(int l = 0; l<image2DFilter[0].length; l++){
 						allFilters[ligne*(pixelParFiltre+1)+k][rang*(pixelParFiltre+1)+l]=image2DFilter[k][l];
 
+						//System.out.println(image2DFilter[k][l]);
+
 					}
 				}
 
@@ -595,22 +608,14 @@ public class DeepBeliefNetwork {
 			 */
 
 			OutputWeights output = new OutputWeights(allFilters);
-			String date = "_" + LocalDateTime.now();
-			int month = LocalDateTime.now().getMonthValue();
-			int year = LocalDateTime.now().getYear();
-			int day = LocalDateTime.now().getDayOfMonth();
-			int hour = LocalDateTime.now().getHour();
-			int minute = LocalDateTime.now().getMinute();
-			int seconde = LocalDateTime.now().getSecond();
 
-			date = day + "-" + month + "-" + year + "_" + hour + "h" + minute + "m" + seconde;
 
-			Path path = Paths.get("DBN_Filters/Filtre_" + date, date + "_AllFilters" + ".bmp");
+			Path path = Paths.get("DBN_Filters/Filtre_" + date + "couche" + i, date + "_AllFilters" + ".bmp");
 			File f = new File("DBN_Filters/Filtre_" + date + "couche" +i);
 			f.mkdirs();
 			try {
 				output.toBmp(path);
-				System.out.println("Images Crées");
+
 			} catch (java.io.IOException e) {
 
 				System.out.println("Exception");
