@@ -3,6 +3,7 @@ package restrictedBoltzmann;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Scanner;
 
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
@@ -25,14 +26,35 @@ public class TestReconaissance {
 
 
 		BMP bmp = new BMP();
-		double[] weights = bmp.BMPtograyscale("image-test.bmp");
 		
 		
-		for(int i=0; i < weights.length ; i++){
-			System.out.println(weights[i]);
+		DeepBeliefNetwork dBN = new DeepBeliefNetwork(Paths.get("DBNsaveFiles","saveFile5Layers_2016-05-14T11-19-37.txt"));
+		
+		Scanner read = new Scanner(System.in);
+		while(read.nextLine()!="exit"){
+			
+			double[] weights = bmp.BMPtograyscale("image-test.bmp");
+			dBN.setInputs(weights, 1);
+			dBN.fire();
+			
+			int label = -1;
+			double maxProba = 0.;
+			
+			for(int i = 0; i<10;i++){
+				if(dBN.entityValues[dBN.totalLayerNumber - 1][i] >= maxProba){
+					label = i;
+					maxProba = dBN.entityValues[dBN.totalLayerNumber - 1][i];
+				}
+			}
+			
+			System.out.println("Nous reconnaisson un " + dBN.getMnistMostProbableLabel() + " avec un probabilité de " + maxProba);
+
+			
+
+			
 		}
-
-
+		
+		
 	}
 
 }
