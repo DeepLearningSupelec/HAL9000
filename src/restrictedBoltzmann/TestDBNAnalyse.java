@@ -20,10 +20,13 @@ public class TestDBNAnalyse {
 		 * double backPropLearningRate = 0.1;
 		 * 
 		 */
-		
+
 		DeepBeliefNetwork dBN = new DeepBeliefNetwork(Paths.get("DBNsaveFiles","saveFile5Layers_2016-05-14T11-19-37.txt"));
+
+		dBN.visualizeAllFilters();
 		
-		for(int i = 0; i < 4; i++){
+		/*
+		 * for(int i = 0; i < 4; i++){
 			try {
 				dBN.machines[i].visualizeAllFilters();
 			} catch (java.text.ParseException e) {
@@ -31,12 +34,22 @@ public class TestDBNAnalyse {
 				e.printStackTrace();
 			}
 			System.out.println("Couche " + i);
+
+			try {
+			    //thread to sleep for the specified number of milliseconds
+			    Thread.sleep(1000);
+			} catch ( java.lang.InterruptedException ie) {
+			    System.out.println(ie);
+			}
+
 		}
-		
-		
-		
-		
-		
+		 *
+		 */
+
+
+
+
+
 	}
 
 }

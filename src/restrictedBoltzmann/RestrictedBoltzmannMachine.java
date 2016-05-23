@@ -964,6 +964,10 @@ public class RestrictedBoltzmannMachine {
 
 	public Path visualizeAllFilters() throws ParseException{
 
+		/*
+		 * Size + nbr of filters
+		 *init of filter file
+		 */
 		int nombreFiltres = (int) Math.ceil(Math.sqrt(this.layers[1].length));
 		int pixelParFiltre = (int) Math.sqrt(this.layers[0].length);
 		int ecart = (nombreFiltres-1);
@@ -976,7 +980,6 @@ public class RestrictedBoltzmannMachine {
 		}
 
 		
-
 		for(int i=0; i < this.layers[1].length; i++){
 
 			double[] image1DFilter = new double[this.layers[0].length];
@@ -984,6 +987,8 @@ public class RestrictedBoltzmannMachine {
 			/*For each filter we put one output 
 			 * node to 1 the others to 0
 			 */
+			
+			
 			for(int j=0; j<this.layers[1].length; j++){
 				if (j==i){
 					this.layers[1][j].setState(1);
@@ -997,6 +1002,7 @@ public class RestrictedBoltzmannMachine {
 			 * of the hidden layer we set and store it in image1DFilter
 			 * 
 			 */
+			
 			/*for(int k = 0; k < this.layers[0].length; k++){
 				double x = this.layers[0][i].getBias();
 				for(int j = 0; j < this.layers[(0 + 1) % 2].length; j++){
@@ -1004,11 +1010,13 @@ public class RestrictedBoltzmannMachine {
 				}
 				image1DFilter[k]=Sigmoid.getINSTANCE().apply(x);
 			}*/
+			
 			for(int k = 0; k < this.layers[0].length; k++){
 				double x = this.layers[0][k].getBias();
 				x += this.connections[k][i];
 				image1DFilter[k]=Sigmoid.getINSTANCE().apply(x);
 			}
+			
 
 			double [][]image2DFilter = Tools.image1Dto2Ddouble(image1DFilter, pixelParFiltre, pixelParFiltre);
 
@@ -1103,7 +1111,7 @@ public class RestrictedBoltzmannMachine {
 
 
 
-			double [][]image2DFilter = Tools.image1Dto2Ddouble(image1DFilter, 28, 28);
+			double [][]image2DFilter = Tools.image1Dto2Ddouble(image1DFilter, (int) Math.ceil(this.layers.length),(int) Math.ceil(this.layers.length));
 
 			
 			OutputWeights output = new OutputWeights(image2DFilter);
