@@ -195,8 +195,8 @@ public class DeepBeliefNetwork {
 				
 				int partCpt = 0;
 				for (String part : line.split("\\s+")) {
-					System.out.println("Line " + lineCpt);
-					System.out.println(currentLayer +" "+ currentEntity +" "+ partCpt);
+					//System.out.println("Line " + lineCpt);
+					//System.out.println(currentLayer +" "+ currentEntity +" "+ partCpt);
 					this.machines[currentLayer].connections[currentEntity][partCpt] = (Double.valueOf(part));
 					//System.out.println();
 					partCpt++;
@@ -212,6 +212,7 @@ public class DeepBeliefNetwork {
 			lineCpt++;
 		}
 		
+		System.out.println("Machine prête");
 		
 	}
 	
