@@ -521,7 +521,21 @@ public class DeepBeliefNetwork {
 		double[] image1DFilter = new double[this.layers[0].length];
 
 
+		// i : number of layers
+		
 		for(int i = 1; i<this.layers.length; i++){
+			
+			
+			/*
+			 * Whole net intialized to 0
+			 */
+			
+			for(int j=0; j< this.layers.length; j++){
+				for(int k =0; k< this.layers[j].length; k ++){
+					this.layers[j][k].setState(0);
+				}
+				
+			}
 
 			/*
 			 * Size + nbr of filters
@@ -541,6 +555,8 @@ public class DeepBeliefNetwork {
 			}
 
 
+			// j : neurons in layer i
+			
 			for(int j=0; j < this.layers[i].length; j++){
 
 
@@ -562,8 +578,12 @@ public class DeepBeliefNetwork {
 				/*We update the layers given the distribution
 				 * of the previous layers to the first one and store in image1DFilter.
 				 * 
+				 * 
+				 * BUG HERE
 				 */
 
+				//k : neurons in layer i-1
+				
 				for(int k = this.layers[i-1].length-1 ; k >=0 ; k--){
 
 					double x = this.layers[i-1][k].getBias();
