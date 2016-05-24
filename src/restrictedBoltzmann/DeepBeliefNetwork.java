@@ -585,26 +585,34 @@ public class DeepBeliefNetwork {
 				//g : layers to go down
 				//k : neurons in layer g-1
 				//l : neurons in layer g
+				
+				double weightedSum = 0;
 
-				for(int g = i; g>=0; g--){
+				for(int g = i; g>=1; g--){
 					for(int k = this.layers[g-1].length-1 ; k >=0 ; k--){
-
+						
 						double x = this.layers[g-1][k].getBias();
-						x += this.machines[g-1].connections[k][j]*this.layers[g][j].getState();
+						
+						for(int l= 0; l < this.layers[g].length; l++){
 
+							weightedSum = weightedSum + this.machines[g-1].connections[k][l]*this.layers[g][l].getState();
+
+						}
+						
+						x = x + weightedSum; 
+						
 						if(i!=1){
 							if(Sigmoid.getINSTANCE().apply(x) >= rand.nextDouble()){
-								this.layers[i-1][k].setState(1);
+								this.layers[g-1][k].setState(1);
 							} else {
-								this.layers[i-1][k].setState(0);
+								this.layers[g-1][k].setState(0);
 							}
 
 						}
 						else{
 							image1DFilter[k]=Sigmoid.getINSTANCE().apply(x);
 						}
-
-
+						
 					}
 				}
 
