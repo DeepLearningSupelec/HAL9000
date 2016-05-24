@@ -522,19 +522,19 @@ public class DeepBeliefNetwork {
 
 
 		// i : number of layers
-		
+
 		for(int i = 1; i<this.layers.length; i++){
-			
-			
+
+
 			/*
 			 * Whole net intialized to 0
 			 */
-			
+
 			for(int j=0; j< this.layers.length; j++){
 				for(int k =0; k< this.layers[j].length; k ++){
 					this.layers[j][k].setState(0);
 				}
-				
+
 			}
 
 			/*
@@ -555,8 +555,8 @@ public class DeepBeliefNetwork {
 			}
 
 
-			// j : neurons in layer i
-			
+			// j : neurons in layer i = filter we want to show
+
 			for(int j=0; j < this.layers[i].length; j++){
 
 
@@ -582,27 +582,32 @@ public class DeepBeliefNetwork {
 				 * BUG HERE
 				 */
 
-				//k : neurons in layer i-1
-				
-				for(int k = this.layers[i-1].length-1 ; k >=0 ; k--){
+				//g : layers to go down
+				//k : neurons in layer g-1
+				//l : neurons in layer g
 
-					double x = this.layers[i-1][k].getBias();
-					x += this.machines[i-1].connections[k][j]*this.layers[i][j].getState();
+				for(int g = i; g>=0; g--){
+					for(int k = this.layers[g-1].length-1 ; k >=0 ; k--){
 
-					if(i!=1){
-						if(Sigmoid.getINSTANCE().apply(x) >= rand.nextDouble()){
-							this.layers[i-1][k].setState(1);
-						} else {
-							this.layers[i-1][k].setState(0);
+						double x = this.layers[g-1][k].getBias();
+						x += this.machines[g-1].connections[k][j]*this.layers[g][j].getState();
+
+						if(i!=1){
+							if(Sigmoid.getINSTANCE().apply(x) >= rand.nextDouble()){
+								this.layers[i-1][k].setState(1);
+							} else {
+								this.layers[i-1][k].setState(0);
+							}
+
+						}
+						else{
+							image1DFilter[k]=Sigmoid.getINSTANCE().apply(x);
 						}
 
-					}
-					else{
-						image1DFilter[k]=Sigmoid.getINSTANCE().apply(x);
-					}
 
-
+					}
 				}
+
 
 
 
