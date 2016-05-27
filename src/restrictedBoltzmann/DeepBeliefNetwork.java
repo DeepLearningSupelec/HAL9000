@@ -215,7 +215,7 @@ public class DeepBeliefNetwork {
 			lineCpt++;
 		}
 
-		System.out.println("Machine prête");
+		System.out.println("Machine prï¿½te");
 
 	}
 
@@ -582,39 +582,35 @@ public class DeepBeliefNetwork {
 				 * BUG HERE
 				 */
 
-				//g : layers to go down
-				//k : neurons in layer g-1
-				//l : neurons in layer g
-				
+				//g : layers to update
+
+
+
 				double weightedSum = 0;
 
-				for(int g = i; g>=1; g--){
-					for(int k = this.layers[g-1].length-1 ; k >=0 ; k--){
-						
-						double x = this.layers[g-1][k].getBias();
-						
-						for(int l= 0; l < this.layers[g].length; l++){
+				for(int g = i-1; g>=0; g--){
 
-							weightedSum = weightedSum + this.machines[g-1].connections[k][l]*this.layers[g][l].getState();
+					if(g!=0){
+						this.machines[g].layerUpdate(0);
+					}
+					else{
+						for(int k = 0; k<this.layers[0].length; k++){
+							double x = this.layers[0][k].getBias();
 
-						}
-						
-						x = x + weightedSum; 
-						
-						if(i!=1){
-							if(Sigmoid.getINSTANCE().apply(x) >= rand.nextDouble()){
-								this.layers[g-1][k].setState(1);
-							} else {
-								this.layers[g-1][k].setState(0);
+							for(int l = 0; l<this.layers[1].length; l++){
+
+								x += this.machines[0].connections[k][l]*this.machines[0].layers[1][l].getState();
+
 							}
 
-						}
-						else{
 							image1DFilter[k]=Sigmoid.getINSTANCE().apply(x);
 						}
-						
+
+
 					}
+
 				}
+
 
 
 
