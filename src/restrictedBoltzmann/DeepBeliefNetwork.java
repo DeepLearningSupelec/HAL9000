@@ -513,7 +513,6 @@ public class DeepBeliefNetwork {
 		/*
 		 * For all machine we initialize the i layer of the machine,
 		 * then we go back through the layers. 
-		 * 
 		 */
 
 		//double[][] valueNeuron = new double[this.layers.length][]; 
@@ -577,12 +576,17 @@ public class DeepBeliefNetwork {
 
 				/*We update the layers given the distribution
 				 * of the previous layers to the first one and store in image1DFilter.
-				 * 
-				 * 
-				 * BUG HERE
 				 */
 
 				//g : layers to update
+
+				if(i!=1){
+					for(int o = 0; o <5; o++){
+						this.machines[i-1].layerUpdate(0);
+						this.machines[i-1].layerUpdate(1);
+
+					}
+				}
 
 
 

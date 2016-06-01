@@ -756,7 +756,7 @@ public class RestrictedBoltzmannMachine {
 	public int[] getLayerState(int l){
 		int[] states = new int[this.layers[l].length];
 		for(int i = 0; i < states.length; i++){
-			states[i] = this.layers[l][i].getState();
+			states[i] = (int)this.layers[l][i].getState();
 		}
 		return states;
 	}
@@ -764,7 +764,7 @@ public class RestrictedBoltzmannMachine {
 	public int[] getBinaryOutputs(){
 		int[] outputs = new int[this.layers[1].length];
 		for(int i = 0; i < this.layers[1].length; i++){
-			outputs[i] = this.layers[1][i].getState();
+			outputs[i] = (int)this.layers[1][i].getState();
 		}
 		return outputs;
 	}
@@ -772,7 +772,7 @@ public class RestrictedBoltzmannMachine {
 	public int[] getBinaryInputs(){
 		int[] outputs = new int[this.layers[0].length];
 		for(int i = 0; i < this.layers[0].length; i++){
-			outputs[i] = this.layers[0][i].getState();
+			outputs[i] = (int)this.layers[0][i].getState();
 		}
 		return outputs;
 	}
@@ -1062,7 +1062,7 @@ public class RestrictedBoltzmannMachine {
 		f.mkdirs();
 		try {
 			output.toBmp(path);
-			System.out.println("Images Crées");
+			System.out.println("Images Crï¿½es");
 		} catch (java.io.IOException e) {
 
 			System.out.println("Exception");
@@ -1124,7 +1124,7 @@ public class RestrictedBoltzmannMachine {
 			f.mkdirs();
 			try {
 				output.toBmp(path);
-				System.out.println("Images Crées");
+				System.out.println("Images Crï¿½es");
 			} catch (java.io.IOException e) {
 
 				System.out.println("Exception");
