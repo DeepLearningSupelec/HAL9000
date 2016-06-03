@@ -41,7 +41,7 @@ public class TestDeepBeliefNetwork {
 		
 		
 		
-		int gibbsSteps = 2;
+		int gibbsSteps = 6;
 		
 		//MnistManager learningManager = new MnistManager("src/train-images.idx3-ubyte","src/train-labels.idx1-ubyte");
 		MnistManager testManager = new MnistManager("src/t10k-images.idx3-ubyte","src/t10k-labels.idx1-ubyte");
@@ -60,7 +60,7 @@ public class TestDeepBeliefNetwork {
 		double totalErrors = 0.;
 		int layersToBackProp = 2;
 		
-		int totalSetTraining = 5;
+		int totalSetTraining = 30;
 		
 		
 		//unsupervised learning
